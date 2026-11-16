@@ -92,9 +92,9 @@ $('#key').addEventListener('keydown',e=>{if(e.key==='Enter')load()});
 
 function render(){
   const L=+$('#lesson').value,meta=LESSONS[L];
-  const studs=DATA.students.filter(s=>s.cls!=='מורה');
+  const studs=DATA.students.filter(s=>!String(s.cls).includes('מורה'));const codes=new Set(studs.map(s=>s.code));
   const prog={};DATA.prog.filter(r=>String(r[2])===String(L)).forEach(r=>prog[String(r[0]).toUpperCase()]=r);
-  const log=DATA.log.filter(r=>String(r[3])===String(L));
+  const log=DATA.log.filter(r=>String(r[3])===String(L)&&codes.has(String(r[1]).toUpperCase()));
   $('#upd').textContent='עודכן '+new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
   // KPIs
   const started=studs.filter(s=>prog[s.code]).length,finished=studs.filter(s=>prog[s.code]&&prog[s.code][10]==='כן').length;
