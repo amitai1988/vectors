@@ -55,6 +55,7 @@ footer{text-align:center;color:var(--gray);font-size:13px;padding:16px}
     <label>שיעור: <select id="lesson"></select></label>
     <button id="load">טעינה</button>
     <button class="g" id="refresh" hidden>רענון</button>
+    <span id="pv"></span>
     <span class="muted" id="upd"></span><span class="err" id="err"></span>
   </div>
 </div></header>
@@ -129,8 +130,7 @@ function render(){
     h+=`<div class="it"><div><div class="lbl">${esc(it.label)}</div><div class="who">${it.wrongAny.size?'טעו לפחות פעם אחת: '+[...it.wrongAny].map(esc).join(', '):'כולם ענו נכון'}</div></div>
       <div><div class="bar2"><i style="width:${pct}%;background:${col}"></i></div><div class="muted">${pct}% (${it.ok} מתוך ${it.n})</div></div></div>`});
   h+='</div></section>';
-  h+=`<section><h2>תצוגה מקדימה של השיעורים</h2><div class="muted">פותח את השיעור כמו שתלמיד רואה אותו, אבל כל המסכים פתוחים ושום דבר לא נשמר בגיליון.</div>
-    <div class="bar" style="margin-top:8px">${Object.entries(LESSONS).map(([k,v])=>`<a href="lesson-${k}.html?preview=1" target="_blank" style="text-decoration:none"><button class="g">שיעור ${k} · ${esc(v.title)}</button></a>`).join('')}</div></section>`;
+  $('#pv').innerHTML=Object.entries(LESSONS).map(([k,v])=>`<a href="lesson-${k}.html?preview=1" target="_blank" title="כל המסכים פתוחים ושום דבר לא נשמר" style="text-decoration:none"><button class="g">👁 תצוגה מקדימה: שיעור ${k}</button></a>`).join(' ');
   $('#main').innerHTML=h;
   document.querySelectorAll('tr.click').forEach(tr=>tr.onclick=()=>detail(tr.dataset.c,log));
 }
