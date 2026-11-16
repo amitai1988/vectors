@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>קורס וקטורים – יב 5</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Rubik", "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(160deg, #eef3fb 0%, #f8fafc 100%);
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: #fff;
+    max-width: 560px;
+    width: 100%;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(30, 41, 59, 0.08);
+    padding: 44px 36px;
+    text-align: center;
+  }
+  .arrow {
+    width: 120px;
+    height: 70px;
+    margin: 0 auto 24px;
+    display: block;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+  .sub {
+    font-size: 1.15rem;
+    color: #475569;
+    margin-bottom: 28px;
+  }
+  .status {
+    display: inline-block;
+    background: #e0ecff;
+    color: #1d4ed8;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 1rem;
+  }
+  footer {
+    margin-top: 32px;
+    font-size: 0.9rem;
+    color: #94a3b8;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <svg class="arrow" viewBox="0 0 120 70" aria-hidden="true">
+      <defs>
+        <marker id="head" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+        </marker>
+      </defs>
+      <circle cx="14" cy="58" r="4" fill="#2563eb"/>
+      <line x1="14" y1="58" x2="104" y2="14" stroke="#2563eb" stroke-width="4"
+            stroke-linecap="round" marker-end="url(#head)"/>
+    </svg>
+    <h1>קורס וקטורים</h1>
+    <p class="sub">מתמטיקה 5 יחידות – כיתה יב</p>
+    <span class="status">השיעור הראשון יעלה בקרוב</span>
+    <footer>אמתי · מתמטיקה</footer>
+  </main>
+</body>
+</html>
