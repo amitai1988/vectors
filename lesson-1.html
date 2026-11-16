@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>וקטורים · שיעור 1 · מהו וקטור?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#172230;--blue:#2B44A0;--blue-l:#EEF2F8;--gray:#8A96A5;--bg:#F4F6FA;
+  --vec:#2f5bea;--vec2:#d6336c;--len:#e8590c;--dir:#7b3fe4;--eq:#16935a;--bad:#c92a2a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:"Rubik",system-ui,sans-serif;background:var(--bg);color:var(--navy);line-height:1.9;font-size:17px}
+.credit{background:var(--navy);color:#fff;text-align:center;font-size:13.5px;padding:5px 10px}
+.topbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--blue);box-shadow:0 2px 8px rgba(23,34,48,.06)}
+.topbar .wrap{max-width:860px;margin:0 auto;padding:8px 14px 8px}
+.topbar .row1{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.topbar .ttl{font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .ttl a{color:var(--blue);text-decoration:none;font-weight:500}
+.topbar .cnt{font-size:13.5px;color:var(--gray);white-space:nowrap}
+.dots{display:flex;gap:4px;margin-top:6px}
+.dots button{flex:1;height:7px;border:0;border-radius:4px;background:#e1e6ef;padding:0;cursor:pointer}
+.dots button.done{background:#9fb0dd}
+.dots button.cur{background:var(--blue)}
+.dots button:disabled{cursor:default}
+main{max-width:860px;margin:0 auto;padding:14px 14px 40px}
+.screen{display:none;background:#fff;border:1px solid #dde3ec;border-radius:16px;padding:20px 22px;animation:fade .25s}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.screen h2{margin:0 0 4px;font-size:24px;color:var(--blue);line-height:1.4}
+.badge{display:inline-block;font-size:12.5px;border-radius:10px;padding:1px 10px;margin-bottom:8px;font-weight:600}
+.badge.cls{background:#FFF0C2;color:#8a6400}.badge.self{background:#DDF2E3;color:#1c6b3a}
+h3{font-size:19px;margin:16px 0 4px}
+p{margin:8px 0}
+.m{direction:ltr;unicode-bidi:isolate;font-style:normal;white-space:nowrap}
+.v{display:inline-block;position:relative;direction:ltr;unicode-bidi:isolate;font-weight:600;font-style:normal;padding-top:.28em;line-height:1;white-space:nowrap}
+.v::before{content:"";position:absolute;left:1px;right:4px;top:.06em;border-top:1.6px solid currentColor}
+.v::after{content:"";position:absolute;right:0;top:calc(.06em - 3.2px);border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid currentColor}
+.c-vec{color:var(--vec)}.c-vec2{color:var(--vec2)}.c-len{color:var(--len)}.c-dir{color:var(--dir)}.c-eq{color:var(--eq)}
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.plan div{border-radius:10px;padding:10px 14px;font-size:15.5px;line-height:1.75}
+.plan .cls{background:#FFF6DC;border:1px solid #f0d58a}
+.plan .self{background:#E8F5EC;border:1px solid #a9d8b8}
+.plan b{display:block}
+.goals li{margin-bottom:4px}
+.def{background:var(--blue-l);border-right:5px solid var(--blue);border-radius:8px;padding:12px 16px;margin:12px 0}
+.def .t{font-weight:700;color:var(--blue);display:block}
+.ex{color:#4a5566;font-size:15.5px;margin-top:4px}
+.note{background:#FFF8E6;border-right:5px solid #f0b400;border-radius:8px;padding:10px 16px;margin:12px 0}
+.disc{background:#FFF1F5;border-right:5px solid var(--vec2);border-radius:8px;padding:10px 16px;margin:12px 0}
+.disc .t{font-weight:700;color:var(--vec2)}
+.widget{border:1px solid #c9d3e6;border-radius:12px;margin:14px 0;background:#fbfcfe;overflow:hidden}
+.widget .wt{background:var(--blue-l);padding:7px 14px;font-weight:600;font-size:15px;color:var(--blue);border-bottom:1px solid #dbe2ef}
+.widget .slot{background:#fff;line-height:0}
+.widget svg,.widget canvas{display:block;width:100%;touch-action:none;background:#fff}
+.widget .ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;border-top:1px solid #e3e8f1}
+.widget .status{padding:8px 14px;font-size:15.5px;border-top:1px solid #e3e8f1;line-height:1.8;min-height:44px}
+.widget .legend{padding:4px 14px 8px;font-size:13px;color:#5b6575;display:flex;gap:14px;flex-wrap:wrap;align-items:center;line-height:1.6}
+.legend .hd{display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFD43B;border:2px solid #172230;vertical-align:middle;margin-left:4px}
+.legend .fx{display:inline-block;width:8px;height:8px;border-radius:50%;background:#172230;vertical-align:middle;margin-left:4px}
+button.b{font:inherit;font-size:14.5px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;padding:7px 12px;cursor:pointer;line-height:1.5}
+button.b.pri{background:var(--blue);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.b.on{background:var(--blue);color:#fff}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin:10px 0}
+.card{border:1px solid #d5ddea;border-radius:10px;padding:8px 12px;background:#fff;font-size:15.5px;line-height:1.6}
+.card .opts{display:flex;gap:6px;margin-top:6px}
+.card .opts button{flex:1;font:inherit;font-size:14px;border:1px solid #c9d3e6;background:#fff;border-radius:7px;padding:5px;cursor:pointer}
+.card .opts button.sel{background:var(--blue);color:#fff;border-color:var(--blue)}
+.card.ok{border-color:var(--eq);background:#EEF8F1}
+.card.no{border-color:var(--bad);background:#FDEEEE}
+.card .why{font-size:13.5px;color:#4a5566;margin-top:4px;display:none}
+.card.ok .why,.card.no .why{display:block}
+/* check box */
+.check{margin-top:18px;border:2px solid #c9d3e6;border-radius:12px;padding:12px 16px;background:#FAFBFE}
+.check.done{border-color:var(--eq);background:#F2FAF4}
+.check .h{font-weight:700;color:var(--blue);font-size:15px}
+.check .cq{margin:4px 0 8px}
+.check .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.check .opts button{font:inherit;font-size:16px;border:1px solid #c9d3e6;background:#fff;border-radius:9px;padding:7px;cursor:pointer;color:var(--navy)}
+.check .opts button.ok{background:#E3F3E8;border-color:var(--eq);color:var(--eq)}
+.check .opts button.no{background:#FBE6E6;border-color:var(--bad);color:var(--bad)}
+.check .fb{margin-top:8px;font-size:15.5px;line-height:1.8}
+.check .fb.ok{color:var(--eq)}.check .fb.no{color:var(--bad)}
+.more{display:none;margin-top:10px;background:#FFF8E6;border:1px solid #f3dc9b;border-radius:10px;padding:10px 14px;font-size:15.5px}
+.more.on{display:block}
+.navbtns{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:18px;flex-wrap:wrap}
+.navbtns .gate{font-size:13.5px;color:var(--gray)}
+.summary li{margin-bottom:8px}
+/* practice */
+.q{border:1px solid #dde3ec;border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.q .qh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.q .qn{font-weight:700;color:var(--navy);font-size:17px}
+.q .tag{font-size:12.5px;color:var(--gray)}
+.q .given{margin:6px 0 2px}
+.q .ask{margin:4px 0 8px}
+.q .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
+.q .opts button{font:inherit;font-size:17px;border:1px solid #c9d3e6;background:#fff;border-radius:9px;padding:7px;cursor:pointer;color:var(--navy)}
+.q .opts button:hover:not(:disabled){border-color:var(--blue)}
+.q .opts button.ok{background:#E3F3E8;border-color:var(--eq);color:var(--eq)}
+.q .opts button.no{background:#FBE6E6;border-color:var(--bad);color:var(--bad)}
+.q input.num{font:inherit;width:120px;padding:5px 8px;border:1px solid #b9c4d6;border-radius:7px;direction:ltr;text-align:center}
+.q .fb{margin-top:8px;font-size:15.5px;line-height:1.8}
+.q .fb.ok{color:var(--eq)}.q .fb.no{color:var(--bad)}
+.q .hint,.q .sol{display:none;margin-top:8px;padding:9px 13px;border-radius:8px;font-size:15.5px;line-height:1.85}
+.q .hint{background:#FFF8E6;border:1px solid #f3dc9b}
+.q .sol{background:#F3F8F4;border:1px solid #b9dcc4}
+.q .sol .ln{display:block;margin:3px 0}
+.q .tools{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.q figure{margin:8px 0}
+.scorebar{background:var(--blue-l);border-radius:10px;padding:6px 14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:15px;margin:10px 0}
+.small{font-size:14.5px;color:#5b6575}
+.endbox{margin-top:16px;border:2px solid var(--eq);background:#F2FAF4;border-radius:14px;padding:16px;text-align:center;line-height:1.9;animation:fade .4s}
+.endbox .big{font-size:20px;font-weight:700;color:var(--eq)}
+.endbox .b{margin-top:10px;font-size:16px;padding:9px 18px}
+.endbox a.b{background:var(--blue);color:#fff;border-radius:8px}
+footer{text-align:center;color:var(--gray);font-size:13px;padding:10px 20px 24px}
+a.home{color:var(--blue)}
+@media (max-width:600px){
+  body{font-size:16px}
+  .screen{padding:16px 14px;border-radius:12px}
+  .screen h2{font-size:21px}
+  .plan{grid-template-columns:1fr}
+  main{padding:10px 8px 30px}
+  .widget{margin:12px -6px}
+}
+</style>
+</head>
+<body>
+<div class="credit">פותח על ידי אמתי צוברי · © כל הזכויות שמורות</div>
+<div class="topbar"><div class="wrap">
+  <div class="row1"><span class="ttl"><a href="index.html">וקטורים</a> · שיעור 1: מהו וקטור?</span><span class="cnt" id="cnt"></span></div>
+  <div class="dots" id="dots"></div>
+  <div id="who" style="text-align:left;line-height:1.4;margin-top:3px"></div>
+</div></div>
+
+<main id="app">
+<!-- 0 -->
+<div class="screen" data-t="פתיחה">
+  <h2>שיעור 1 · מהו וקטור?</h2>
+  <p>בשיעור הזה נכיר אובייקט מתמטי חדש: <b class="c-vec">וקטור</b>.</p>
+  <ul class="goals">
+    <li>מה ההבדל בין גודל סקלרי לגודל וקטורי.</li>
+    <li>וקטור כקטע מכוון: זנב, ראש, סימון ואורך.</li>
+    <li>מתי שני וקטורים שווים — במישור ובמרחב.</li>
+  </ul>
+  <div class="plan">
+    <div class="cls"><b>בכיתה, יחד</b>מסכים 1–3: איפה המטיילת? גודל סקלרי וגודל וקטורי, ודיון.</div>
+    <div class="self"><b>לבד (בכיתה ובבית)</b>מסכים 4–8, הסיכום והתרגול.</div>
+  </div>
+  <p class="small">בסוף כל מסך יש שאלת בדיקה קצרה. כדי לעבור למסך הבא צריך לענות עליה נכון. ההתקדמות נשמרת בדפדפן, כך שאפשר להמשיך בבית מאותו מקום.</p>
+</div>
+
+<!-- 1 -->
+<div class="screen" data-t="איפה המטיילת?" data-w="w1">
+  <span class="badge cls">בכיתה</span>
+  <h2>גודל לבד לא מספיק</h2>
+  <p>מטיילת יצאה מהמחנה והלכה <b class="c-len">7 ק״מ</b> בקו ישר. איפה היא נמצאת עכשיו?</p>
+  <div class="widget" id="w1">
+    <div class="wt">איפה המטיילת?</div>
+    <div class="slot"></div>
+    <div class="ctl"><button class="b" data-a="all">איפה היא יכולה להיות?</button><button class="b" data-a="dir">קבעו כיוון</button><button class="b" data-a="reset">התחלה מחדש</button></div>
+    <div class="status">לחצו על "איפה היא יכולה להיות?"</div>
+    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span><span class="fx"></span>נקודה קבועה</span></div>
+  </div>
+  <p>המרחק לבדו לא קובע איפה המטיילת: כל נקודה על המעגל מתאימה. רק כשמוסיפים <b class="c-dir">כיוון</b> המקום נקבע באופן יחיד.</p>
+  <div class="more">חשבו על הוראות דרך: "לכו 200 מטר" לא עוזר אם לא אומרים <b>לאן</b>. "לכו 200 מטר צפונה" — זה כבר מוביל למקום אחד בלבד.</div>
+</div>
+
+<!-- 2 -->
+<div class="screen" data-t="סקלרי או וקטורי">
+  <span class="badge cls">בכיתה</span>
+  <h2>גודל סקלרי וגודל וקטורי</h2>
+  <div class="def"><span class="t">גודל סקלרי</span>גודל שנקבע על ידי מספר בלבד (עם יחידות).
+    <div class="ex">לדוגמה: טמפרטורה של 25°, מסה של 3 ק״ג, זמן של 45 דקות.</div></div>
+  <div class="def"><span class="t">גודל וקטורי</span>גודל שיש לו גם <b class="c-len">גודל</b> (מספר) וגם <b class="c-dir">כיוון</b>.
+    <div class="ex">לדוגמה: מהירות של 90 קמ״ש צפונה, כוח של 20 ניוטון כלפי מטה, תזוזה של 7 ק״מ לצפון-מזרח.</div></div>
+  <div class="note"><b>שימו לב:</b> גם טמפרטורה שלילית, למשל ‎−5°‎, היא גודל סקלרי. המינוס הוא חלק מהמספר — הוא לא אומר "לאן".</div>
+  <div class="more">שאלה שעוזרת להחליט: <b>"האם יש משמעות לשאלה 'לאיזה כיוון?'"</b> — לכוח, למהירות של מטוס ולתזוזה יש משמעות לכיוון. למסה, לזמן ולטמפרטורה — אין.</div>
+</div>
+
+<!-- 3 -->
+<div class="screen" data-t="מיון" data-gate="sort">
+  <span class="badge cls">בכיתה</span>
+  <h2>מיינו: סקלרי או וקטורי?</h2>
+  <p>בחרו לכל כרטיס, ולחצו על "בדיקה". כדי להמשיך — כל הכרטיסים צריכים להיות נכונים.</p>
+  <div class="cards" id="sort"></div>
+  <div class="row"><button class="b pri" id="sortCheck">בדיקה</button> <span id="sortRes"></span></div>
+  <div class="disc"><span class="t">לדיון בכיתה</span><br>
+    רץ רץ 10 סיבובים במסלול של 400 מטר וחזר לנקודת ההתחלה. איזה <b>מרחק</b> הוא עבר? מה ה<b>תזוזה</b> שלו (מנקודת ההתחלה לנקודת הסיום)? למה אחד מהם גודל סקלרי והשני וקטורי?</div>
+</div>
+
+<!-- 4 -->
+<div class="screen" data-t="קטע מכוון" data-w="w2">
+  <span class="badge self">לבד</span>
+  <h2>הווקטור הגאומטרי — קטע מכוון</h2>
+  <div class="def"><span class="t">וקטור</span>
+    <b class="c-vec">וקטור</b> הוא קטע מכוון: קטע שבו קבענו נקודת התחלה ונקודת סיום. נקודת ההתחלה נקראת <b>זנב</b> הווקטור, ונקודת הסיום נקראת <b>ראש</b> הווקטור.
+    <div class="ex">דוגמה: הווקטור <span class="v c-vec">AB</span> מתחיל בנקודה <span class="m">A</span> (הזנב) ומסתיים בנקודה <span class="m">B</span> (הראש).</div></div>
+  <p><b>סימון:</b> כותבים את שתי האותיות לפי הסדר — קודם הזנב ואחר כך הראש — ומעליהן חץ: <span class="v c-vec">AB</span>. אפשר גם לסמן וקטור באות אחת קטנה עם חץ: <span class="v c-vec">u</span>.</p>
+  <div class="def"><span class="t">אורך של וקטור</span>
+    <b class="c-len">האורך</b> של הווקטור <span class="v c-vec">AB</span> הוא אורך הקטע <span class="m">AB</span>. מסמנים אותו כך: <span class="m c-len">|<span class="v">AB</span>|</span>.</div>
+  <div class="widget" id="w2">
+    <div class="wt">האנטומיה של וקטור</div>
+    <div class="slot"></div>
+    <div class="ctl"><button class="b" data-a="flip">הפכו את הכיוון</button><button class="b" data-a="len">הצגת האורך</button></div>
+    <div class="status"></div>
+    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  </div>
+  <div class="note"><b>שימו לב:</b> <span class="v c-vec">AB</span> ו־ <span class="v c-vec2">BA</span> הם שני וקטורים <b>שונים</b>. יש להם אותו אורך, אבל הכיוונים שלהם מנוגדים.</div>
+  <div class="more">דמיינו חץ שמצויר על כביש. אותו קטע של כביש, אבל החץ אומר לאן נוסעים: <span class="v">AB</span> — מ־ <span class="m">A</span> אל <span class="m">B</span>, ו־ <span class="v">BA</span> — מ־ <span class="m">B</span> אל <span class="m">A</span>. האות הראשונה היא תמיד המקום שממנו יוצאים.</div>
+</div>
+
+<!-- 5 -->
+<div class="screen" data-t="שוויון וקטורים" data-w="w3">
+  <span class="badge self">לבד</span>
+  <h2>מתי שני וקטורים שווים?</h2>
+  <p>לשני וקטורים יש <b class="c-dir">אותו כיוון</b> אם הם מקבילים (או נמצאים על אותו ישר) ו"מצביעים" לאותו צד. אם הם מקבילים אבל מצביעים לצדדים הפוכים, יש להם <b class="c-dir">כיוונים מנוגדים</b>.</p>
+  <div class="def"><span class="t">שוויון וקטורים</span>
+    שני וקטורים <b class="c-eq">שווים</b> אם יש להם <b class="c-len">אותו אורך</b> ו<b class="c-dir">אותו כיוון</b>.</div>
+  <p>המיקום של הווקטור לא משנה! אם מזיזים וקטור בהזזה מקבילה (בלי לסובב ובלי למתוח), מקבלים וקטור ששווה לו.</p>
+  <div class="widget" id="w3">
+    <div class="wt">האם <span class="v c-vec">u</span> ו־ <span class="v c-vec2">v</span> שווים?</div>
+    <div class="slot"></div>
+    <div class="ctl"><button class="b pri" data-a="move">הזזה מקבילה של <span class="v">v</span> אל הזנב של <span class="v">u</span></button><button class="b" data-a="rnd">מצב חדש</button></div>
+    <div class="status"></div>
+    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  </div>
+  <div class="more">על הרשת קל לבדוק שוויון: סופרים כמה משבצות הווקטור הולך ימינה/שמאלה וכמה למעלה/למטה. אם לשני הווקטורים אותה "תנועה" (למשל 3 ימינה ו־ 2 למעלה) — הם שווים, גם אם הם מצוירים במקומות שונים.</div>
+</div>
+
+<!-- 6 -->
+<div class="screen" data-t="וקטורים במקבילית" data-w="w4">
+  <span class="badge self">לבד</span>
+  <h2>וקטורים שווים במקבילית</h2>
+  <p>במקבילית <span class="m">ABCD</span> הצלעות הנגדיות מקבילות ושוות, ולכן יש בה זוגות של וקטורים שווים. בחרו וקטור יעד, ואז לחצו על שני קודקודים — קודם הזנב ואחר כך הראש — כדי ליצור וקטור ששווה לו.</p>
+  <div class="widget" id="w4">
+    <div class="wt">מצאו וקטור שווה</div>
+    <div class="slot"></div>
+    <div class="ctl" id="w4targets"></div>
+    <div class="status"></div>
+    <div class="legend"><span><span class="hd"></span>קודקוד שאפשר לגרור</span><span>לחיצה על קודקוד = בחירה</span></div>
+  </div>
+  <div class="note"><b>שימו לב:</b> <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">DC</span></span>, אבל <span class="m"><span class="v c-vec">AB</span> ≠ <span class="v c-vec">CD</span></span> — לשניהם אותו אורך, אבל הכיוונים מנוגדים.</div>
+  <div class="more">כדי למצוא וקטור ששווה ל־ <span class="v">AB</span>: חפשו את הצלע שמקבילה ל־ <span class="m">AB</span> (זו <span class="m">DC</span>), ואז בחרו את הזנב בצד "של <span class="m">A</span>" — כלומר <span class="m">D</span> — ואת הראש בצד "של <span class="m">B</span>" — כלומר <span class="m">C</span>.</div>
+</div>
+
+<!-- 7 -->
+<div class="screen" data-t="וקטורים במרחב" data-w="w5">
+  <span class="badge self">לבד</span>
+  <h2>וקטורים במרחב</h2>
+  <p>כל מה שלמדנו נכון גם במרחב: וקטור הוא קטע מכוון, ושני וקטורים שווים אם יש להם אותו אורך ואותו כיוון. סובבו את התיבה <span class="m">ABCDA'B'C'D'</span> ומצאו וקטורים שווים.</p>
+  <div class="widget" id="w5">
+    <div class="wt">וקטורים שווים בתיבה</div>
+    <div class="slot"></div>
+    <div class="ctl" id="w5targets"></div>
+    <div class="status"></div>
+    <div class="legend"><span>גרירה = סיבוב התיבה</span><span>לחיצה על קודקוד = בחירה (קודם זנב, אחר כך ראש)</span></div>
+  </div>
+  <div class="more">בתיבה, כל מקצוע מקביל לשלושה מקצועות אחרים (ושווה להם). למשל <span class="m">AB</span> מקביל ל־ <span class="m">DC</span>, ל־ <span class="m">A'B'</span> ול־ <span class="m">D'C'</span>. כדי שהווקטור יהיה <b>שווה</b> ל־ <span class="v">AB</span>, הוא צריך להצביע "לאותו צד" — מהפאה של <span class="m">A</span> אל הפאה של <span class="m">B</span>.</div>
+</div>
+
+<!-- 8 -->
+<div class="screen" data-t="סיכום">
+  <h2>סיכום השיעור</h2>
+  <ul class="summary">
+    <li><b>גודל סקלרי</b> נקבע על ידי מספר בלבד. <b>גודל וקטורי</b> נקבע על ידי <b class="c-len">גודל</b> ו<b class="c-dir">כיוון</b>.</li>
+    <li><b class="c-vec">וקטור</b> הוא קטע מכוון. בסימון <span class="v c-vec">AB</span> הנקודה <span class="m">A</span> היא הזנב והנקודה <span class="m">B</span> היא הראש.</li>
+    <li><b class="c-len">האורך</b> של הווקטור, <span class="m c-len">|<span class="v">AB</span>|</span>, הוא אורך הקטע <span class="m">AB</span>.</li>
+    <li>לשני וקטורים יש <b class="c-dir">אותו כיוון</b> אם הם מקבילים (או על אותו ישר) ומצביעים לאותו צד.</li>
+    <li>שני וקטורים <b class="c-eq">שווים</b> אם יש להם אותו אורך ואותו כיוון — המיקום לא משנה.</li>
+    <li>הווקטורים <span class="v">AB</span> ו־ <span class="v">BA</span> לא שווים: אותו אורך, כיוונים מנוגדים.</li>
+    <li>במקבילית <span class="m">ABCD</span>: <span class="m"><span class="v">AB</span> = <span class="v">DC</span></span> וגם <span class="m"><span class="v">AD</span> = <span class="v">BC</span></span>.</li>
+  </ul>
+  <p>עכשיו — לתרגול!</p>
+</div>
+
+<!-- 9 -->
+<div class="screen" data-t="תרגול בסיסי">
+  <span class="badge self">לבד</span>
+  <h2>תרגול בסיסי</h2>
+  <p class="small">אפשר לנסות שוב אחרי טעות. תשובה נכונה בניסיון הראשון — נקודה שלמה; בניסיון נוסף — חצי נקודה.</p>
+  <div class="scorebar"><span>ניקוד: <b id="scB">0</b> מתוך <b id="totB">0</b></span><span id="doneB"></span></div>
+  <div id="basicQ"></div>
+</div>
+
+<!-- 10 -->
+<div class="screen" data-t="תרגול מתקדם">
+  <span class="badge self">לבד</span>
+  <h2>תרגול מתקדם</h2>
+  <p class="small">בשאלות האלה יש רמז, ובחלקן אפשר לראות פתרון מלא — נסו קודם לבד!</p>
+  <div class="scorebar"><span>ניקוד: <b id="scA">0</b> מתוך <b id="totA">0</b></span><span id="doneA"></span></div>
+  <div id="advQ"></div>
+</div>
+
+<div class="navbtns" id="nav">
+  <button class="b" id="prev">→ הקודם</button>
+  <span class="gate" id="gate"></span>
+  <button class="b pri" id="next">הבא ←</button>
+</div>
+</main>
+<footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות · <a class="home" href="index.html">לדף הקורס</a></footer>
+<script src="course-api.js"></script>
+<script>
+/* ================= helpers ================= */
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+const COL={vec:'#2f5bea',vec2:'#d6336c',len:'#e8590c',dir:'#7b3fe4',eq:'#16935a',bad:'#c92a2a',navy:'#172230',grid:'#e3e8f1'};
+const COARSE=window.matchMedia&&matchMedia('(pointer:coarse)').matches;
+const HR=COARSE?13:10;
+const fmt=(x,d=2)=>String(+(+x).toFixed(d));
+const vecHTML=(t,cls='c-vec')=>`<span class="v ${cls}">${t}</span>`;
+const clampBox=(p,b,m=.35)=>[Math.max(b.x0+m,Math.min(b.x1-m,p[0])),Math.max(b.y0+m,Math.min(b.y1-m,p[1]))];
+function mkSvg(slot,H){slot.innerHTML='';const W=Math.max(260,slot.clientWidth||600);H=Math.round(H);return el('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H},slot)}
+
+class Board{
+  constructor(svg,{x0,x1,y0,y1,grid=true}){
+    this.svg=svg;const vb=svg.viewBox.baseVal;this.W=vb.width;this.H=vb.height;
+    this.x0=x0;this.x1=x1;this.y0=y0;this.y1=y1;this.s=Math.min(this.W/(x1-x0),this.H/(y1-y0));
+    this.ox=(this.W-(x1-x0)*this.s)/2;this.oy=(this.H-(y1-y0)*this.s)/2;
+    this.gl=el('g',{},svg);this.dl=el('g',{},svg);this.hl=el('g',{},svg);
+    if(grid){for(let x=Math.ceil(x0);x<=x1;x++)el('line',{x1:this.X(x),y1:this.Y(y0),x2:this.X(x),y2:this.Y(y1),stroke:COL.grid,'stroke-width':1},this.gl);
+      for(let y=Math.ceil(y0);y<=y1;y++)el('line',{x1:this.X(x0),y1:this.Y(y),x2:this.X(x1),y2:this.Y(y),stroke:COL.grid,'stroke-width':1},this.gl);}
+  }
+  X(x){return this.ox+(x-this.x0)*this.s}Y(y){return this.oy+(this.y1-y)*this.s}
+  P(p){return [this.X(p[0]),this.Y(p[1])]}
+  toWorld(e){const pt=this.svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const q=pt.matrixTransform(this.svg.getScreenCTM().inverse());return [(q.x-this.ox)/this.s+this.x0,this.y1-(q.y-this.oy)/this.s]}
+  clear(){this.dl.innerHTML=''}
+  arrow(p,q,col,w=4,opt={}){
+    const [x1,y1]=this.P(p),[x2,y2]=this.P(q);const L=Math.hypot(x2-x1,y2-y1);if(L<1)return;
+    const ux=(x2-x1)/L,uy=(y2-y1)/L,h=Math.min(16,L*.45),hw=h*.5;
+    const g=el('g',{opacity:opt.op??1},this.dl);
+    el('line',{x1,y1,x2:x2-ux*h*.8,y2:y2-uy*h*.8,stroke:col,'stroke-width':w,'stroke-linecap':'round','stroke-dasharray':opt.dash||''},g);
+    el('polygon',{points:`${x2},${y2} ${x2-ux*h-uy*hw},${y2-uy*h+ux*hw} ${x2-ux*h+uy*hw},${y2-uy*h-ux*hw}`,fill:col},g);
+    return g;
+  }
+  seg(p,q,col,w=2,dash=''){const [x1,y1]=this.P(p),[x2,y2]=this.P(q);return el('line',{x1,y1,x2,y2,stroke:col,'stroke-width':w,'stroke-dasharray':dash,'stroke-linecap':'round'},this.dl)}
+  dot(p,col=COL.navy,r=4){const [x,y]=this.P(p);return el('circle',{cx:x,cy:y,r,fill:col},this.dl)}
+  text(px,py,t,{col=COL.navy,size=18,w=700,anchor='middle',vec=false,halo=true}={}){
+    const g=el('g',{},this.dl);
+    const tx=el('text',{x:px,y:py,'font-size':size,'font-weight':w,fill:col,'text-anchor':anchor,'dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',direction:'ltr',...(halo?{stroke:'#fff','stroke-width':4,'paint-order':'stroke'}:{})},g);
+    tx.textContent=t;
+    if(vec){let bb=tx.getBBox();if(!bb.width){const wd=t.length*size*.58;bb={x:anchor==='middle'?px-wd/2:(anchor==='end'?px-wd:px),y:py-size*.55,width:wd}}
+      const yy=bb.y-1.5;el('line',{x1:bb.x+1,y1:yy,x2:bb.x+bb.width-2,y2:yy,stroke:col,'stroke-width':1.8},g);
+      el('polygon',{points:`${bb.x+bb.width+2},${yy} ${bb.x+bb.width-5},${yy-3.6} ${bb.x+bb.width-5},${yy+3.6}`,fill:col},g)}
+    return g;
+  }
+  midLabel(p,q,t,opt={},off=18){
+    const [x1,y1]=this.P(p),[x2,y2]=this.P(q);const L=Math.hypot(x2-x1,y2-y1)||1;let nx=-(y2-y1)/L,ny=(x2-x1)/L;
+    if(off<0){nx=-nx;ny=-ny;off=-off}
+    return this.text((x1+x2)/2+nx*off,(y1+y2)/2+ny*off,t,opt);
+  }
+  handle(getP,setP,{snap=false,onTap=null}={}){
+    const c=el('circle',{r:HR,fill:'#FFD43B',stroke:COL.navy,'stroke-width':2.2,style:'cursor:grab'},this.hl);
+    const place=()=>{const [x,y]=this.P(getP());c.setAttribute('cx',x);c.setAttribute('cy',y)};place();
+    let drag=null;
+    c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);drag={x:e.clientX,y:e.clientY,m:0};e.preventDefault()});
+    c.addEventListener('pointermove',e=>{if(!drag)return;drag.m+=Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y);drag.x=e.clientX;drag.y=e.clientY;
+      if(drag.m<4)return;let w=this.toWorld(e);if(snap)w=w.map(Math.round);setP(w)});
+    c.addEventListener('pointerup',()=>{if(!drag)return;const tap=drag.m<4;drag=null;if(tap&&onTap)onTap()});
+    c.addEventListener('pointercancel',()=>{drag=null});
+    return {el:c,place};
+  }
+}
+const lab=(B,p,n,center,dist=20,size=19)=>{const [x,y]=B.P(p),[cx,cy]=B.P(center);const L=Math.hypot(x-cx,y-cy)||1;B.text(x+(x-cx)/L*dist,y+(y-cy)/L*dist,n,{size})};
+
+/* ================= W1 hiker ================= */
+const W1=(()=>{
+  const w=document.getElementById('w1'),st=w.querySelector('.status');let B,h=null,mode=0,ang=50;const R=7;
+  const pos=()=>[R*Math.cos(ang*Math.PI/180),R*Math.sin(ang*Math.PI/180)];
+  function dirTxt(a){a=((a%360)+360)%360;const n=['מזרח','צפון-מזרח','צפון','צפון-מערב','מערב','דרום-מערב','דרום','דרום-מזרח'];return n[Math.round(a/45)%8]}
+  function upd(){st.innerHTML=`<b class="c-len">גודל:</b> 7 ק״מ · <b class="c-dir">כיוון:</b> בערך ${dirTxt(ang)}. עם גודל וכיוון — המקום נקבע באופן יחיד. גררו את המטיילת כדי לשנות כיוון.`}
+  function draw(){
+    B.clear();
+    if(mode>=1){el('circle',{cx:B.X(0),cy:B.Y(0),r:R*B.s,fill:'rgba(232,89,12,.06)',stroke:COL.len,'stroke-width':2.5,'stroke-dasharray':'7 6'},B.dl);
+      if(mode===1)for(let k=0;k<12;k++){const a=k*30*Math.PI/180;B.dot([R*Math.cos(a),R*Math.sin(a)],COL.len,4)}}
+    if(mode===2){const p=pos();B.arrow([0,0],p,COL.vec,4.5);B.midLabel([0,0],p,'7 ק״מ',{col:COL.len,size:16},16)}
+    B.dot([0,0],COL.navy,6);B.text(B.X(0),B.Y(0)+22,'המחנה',{size:15,w:600});
+    if(h)h.place();
+  }
+  function build(slot){
+    const W=slot.clientWidth;const svg=mkSvg(slot,Math.min(380,W*.9));B=new Board(svg,{x0:-10.5,x1:10.5,y0:-9.2,y1:9.2,grid:false});
+    [['צפון',0,8.4],['דרום',0,-8.5],['מזרח',9.6,0],['מערב',-9.6,0]].forEach(([t,x,y])=>{const tx=el('text',{x:B.X(x),y:B.Y(y),'text-anchor':'middle','dominant-baseline':'middle','font-size':14,fill:'#8A96A5','font-family':'Rubik'},B.gl);tx.textContent=t});
+    el('line',{x1:B.X(0),y1:B.Y(-7.7),x2:B.X(0),y2:B.Y(7.7),stroke:COL.grid,'stroke-width':1.2},B.gl);
+    el('line',{x1:B.X(-8.6),y1:B.Y(0),x2:B.X(8.6),y2:B.Y(0),stroke:COL.grid,'stroke-width':1.2},B.gl);
+    h=mode===2?B.handle(pos,p=>{ang=Math.atan2(p[1],p[0])*180/Math.PI;draw();upd()}):null;draw();
+  }
+  w.querySelector('[data-a=all]').onclick=()=>{mode=1;if(h){h.el.remove();h=null}draw();st.innerHTML='כל נקודה על המעגל נמצאת במרחק <b class="c-len">7 ק״מ</b> מהמחנה — יש <b>אינסוף</b> מקומות אפשריים!'};
+  w.querySelector('[data-a=dir]').onclick=()=>{mode=2;if(!h)h=B.handle(pos,p=>{ang=Math.atan2(p[1],p[0])*180/Math.PI;draw();upd()});draw();upd()};
+  w.querySelector('[data-a=reset]').onclick=()=>{mode=0;if(h){h.el.remove();h=null}draw();st.textContent='לחצו על "איפה היא יכולה להיות?"'};
+  return {build};
+})();
+
+/* ================= sorting ================= */
+let SORT_OK=false;
+(()=>{
+  const items=[
+    ['טמפרטורה של ‎−5°‎ בלילה','s','המינוס הוא חלק מהמספר — לטמפרטורה אין כיוון.'],
+    ['רוח שנושבת ב־ 40 קמ״ש ממערב למזרח','v','יש גודל (40 קמ״ש) וגם כיוון (למזרח).'],
+    ['מסה של ילקוט: 6 ק״ג','s','למסה אין כיוון.'],
+    ['כוח של 50 ניוטון שדוחף ארגז ימינה','v','לכוח יש גודל וגם כיוון — לאן דוחפים.'],
+    ['משך השיעור: 45 דקות','s','לזמן אין כיוון.'],
+    ['מטוס עולה ב־ 300 קמ״ש בזווית של 15° מעל האופק','v','מהירות עם כיוון היא גודל וקטורי.'],
+    ['מרחק של 400 מטר שרץ עבר במסלול','s','מרחק הוא רק מספר — לא משנה לאיזה כיוון רצו.'],
+    ['תזוזה של 3 ק״מ צפונה מהבית','v','תזוזה (העתק) כוללת גם לאן זזנו.'],
+  ];
+  for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}
+  const box=document.getElementById('sort');
+  box.innerHTML=items.map((it,i)=>`<div class="card" data-i="${i}">${it[0]}<div class="opts"><button data-c="s">סקלרי</button><button data-c="v">וקטורי</button></div><div class="why">${it[2]}</div></div>`).join('');
+  box.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const c=b.closest('.card');c.classList.remove('ok','no');c.querySelectorAll('button').forEach(x=>x.classList.toggle('sel',x===b));c.dataset.sel=b.dataset.c});
+  document.getElementById('sortCheck').onclick=()=>{let ok=0,ans=0;box.querySelectorAll('.card').forEach(c=>{if(!c.dataset.sel)return;ans++;const r=c.dataset.sel===items[+c.dataset.i][1];c.classList.toggle('ok',r);c.classList.toggle('no',!r);if(r)ok++});
+    const res=document.getElementById('sortRes');
+    if(ans<items.length){res.innerHTML=`ענו על כל הכרטיסים (${ans} מתוך ${items.length})`;return}
+    res.innerHTML=`<b>${ok} מתוך ${items.length}</b> נכונים${ok===items.length?' — מצוין! אפשר להמשיך.':' — תקנו את האדומים ובדקו שוב.'}`;
+    if(ok===items.length){SORT_OK=true;markPassed(3)}
+    CourseAPI.log({ev:'sort',screen:4,title:'מיון',ok:ok===items.length,score:ok+' מתוך '+items.length})};
+})();
+
+/* ================= W2 anatomy ================= */
+const W2=(()=>{
+  const w=document.getElementById('w2'),st=w.querySelector('.status');let B,box,A=[2,2],Bp=[7,6],flip=false,showLen=false,hA,hB;
+  function draw(){
+    B.clear();
+    const [t,hd]=flip?[Bp,A]:[A,Bp];const col=flip?COL.vec2:COL.vec;const nm=flip?'BA':'AB';
+    B.seg(A,Bp,'#d5ddea',10);B.arrow(t,hd,col,4.5);
+    B.midLabel(A,Bp,nm,{col,size:20,vec:true},24);
+    if(showLen){const L=Math.hypot(Bp[0]-A[0],Bp[1]-A[1]);B.midLabel(A,Bp,`|${nm}| = ${fmt(L)}`,{col:COL.len,size:16,w:600},-24)}
+    const tag=(p,t2,other)=>{const [x,y]=B.P(p),[ox,oy]=B.P(other);const L=Math.hypot(x-ox,y-oy)||1;B.text(x+(x-ox)/L*36,y+(y-oy)/L*36+14,t2,{size:14,w:600,col:'#4a5566'})};
+    tag(t,'זנב',hd);tag(hd,'ראש',t);
+    const nl=(p,n,o)=>{const [x,y]=B.P(p),[ox,oy]=B.P(o);const L=Math.hypot(x-ox,y-oy)||1;B.text(x+(x-ox)/L*20,y+(y-oy)/L*20-12,n,{size:19})};
+    nl(A,'A',Bp);nl(Bp,'B',A);
+    hA.place();hB.place();
+    st.innerHTML=flip?`זה הווקטור ${vecHTML('BA','c-vec2')}: הזנב ב־ <span class="m">B</span> והראש ב־ <span class="m">A</span>. אותו קטע — כיוון הפוך!`
+      :`זה הווקטור ${vecHTML('AB')}: הזנב ב־ <span class="m">A</span> והראש ב־ <span class="m">B</span>. גררו את הנקודות.`;
+  }
+  function build(slot){
+    const W=slot.clientWidth,ph=W<520;box=ph?{x0:0,x1:9,y0:0,y1:10}:{x0:0,x1:16,y0:0,y1:9};
+    const svg=mkSvg(slot,ph?W*1.1:360);B=new Board(svg,box);
+    const cl=p=>clampBox(p,box,.5).map(Math.round);A=cl(A);Bp=cl(Bp);if(A[0]===Bp[0]&&A[1]===Bp[1])Bp=cl([A[0]+3,A[1]+3]);
+    hA=B.handle(()=>A,p=>{A=cl(p);draw()},{snap:true});hB=B.handle(()=>Bp,p=>{Bp=cl(p);draw()},{snap:true});draw();
+  }
+  w.querySelector('[data-a=flip]').onclick=e=>{flip=!flip;e.currentTarget.classList.toggle('on',flip);draw()};
+  w.querySelector('[data-a=len]').onclick=e=>{showLen=!showLen;e.currentTarget.classList.toggle('on',showLen);draw()};
+  return {build};
+})();
+
+/* ================= W3 equality ================= */
+const W3=(()=>{
+  const w=document.getElementById('w3'),st=w.querySelector('.status');let B,box,ph=null,A,Bq,C,D,ghost=null,anim=null,hs=[];
+  const L=(p,q)=>Math.hypot(q[0]-p[0],q[1]-p[1]);
+  function init(){if(ph){A=[1,1];Bq=[5,4];C=[2,7];D=[5,10]}else{A=[2,2];Bq=[6,5];C=[9,3];D=[12,6]}ghost=null}
+  function draw(){
+    B.clear();
+    if(ghost)B.arrow(ghost[0],ghost[1],COL.vec2,4,{op:.55,dash:'6 5'});
+    B.arrow(A,Bq,COL.vec,4.5);B.arrow(C,D,COL.vec2,4.5);
+    B.midLabel(A,Bq,'u',{col:COL.vec,size:20,vec:true},20);B.midLabel(C,D,'v',{col:COL.vec2,size:20,vec:true},20);
+    B.midLabel(A,Bq,fmt(L(A,Bq)),{col:COL.len,size:14,w:600},-18);B.midLabel(C,D,fmt(L(C,D)),{col:COL.len,size:14,w:600},-18);
+    hs.forEach(h=>h.place());
+    const u=[Bq[0]-A[0],Bq[1]-A[1]],v=[D[0]-C[0],D[1]-C[1]];
+    const cr=u[0]*v[1]-u[1]*v[0],dt=u[0]*v[0]+u[1]*v[1];
+    const sameLen=Math.abs(L(A,Bq)-L(C,D))<1e-9;
+    const dir=Math.abs(cr)>1e-9?'לא מקבילים — כיוונים שונים':(dt>0?'אותו כיוון':'כיוונים מנוגדים');
+    const eq=sameLen&&Math.abs(cr)<1e-9&&dt>0;
+    st.innerHTML=`<b class="c-len">אורך:</b> ${sameLen?'שווה':'לא שווה'} · <b class="c-dir">כיוון:</b> ${dir}<br>`+
+      (eq?`<b class="c-eq">✔ הווקטורים שווים: <span class="m">${vecHTML('u')} = ${vecHTML('v','c-vec2')}</span></b>`:`<b style="color:var(--bad)">✘ הווקטורים לא שווים</b>${sameLen&&Math.abs(cr)<1e-9?' — אותו אורך, אבל הכיוון מנוגד.':''}`);
+  }
+  function build(slot){
+    const W=slot.clientWidth,nph=W<520;if(nph!==ph){ph=nph;init()}
+    box=ph?{x0:0,x1:10,y0:0,y1:13}:{x0:0,x1:17,y0:0,y1:10};
+    const svg=mkSvg(slot,ph?W*1.3:380);B=new Board(svg,box);
+    const cl=p=>clampBox(p,box,.5).map(Math.round);
+    const mk=(g,s)=>B.handle(g,p=>{s(cl(p));ghost=null;draw()},{snap:true});
+    hs=[mk(()=>A,p=>A=p),mk(()=>Bq,p=>Bq=p),mk(()=>C,p=>C=p),mk(()=>D,p=>D=p)];draw();
+  }
+  w.querySelector('[data-a=move]').onclick=()=>{
+    const v=[D[0]-C[0],D[1]-C[1]],from=[...C],to=[...A];const t0=performance.now();cancelAnimationFrame(anim);
+    const step=t=>{const k=Math.min(1,(t-t0)/900),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;const s=[from[0]+(to[0]-from[0])*e,from[1]+(to[1]-from[1])*e];ghost=[s,[s[0]+v[0],s[1]+v[1]]];draw();if(k<1)anim=requestAnimationFrame(step)};
+    anim=requestAnimationFrame(step);
+  };
+  w.querySelector('[data-a=rnd]').onclick=()=>{
+    const r=(a,b)=>a+Math.floor(Math.random()*(b-a+1));const cl=p=>clampBox(p,box,.5).map(Math.round);
+    let u=[r(1,4)*(Math.random()<.5?-1:1),r(1,3)*(Math.random()<.5?-1:1)];
+    const half=ph?[[1,5],[1,5]]:[[1,6],[1,8]];
+    A=[r(half[0][0]+2,half[0][1]),r(half[1][0]+2,half[1][1])];Bq=cl([A[0]+u[0],A[1]+u[1]]);u=[Bq[0]-A[0],Bq[1]-A[1]];
+    const kind=r(0,3);let v=[...u];if(kind===1)v=[-u[0],-u[1]];if(kind===2)v=[u[1],-u[0]];if(kind===3)v=[u[0]+1,u[1]];
+    C=ph?[r(3,6),r(8,10)]:[r(10,13),r(3,6)];D=cl([C[0]+v[0],C[1]+v[1]]);ghost=null;draw();
+  };
+  return {build};
+})();
+
+/* ================= W4 parallelogram ================= */
+const W4=(()=>{
+  const w=document.getElementById('w4'),st=w.querySelector('.status'),tb=document.getElementById('w4targets');
+  let B,box,R={A:[.12,.15],B:[.66,.27],D:[.3,.83]},hs=[],hc,dotC;
+  const T=[['A','B'],['A','D'],['C','B'],['B','A']];let ti=0,sel=[],cand=null;
+  const toW=r=>[box.x0+r[0]*(box.x1-box.x0),box.y0+r[1]*(box.y1-box.y0)];
+  const toR=p=>[(p[0]-box.x0)/(box.x1-box.x0),(p[1]-box.y0)/(box.y1-box.y0)];
+  const pt=n=>n==='C'?toW([R.B[0]+R.D[0]-R.A[0],R.B[1]+R.D[1]-R.A[1]]):toW(R[n]);
+  const vec=(p,q)=>[pt(q)[0]-pt(p)[0],pt(q)[1]-pt(p)[1]];
+  const eqv=(a,b)=>Math.abs(a[0]-b[0])<1e-6&&Math.abs(a[1]-b[1])<1e-6;
+  function renderT(){tb.innerHTML='וקטור יעד: '+T.map((t,i)=>`<button class="b ${i===ti?'on':''}" data-t="${i}">${vecHTML(t.join(''),'')}</button>`).join('')}
+  tb.addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;ti=+b.dataset.t;sel=[];cand=null;renderT();draw();msg()});
+  function msg(m){const t=T[ti].join('');st.innerHTML=m||(sel.length?`בחרתם זנב ב־ <span class="m">${sel[0]}</span>. עכשיו לחצו על הראש.`:`מצאו וקטור ששווה ל־ ${vecHTML(t)}: לחצו על קודקוד הזנב ואחר כך על קודקוד הראש.`)}
+  function draw(){
+    B.clear();const ps=['A','B','C','D'].map(pt);
+    el('polygon',{points:ps.map(p=>B.P(p).join(',')).join(' '),fill:'rgba(43,68,160,.05)',stroke:'#9aa7bd','stroke-width':2},B.dl);
+    const t=T[ti];B.arrow(pt(t[0]),pt(t[1]),COL.vec,5);
+    if(cand){const ok=eqv(vec(...cand),vec(...t));B.arrow(pt(cand[0]),pt(cand[1]),ok?COL.eq:COL.bad,4.5,{dash:ok?'':'8 6'})}
+    const cen=[(pt('A')[0]+pt('C')[0])/2,(pt('A')[1]+pt('C')[1])/2];
+    for(const n of 'ABCD'){const p=pt(n);if(sel[0]===n){const [x,y]=B.P(p);el('circle',{cx:x,cy:y,r:HR+7,fill:'none',stroke:COL.vec2,'stroke-width':3},B.dl)}lab(B,p,n,cen,HR+16,20)}
+    hs.forEach(h=>h.place());
+    const [cx,cy]=B.P(pt('C'));hc.setAttribute('cx',cx);hc.setAttribute('cy',cy);dotC.setAttribute('cx',cx);dotC.setAttribute('cy',cy);
+  }
+  function tap(n){
+    const t=T[ti];
+    if(!sel.length){sel=[n];cand=null;draw();msg();return}
+    if(n===sel[0]){sel=[];draw();msg();return}
+    cand=[sel[0],n];sel=[];draw();
+    const ok=eqv(vec(...cand),vec(...t)),c=cand.join(''),tt=t.join('');
+    const cv=vec(...cand),tv=vec(...t);const par=Math.abs(cv[0]*tv[1]-cv[1]*tv[0])<1e-6;
+    if(c===tt)msg(`זה הווקטור ${vecHTML(tt)} עצמו — חפשו וקטור <b>אחר</b> ששווה לו.`);
+    else if(ok)msg(`<b class="c-eq">✔ נכון! <span class="m">${vecHTML(c,'c-eq')} = ${vecHTML(tt)}</span></b> — אותו אורך ואותו כיוון. נסו וקטור יעד אחר.`);
+    else if(par)msg(`<b style="color:var(--bad)">✘ לווקטור ${vecHTML(c,'')} יש אותו אורך, אבל הכיוון מנוגד.</b> נסו להפוך את הסדר.`);
+    else msg(`<b style="color:var(--bad)">✘ הווקטור ${vecHTML(c,'')} לא מקביל ל־ ${vecHTML(tt)}.</b>`);
+  }
+  function build(slot){
+    const W=slot.clientWidth,ph=W<520;box=ph?{x0:0,x1:10,y0:0,y1:10}:{x0:0,x1:16,y0:0,y1:9};
+    const svg=mkSvg(slot,ph?W*.95:360);B=new Board(svg,{...box,grid:false});
+    const mk=n=>B.handle(()=>toW(R[n]),p=>{const old=R[n];R[n]=toR(clampBox(p,box,.6));const c=toR(pt('C'));if(c[0]<.04||c[0]>.96||c[1]<.04||c[1]>.96)R[n]=old;cand=null;draw()},{onTap:()=>tap(n)});
+    hs=[mk('A'),mk('B'),mk('D')];
+    dotC=el('circle',{r:6,fill:COL.navy,'pointer-events':'none'},B.hl);
+    hc=el('circle',{r:HR+8,fill:'#fff','fill-opacity':0.01,style:'cursor:pointer'},B.hl);hc.addEventListener('pointerup',e=>{e.preventDefault();tap('C')});
+    draw();msg();
+  }
+  renderT();
+  return {build};
+})();
+
+/* ================= W5 box 3D ================= */
+const W5=(()=>{
+  const w=document.getElementById('w5'),st=w.querySelector('.status'),tb=document.getElementById('w5targets');
+  const a=5.5,b=3.2,h=3.8;
+  const P={A:[0,0,0],B:[a,0,0],C:[a,b,0],D:[0,b,0],"A'":[0,0,h],"B'":[a,0,h],"C'":[a,b,h],"D'":[0,b,h]};
+  const E=[['A','B'],['B','C'],['C','D'],['D','A'],["A'","B'"],["B'","C'"],["C'","D'"],["D'","A'"],['A',"A'"],['B',"B'"],['C',"C'"],['D',"D'"]];
+  const F={bottom:['A','B','C','D'],top:["A'","B'","C'","D'"],ab:['A','B',"B'","A'"],bc:['B','C',"C'","B'"],cd:['C','D',"D'","C'"],da:['D','A',"A'","D'"]};
+  const T=[['A','B'],['A',"A'"],['A','C'],["D'",'B']];
+  let ti=0,sel=[],cand=null,found={},yaw=-2.05,pitch=.38,W=0,H=380,DPR=1,cv,ctx,hits=[];
+  const cen=[a/2,b/2,h/2];
+  const sub=(p,q)=>[p[0]-q[0],p[1]-q[1],p[2]-q[2]],dot=(p,q)=>p[0]*q[0]+p[1]*q[1]+p[2]*q[2];
+  let C;
+  function cam(){const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);return {c:[cp*cy,cp*sy,sp],r:[-sy,cy,0],u:[-sp*cy,-sp*sy,cp],k:Math.min(W,H)/10.5}}
+  const pr=p=>{const q=sub(p,cen);return [W/2+C.k*dot(q,C.r),H/2-C.k*dot(q,C.u)]};
+  function arrow(p,q,col,lw,dash){const [x1,y1]=pr(p),[x2,y2]=pr(q);const L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L,hh=15;
+    ctx.setLineDash(dash||[]);ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2-ux*hh*.8,y2-uy*hh*.8);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-ux*hh-uy*hh*.5,y2-uy*hh+ux*hh*.5);ctx.lineTo(x2-ux*hh+uy*hh*.5,y2-uy*hh-ux*hh*.5);ctx.fill()}
+  const vec=(p,q)=>sub(P[q],P[p]);const eqv=(x,y)=>Math.abs(x[0]-y[0])+Math.abs(x[1]-y[1])+Math.abs(x[2]-y[2])<1e-6;
+  function answers(t){const tv=vec(...t),out=[];for(const p in P)for(const q in P)if(p!==q&&(p!==t[0]||q!==t[1])&&eqv(vec(p,q),tv))out.push([p,q]);return out}
+  function draw(){
+    if(!ctx)return;C=cam();ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+    const vis={};for(const k in F){const p=F[k].map(n=>P[n]);const e1=sub(p[1],p[0]),e2=sub(p[2],p[0]);let n=[e1[1]*e2[2]-e1[2]*e2[1],e1[2]*e2[0]-e1[0]*e2[2],e1[0]*e2[1]-e1[1]*e2[0]];const fc=p.reduce((s,q)=>[s[0]+q[0]/4,s[1]+q[1]/4,s[2]+q[2]/4],[0,0,0]);if(dot(n,sub(fc,cen))<0)n=n.map(x=>-x);vis[k]=dot(n,C.c)>0}
+    for(const k in F)if(vis[k]){ctx.beginPath();F[k].forEach((n,i)=>{const [x,y]=pr(P[n]);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.closePath();ctx.fillStyle='rgba(110,130,175,.07)';ctx.fill()}
+    for(const [p,q] of E){const fs=Object.keys(F).filter(k=>F[k].includes(p)&&F[k].includes(q));const hid=fs.every(k=>!vis[k]);
+      const [x1,y1]=pr(P[p]),[x2,y2]=pr(P[q]);ctx.setLineDash(hid?[6,5]:[]);ctx.strokeStyle=hid?'#9aa7bd':'#172230';ctx.lineWidth=hid?1.5:2.2;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([])}
+    const t=T[ti];arrow(P[t[0]],P[t[1]],COL.vec,5);
+    for(const f of answers(t).filter(f=>found[t.join('')+'|'+f.join('')]))arrow(P[f[0]],P[f[1]],COL.eq,4);
+    if(cand&&!eqv(vec(...cand),vec(...t)))arrow(P[cand[0]],P[cand[1]],COL.bad,4,[8,6]);
+    const [cx,cy]=pr(cen);ctx.font='700 18px Rubik, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.direction='ltr';
+    hits=[];for(const n in P){const [x,y]=pr(P[n]);hits.push({n,x,y});
+      if(sel[0]===n){ctx.beginPath();ctx.arc(x,y,14,0,7);ctx.strokeStyle=COL.vec2;ctx.lineWidth=3;ctx.stroke()}
+      ctx.beginPath();ctx.arc(x,y,4.5,0,7);ctx.fillStyle='#172230';ctx.fill();
+      const L=Math.hypot(x-cx,y-cy)||1;const lx=x+(x-cx)/L*21,ly=y+(y-cy)/L*21;ctx.lineWidth=4;ctx.strokeStyle='#fff';ctx.strokeText(n,lx,ly);ctx.fillStyle='#172230';ctx.fillText(n,lx,ly)}
+  }
+  function status(m){const t=T[ti],ans=answers(t),f=ans.filter(x=>found[t.join('')+'|'+x.join('')]).length;
+    st.innerHTML=(m?m+'<br>':'')+(ans.length?`מצאתם <b>${f} מתוך ${ans.length}</b> וקטורים ששווים ל־ ${vecHTML(t.join(''))}.`:`חפשו וקטורים ששווים ל־ ${vecHTML(t.join(''))}. <button class="b" id="noneBtn">אין אף וקטור כזה</button>`);
+    const nb=document.getElementById('noneBtn');if(nb)nb.onclick=()=>status(`<b class="c-eq">✔ נכון!</b> אין בין קודקודי התיבה וקטור אחר ששווה ל־ ${vecHTML(t.join(''))} — אף אלכסון אחר של התיבה לא מקביל לו.`)}
+  function renderT(){tb.innerHTML='וקטור יעד: '+T.map((t,i)=>`<button class="b ${i===ti?'on':''}" data-t="${i}">${vecHTML(t.join(''),'')}</button>`).join('')}
+  tb.addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;ti=+b.dataset.t;sel=[];cand=null;renderT();draw();status()});
+  function tap(n){const t=T[ti];if(!sel.length){sel=[n];cand=null;draw();status(`בחרתם זנב ב־ <span class="m">${n}</span>. עכשיו לחצו על הראש.`);return}
+    if(sel[0]===n){sel=[];draw();status();return}
+    cand=[sel[0],n];sel=[];const ok=eqv(vec(...cand),vec(...t)),c=cand.join('');
+    if(c===t.join('')){cand=null;draw();status(`זה הווקטור ${vecHTML(c)} עצמו — חפשו וקטור אחר.`);return}
+    if(ok){found[t.join('')+'|'+c]=true;cand=null;draw();status(`<b class="c-eq">✔ <span class="m">${vecHTML(c,'c-eq')} = ${vecHTML(t.join(''))}</span></b>`)}
+    else{const opp=eqv(vec(...cand),vec(...t).map(x=>-x));draw();status(`<b style="color:var(--bad)">✘ ${opp?'אותו אורך, אבל הכיוון מנוגד.':'לא שווה.'}</b>`)}}
+  function build(slot){
+    slot.innerHTML='';W=slot.clientWidth;H=Math.round(W<520?Math.min(W*1.05,420):380);DPR=window.devicePixelRatio||1;
+    cv=document.createElement('canvas');cv.style.height=H+'px';cv.width=W*DPR;cv.height=H*DPR;slot.appendChild(cv);ctx=cv.getContext('2d');
+    let drag=null;
+    cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);drag={x:e.clientX,y:e.clientY,m:0}});
+    cv.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.m+=Math.abs(dx)+Math.abs(dy);drag.x=e.clientX;drag.y=e.clientY;if(drag.m>5){yaw-=dx*.01;pitch=Math.max(-1.4,Math.min(1.4,pitch+dy*.01));draw()}});
+    cv.addEventListener('pointerup',e=>{if(drag&&drag.m<=5){const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;let best=null,bd=COARSE?30:22;for(const p of hits){const d=Math.hypot(p.x-x,p.y-y);if(d<bd){bd=d;best=p}}if(best)tap(best.n)}drag=null});
+    draw();
+  }
+  renderT();status();
+  return {build};
+})();
+const WIDGETS={w1:W1,w2:W2,w3:W3,w4:W4,w5:W5};
+
+/* ================= screen engine ================= */
+const CHECKS={
+  1:{q:'מה צריך לדעת כדי לקבוע בדיוק איפה המטיילת?',o:['רק את המרחק שהלכה','רק את הכיוון שבו הלכה','את המרחק ואת הכיוון'],a:2,ok:'נכון! תזוזה נקבעת על ידי גודל וכיוון יחד.'},
+  2:{q:'איזה מהגדלים הבאים הוא גודל וקטורי?',o:['נפח של בקבוק: 1.5 ליטר','גובה של בניין: 30 מטר','מהירות של סירה: 20 קמ״ש מזרחה','מחיר של כרטיס: 40 ₪'],a:2,ok:'נכון! למהירות של הסירה יש גודל (20 קמ״ש) וגם כיוון (מזרחה).'},
+  4:{q:`מה נכון לגבי הווקטורים ${vecHTML('AB','')} ו־ ${vecHTML('BA','')}?`,o:['הם שווים','יש להם אותו אורך, והכיוונים שלהם מנוגדים','יש להם אותו כיוון, והאורכים שלהם שונים'],a:1,ok:'נכון! זה אותו קטע, אבל הזנב והראש התחלפו.'},
+  5:{q:'לשני וקטורים יש אותו אורך. האם הם בהכרח שווים?',o:['כן','לא — צריך גם אותו כיוון'],a:1,ok:'נכון! וקטורים שווים צריכים גם אותו אורך וגם אותו כיוון.'},
+  6:{q:`במקבילית <span class="m">ABCD</span>, איזה וקטור שווה ל־ ${vecHTML('AD','')}?`,o:[vecHTML('BC',''),vecHTML('CB',''),vecHTML('DA',''),vecHTML('CD','')],a:0,ok:`נכון! <span class="m">AD</span> ו־ <span class="m">BC</span> צלעות נגדיות, ושני הווקטורים מצביעים מהצלע <span class="m">AB</span> אל הצלע <span class="m">DC</span>.`},
+  7:{q:`בתיבה <span class="m">ABCDA'B'C'D'</span>, איזה וקטור שווה ל־ ${vecHTML("BB'",'')}?`,o:[vecHTML("DD'",''),vecHTML("D'D",''),vecHTML("B'B",''),vecHTML('BC','')],a:0,ok:'נכון! המקצועות הצדדיים מקבילים ושווים, ושניהם מצביעים מהבסיס התחתון אל העליון.'},
+};
+const screens=[...document.querySelectorAll('.screen')],N=screens.length;
+const KEY='vec-l1-progress';
+let cur=0,maxSeen=0,passed=new Set();
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[])}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed]}))}catch(e){}};
+const gated=i=>CHECKS[i]||screens[i].dataset.gate;
+function markPassed(i){passed.add(i);save();if(i===cur)updNav()}
+const SOLVERS={};
+// build check boxes
+screens.forEach((sc,i)=>{
+  const more=sc.querySelector('.more');
+  const c=CHECKS[i];
+  if(!c&&!more)return;
+  const box=document.createElement('div');box.className='check';
+  if(c){
+    box.innerHTML=`<div class="h">בדיקת הבנה</div><div class="cq">${c.q}</div><div class="opts">${c.o.map((t,j)=>`<button data-j="${j}">${t}</button>`).join('')}</div><div class="fb"></div>`;
+    const fb=box.querySelector('.fb');
+    let att=0;const solve=()=>{box.classList.add('done');box.querySelectorAll('.opts button').forEach((b,j)=>{b.disabled=true;if(j===c.a)b.classList.add('ok')});fb.className='fb ok';fb.innerHTML='✔ '+c.ok};
+    SOLVERS[i]=solve;if(passed.has(i))solve();
+    box.querySelector('.opts').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;
+      att++;CourseAPI.log({ev:'check',screen:i+1,title:sc.dataset.t,ok:+b.dataset.j===c.a,attempt:att});
+      if(+b.dataset.j===c.a){solve();markPassed(i)}else{b.classList.add('no');b.disabled=true;fb.className='fb no';fb.innerHTML='✘ לא נכון — נסו שוב'+(more?', או לחצו על "אני צריך עוד הסבר".':'.')}});
+  }else box.style.borderStyle='dashed';
+  if(more){const mb=document.createElement('button');mb.className='b';mb.style.marginTop='10px';mb.textContent='אני צריך עוד הסבר';mb.onclick=()=>{more.classList.toggle('on');mb.textContent=more.classList.contains('on')?'הסתרת ההסבר':'אני צריך עוד הסבר'};box.appendChild(mb);box.appendChild(more)}
+  sc.appendChild(box);
+});
+const nav=document.getElementById('nav');
+function updNav(){
+  const g=gated(cur)&&!passed.has(cur);
+  document.getElementById('prev').disabled=cur===0;
+  const nx=document.getElementById('next');nx.style.visibility=cur===N-1?'hidden':'visible';nx.disabled=g;
+  document.getElementById('gate').textContent=g?(screens[cur].dataset.gate==='sort'?'מיינו את כל הכרטיסים נכון כדי להמשיך':'ענו נכון על שאלת הבדיקה כדי להמשיך'):'';
+  document.getElementById('cnt').textContent=`מסך ${cur+1} מתוך ${N} · ${screens[cur].dataset.t}`;
+  const dots=document.getElementById('dots');
+  dots.innerHTML=screens.map((s,i)=>`<button title="${s.dataset.t}" class="${i===cur?'cur':(i<=maxSeen?'done':'')}" ${i>maxSeen?'disabled':''} data-i="${i}"></button>`).join('');
+}
+document.getElementById('dots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;show(+b.dataset.i)});
+const builtW={};
+function buildWidget(i){const id=screens[i].dataset.w;if(!id)return;const slot=document.querySelector('#'+id+' .slot');const w=slot.clientWidth;if(builtW[id]===w)return;builtW[id]=w;WIDGETS[id].build(slot)}
+function show(i){
+  screens[cur].classList.remove('on');cur=i;screens[cur].classList.add('on');
+  screens[cur].appendChild(nav);
+  if(cur>maxSeen)maxSeen=cur;save();updNav();buildWidget(cur);
+  CourseAPI.log({ev:'screen',screen:cur+1,title:screens[cur].dataset.t});
+  window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});
+}
+document.getElementById('prev').onclick=()=>{if(cur>0)show(cur-1)};
+document.getElementById('next').onclick=()=>{if(cur<N-1&&!(gated(cur)&&!passed.has(cur)))show(cur+1)};
+let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>buildWidget(cur),200)});
+
+/* ================= practice figures ================= */
+function figGrid(arrows,{x1=14,y1=8}={}){
+  const u=30;const svg=el('svg',{viewBox:`0 0 ${x1*u} ${y1*u}`,style:`max-width:${x1*u*1.3}px;width:100%;display:block;margin:auto;background:#fff`});
+  const B=new Board(svg,{x0:0,x1,y0:0,y1});
+  arrows.forEach(([p,q,n,c])=>{B.arrow(p,q,c||COL.vec,4);B.midLabel(p,q,n,{col:c||COL.vec,size:19,vec:true},20)});
+  return svg;
+}
+function figPoly(pts,{close=true,extra=[],w=420,h=240,pad=1}={}){
+  const xs=pts.map(p=>p[1][0]),ys=pts.map(p=>p[1][1]);
+  const x0=Math.min(...xs)-pad,x1=Math.max(...xs)+pad,y0=Math.min(...ys)-pad,y1=Math.max(...ys)+pad;
+  const s=Math.min(w/(x1-x0),h/(y1-y0));
+  const svg=el('svg',{viewBox:`0 0 ${(x1-x0)*s} ${(y1-y0)*s}`,style:`max-width:${w*1.3}px;width:100%;display:block;margin:auto;background:#fff`});
+  const B=new Board(svg,{x0,x1,y0,y1,grid:false});
+  if(close)el('polygon',{points:pts.map(p=>B.P(p[1]).join(',')).join(' '),fill:'rgba(43,68,160,.04)',stroke:'#172230','stroke-width':2},B.dl);
+  extra.forEach(f=>f(B));
+  const cx=xs.reduce((a,b)=>a+b)/xs.length,cy=ys.reduce((a,b)=>a+b)/ys.length;
+  pts.forEach(([n,p])=>{B.dot(p);lab(B,p,n,[cx,cy],18,20)});
+  return svg;
+}
+function boxFig(opt={}){
+  const svg=el('svg',{viewBox:'0 0 460 280',style:'max-width:480px;width:100%;display:block;margin:auto;background:#fff'});
+  const pr=(x,y,z)=>[48+x*46+y*24,240-z*44-y*15];
+  const a=6.2,b=3,h=3.6;
+  const P={A:pr(0,0,0),B:pr(a,0,0),C:pr(a,b,0),D:pr(0,b,0),"A'":pr(0,0,h),"B'":pr(a,0,h),"C'":pr(a,b,h),"D'":pr(0,b,h)};
+  const ln=(p,q,dash)=>el('line',{x1:P[p][0],y1:P[p][1],x2:P[q][0],y2:P[q][1],stroke:dash?'#9aa7bd':'#172230','stroke-width':dash?1.5:2,'stroke-dasharray':dash?'6 5':''},svg);
+  [['A','B'],['B','C'],["A'","B'"],["B'","C'"],["C'","D'"],["D'","A'"],['A',"A'"],['B',"B'"],['C',"C'"]].forEach(e=>ln(...e));
+  [['C','D'],['D','A'],['D',"D'"]].forEach(e=>ln(...e,true));
+  const off={A:[-14,12],B:[10,15],C:[17,6],D:[-17,-4],"A'":[-17,-6],"B'":[6,-14],"C'":[17,-8],"D'":[-6,-15]};
+  if(opt.mid){P.M=pr(a/2,0,0);P.N=pr(a/2,b,h);off.M=[0,17];off.N=[0,-15]}
+  for(const n in P){if(n==='M'||n==='N')el('circle',{cx:P[n][0],cy:P[n][1],r:4.5,fill:'#172230'},svg);
+    const t=el('text',{x:P[n][0]+off[n][0],y:P[n][1]+off[n][1],'font-size':19,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',fill:'#172230',direction:'ltr',stroke:'#fff','stroke-width':4,'paint-order':'stroke'},svg);t.textContent=n}
+  return svg;
+}
+
+const V=(t,c='')=>`<span class="v ${c}">${t}</span>`;
+const M=s=>`<span class="m">${s}</span>`;
+const EQ=(...a)=>M(a.join(' = '));
+const parFig=()=>figPoly([['A',[0,0]],['B',[7,1]],['C',[9,5]],['D',[2,4]]],{h:220});
+const hexPts=()=>{const out=[];'ABCDEF'.split('').forEach((n,i)=>{const a=(200-60*i)*Math.PI/180;out.push([n,[3*Math.cos(a),3*Math.sin(a)]])});return out};
+const GRID5=()=>figGrid([[[1,1],[4,3],'a'],[[5,5],[8,7],'b',COL.vec2],[[9,1],[12,4],'c',COL.eq],[[1,7],[4,5],'d',COL.dir],[[13,7],[10,5],'e',COL.len]]);
+
+const BASIC=[
+  {t:'mc',ask:'איזה מהגדלים הבאים הוא גודל וקטורי?',opts:['המסה של ספר','טמפרטורת המים','כוח שדוחף עגלה קדימה','אורך השיעור'],a:2,
+    exp:`לכוח יש גודל וגם כיוון. שאר הגדלים נקבעים על ידי מספר בלבד. גם טמפרטורה שלילית, למשל ${M('−5°')}, היא גודל סקלרי: המינוס הוא חלק מהמספר, ולא כיוון.`},
+  {t:'mc',fig:GRID5,ask:`בשרטוט כל משבצת היא יחידה אחת. איזה וקטור שווה ל־ ${V('a')}?`,opts:[V('b'),V('c'),V('d'),V('e')],a:0,
+    exp:`הווקטור ${V('b')} הולך 3 ימינה ו־ 2 למעלה, בדיוק כמו ${V('a')}: אותו אורך ואותו כיוון. הווקטור ${V('c')} עולה 3 משבצות, ולכן הוא לא מקביל ל־ ${V('a')}.`},
+  {t:'mc',fig:GRID5,ask:`באותו שרטוט. לאיזה וקטור יש כיוון מנוגד לכיוון של ${V('a')}?`,opts:[V('b'),V('c'),V('d'),V('e')],a:3,
+    exp:`הווקטור ${V('e')} הולך 3 שמאלה ו־ 2 למטה. הוא מקביל ל־ ${V('a')}, ומצביע לצד ההפוך.`},
+  {t:'mc',fig:GRID5,ask:`באותו שרטוט. לאיזה וקטור יש אותו אורך כמו ל־ ${V('a')}, אבל הוא לא מקביל לו?`,opts:[V('b'),V('c'),V('d'),V('e')],a:2,
+    exp:`הווקטור ${V('d')} הולך 3 ימינה ו־ 2 למטה. האורך שלו ${M('√13')}, כמו האורך של ${V('a')}, אבל הכיוון שונה.`},
+  {t:'tf',ask:EQ(V('AB'),V('BA')),a:false,exp:'לשני הווקטורים יש אותו אורך, אבל הכיוונים מנוגדים. לכן הם לא שווים.'},
+  {t:'tf',ask:`אם ${M('|'+V('u')+'| = |'+V('v')+'|')}, אז ${EQ(V('u'),V('v'))}.`,a:false,exp:'אורך שווה לא מספיק. כדי שהווקטורים יהיו שווים, צריך גם אותו כיוון.'},
+  {t:'tf',ask:'שני וקטורים שווים מונחים תמיד על ישרים מקבילים או על אותו ישר.',a:true,exp:'לווקטורים שווים יש אותו כיוון, ולכן הם מקבילים או מונחים על אותו ישר.'},
+  {t:'num',fig:()=>figGrid([[[2,1],[5,5],'w']],{x1:8,y1:6}),ask:`בשרטוט כל משבצת היא יחידה אחת. מהו האורך של הווקטור ${V('w')}?`,a:5,
+    exp:`הווקטור הולך 3 ימינה ו־ 4 למעלה. לפי משפט פיתגורס, האורך הוא ${M('√(9 + 16) = 5')}.`},
+  {t:'mc',fig:parFig,given:`נתונה מקבילית ${M('ABCD')}.`,ask:`איזה וקטור שווה ל־ ${V('CB')}?`,opts:[V('AD'),V('DA'),V('BC'),V('CD')],a:1,
+    exp:`הצלע ${M('CB')} מקבילה לצלע ${M('DA')} ושווה לה, ושני הווקטורים מצביעים לאותו צד. לכן ${EQ(V('CB'),V('DA'))}.`},
+  {t:'mc',fig:()=>boxFig(),given:`נתונה תיבה ${M("ABCDA'B'C'D'")}.`,ask:`איזה וקטור שווה ל־ ${V("AA'")}?`,opts:[V("CC'"),V("C'C"),V("A'A"),V('AD')],a:0,
+    exp:`המקצועות הצדדיים של התיבה מקבילים ושווים. הווקטור ${V("CC'")} מצביע מהבסיס התחתון אל העליון, בדיוק כמו ${V("AA'")}.`},
+];
+
+const ADV=[
+  {t:'num',fig:()=>figPoly(hexPts(),{extra:[B=>{B.dot([0,0]);B.text(B.X(0)+16,B.Y(0)+14,'O',{size:19})}],h:240}),
+    given:`נתון משושה משוכלל ${M('ABCDEF')} שמרכזו ${M('O')}.`,
+    ask:`הזנב והראש של כל וקטור הם מבין הנקודות ${M('A, B, C, D, E, F, O')}. כמה וקטורים, חוץ מ־ ${V('OA')} עצמו, שווים ל־ ${V('OA')}?`,a:3,
+    hint:`המשושה מורכב משישה משולשים שווי-צלעות סביב ${M('O')}. חפשו קטעים שמקבילים ל־ ${M('OA')} ושאורכם שווה לצלע המשושה, ובדקו את הכיוון!`,
+    sol:[`הווקטור ${V('DO')}: הקטע ${M('DA')} עובר דרך ${M('O')}, והנקודה ${M('O')} היא אמצעו.`,
+         `הווקטור ${V('CB')}: המרובע ${M('OABC')} הוא מעוין, ולכן ${M('CB ∥ OA')} וגם ${M('CB = OA')}.`,
+         `הווקטור ${V('EF')}: גם המרובע ${M('OAFE')} הוא מעוין.`,
+         'סך הכול: 3 וקטורים.']},
+  {t:'num',fig:parFig,given:`נתונה מקבילית ${M('ABCD')}.`,ask:'כמה וקטורים <b>שונים</b> זה מזה אפשר ליצור, כשהזנב והראש הם שני קודקודים שונים של המקבילית?',a:8,
+    hint:'כמה זוגות סדורים של קודקודים יש? אילו מהם נותנים וקטורים שווים?',
+    sol:[`מספר הזוגות הסדורים של קודקודים: ${M('4 · 3 = 12')}.`,
+         'ארבעה זוגות של וקטורים שווים:',
+         EQ(V('AB'),V('DC')),EQ(V('BA'),V('CD')),EQ(V('AD'),V('BC')),EQ(V('DA'),V('CB')),
+         `לכן מספר הווקטורים השונים: ${M('12 − 4 = 8')}.`,
+         'וקטורי האלכסונים שונים מכל השאר.']},
+  {t:'proof',given:`נתונות ארבע נקודות ${M('A, B, C, D')} שלא נמצאות על ישר אחד, ונתון ש־ ${EQ(V('AB'),V('DC'))}.`,ask:`הוכיחו: המרובע ${M('ABCD')} הוא מקבילית.`,
+    hint:`מה אומר השוויון של שני וקטורים על הקטעים ${M('AB')} ו־ ${M('DC')}? היזכרו במשפט: מרובע שבו זוג צלעות נגדיות שוות ומקבילות הוא מקבילית.`,
+    sol:[`נתון: ${EQ(V('AB'),V('DC'))}.`,
+         `לכן ${M('AB = DC')}, כי לווקטורים שווים יש אורך שווה.`,
+         `וגם ${M('AB ∥ DC')}, כי לווקטורים שווים יש אותו כיוון (והנקודות לא על ישר אחד).`,
+         `במרובע ${M('ABCD')} יש זוג צלעות נגדיות שוות ומקבילות, ולכן הוא מקבילית.`,
+         `הערה: הכיוון המשותף מבטיח ש־ ${M('AB')} ו־ ${M('DC')} הן צלעות נגדיות במרובע, ולא אלכסונים.`]},
+  {t:'mc',given:`נתונות ארבע נקודות ${M('A, B, C, D')} שלא נמצאות על ישר אחד, ונתון ש־ ${EQ(V('AB'),V('CD'))}.`,ask:'איזה מהמרובעים הבאים הוא בהכרח מקבילית?',opts:[M('ABCD'),M('ABDC'),M('ACDB'),M('ADBC')],a:1,
+    hint:`במקבילית ${M('PQRS')} מתקיים ${EQ(V('PQ'),V('SR'))}. נסו להתאים את השוויון ${EQ(V('AB'),V('CD'))} לתבנית הזו.`,
+    exp:`במרובע ${M('ABDC')} השוויון ${EQ(V('AB'),V('CD'))} מתאים בדיוק לתבנית ${EQ(V('PQ'),V('SR'))}, כאשר ${M('P = A, Q = B, R = D, S = C')}. לעומת זאת, במרובע ${M('ABCD')} הווקטורים ${V('AB')} ו־ ${V('CD')} היו צריכים להיות בכיוונים מנוגדים.`},
+  {t:'mc',given:`במרובע ${M('ABCD')} מתקיים ${EQ(V('AB'),V('DC'))}, וגם ${M('|'+V('AB')+'| = |'+V('BC')+'|')}.`,ask:`מהו המרובע ${M('ABCD')} בהכרח?`,opts:['מלבן','מעוין','ריבוע','טרפז שאינו מקבילית'],a:1,
+    hint:'מהשוויון הראשון כבר יודעים שזו מקבילית (ראו את השאלה הקודמת). מה אומר השוויון של האורכים?',
+    exp:'מהשוויון של הווקטורים: המרובע הוא מקבילית. מהשוויון של האורכים: יש בו שתי צלעות סמוכות שוות. מקבילית עם צלעות סמוכות שוות היא מעוין. אין סיבה שהזוויות יהיו ישרות, ולכן הוא לא בהכרח ריבוע.'},
+  {t:'tf',fig:()=>boxFig({mid:true}),given:`נתונה תיבה ${M("ABCDA'B'C'D'")}. הנקודה ${M('M')} היא אמצע ${M('AB')}, והנקודה ${M('N')} היא אמצע ${M("D'C'")}.`,ask:EQ(V('AM'),V("NC'")),a:true,
+    hint:`שימו לב: ${EQ(V("D'C'"),V('AB'))} (למה?). מה קורה כשלוקחים חצי מכל אחד מהם?`,
+    exp:`מתקיים ${EQ(V("D'C'"),V('DC'),V('AB'))}. הווקטורים ${V('AM')} ו־ ${V("NC'")} הם חצאים שלהם, באותו כיוון, ולכן הם שווים.`},
+  {t:'num',fig:()=>boxFig(),given:`נתונה תיבה ${M("ABCDA'B'C'D'")} שבה ${M('AB = 4')}, ${M('BC = 3')}, ${M("AA' = 12")}.`,ask:`מהו האורך ${M('|'+V("AC'")+'|')}?`,a:13,
+    hint:`חשבו קודם את אלכסון הבסיס ${M('AC')}, ואז השתמשו במשולש ישר-הזווית ${M("ACC'")}.`,
+    sol:[`במשולש ${M('ABC')} הזווית ${M('B')} ישרה:`,M('AC² = 4² + 3² = 25'),M('AC = 5'),
+         `במשולש ${M("ACC'")} הזווית ${M('C')} ישרה, כי ${M("CC'")} מאונך לבסיס:`,M("AC'² = 5² + 12² = 169"),M("|AC'| = 13")]},
+];
+
+function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
+  let score=0,done=0;const tot=list.length;document.getElementById(totId).textContent=tot;
+  const endBox=document.createElement('div');endBox.className='endbox';
+  const upd=()=>{document.getElementById(scId).textContent=fmt(score,1);document.getElementById(doneId).textContent=`נענו ${done} מתוך ${tot}`;
+    if(done===tot&&!endBox.dataset.shown){endBox.dataset.shown=1;endBox.innerHTML=`<div class="big">🎉 סיימתם את כל השאלות — כל הכבוד!</div><div>הניקוד שלכם: <b>${fmt(score,1)}</b> מתוך <b>${tot}</b>.</div>`+endHTML;root.after(endBox);
+      setTimeout(()=>endBox.scrollIntoView({behavior:'smooth',block:'center'}),400)}};
+  list.forEach((q,i)=>{
+    const d=document.createElement('div');d.className='q';
+    const tag={mc:'בחירה',tf:'נכון / לא נכון',num:'תשובה פתוחה',proof:'הוכחה'}[q.t];
+    d.innerHTML=`<div class="qh"><span class="qn">${i+1}.</span><span class="tag">${tag}</span></div>`+
+      (q.given?`<div class="given">${q.given}</div>`:'')+`<div class="figslot"></div><div class="ask">${q.t==='tf'?'האם הטענה נכונה? ':''}${q.ask}</div>`;
+    if(q.fig){const f=document.createElement('figure');f.appendChild(q.fig());d.querySelector('.figslot').appendChild(f)}
+    let tries=0,solved=false;
+    const fb=document.createElement('div');fb.className='fb';
+    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd()}tries++;
+      CourseAPI.log({ev:'q',sec,q:i+1,ok,attempt:tries,score:fmt(score,1),done,tot});if(ok&&done===tot&&sec==='adv')CourseAPI.log({ev:'done'})};
+    if(q.t==='mc'||q.t==='tf'){
+      const opts=q.t==='tf'?['נכון','לא נכון']:q.opts;const ans=q.t==='tf'?(q.a?0:1):q.a;
+      const o=document.createElement('div');o.className='opts';o.innerHTML=opts.map((t,j)=>`<button data-j="${j}">${t}</button>`).join('');d.appendChild(o);
+      o.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||solved||b.disabled)return;const j=+b.dataset.j;
+        if(j===ans){b.classList.add('ok');finish(true);o.querySelectorAll('button').forEach(x=>x.disabled=true);fb.className='fb ok';fb.innerHTML='✔ נכון! '+(q.exp||'')}
+        else{b.classList.add('no');b.disabled=true;finish(false);fb.className='fb no';fb.innerHTML='✘ לא נכון — נסו שוב.'}});
+    }else if(q.t==='num'){
+      const r=document.createElement('div');r.className='row';r.innerHTML=`תשובה: <input class="num" inputmode="decimal"> <button class="b pri">בדיקה</button>`;d.appendChild(r);
+      const inp=r.querySelector('input');const chk=()=>{if(solved)return;const v=parseFloat(inp.value.replace(',','.'));if(isNaN(v)){fb.className='fb no';fb.textContent='כתבו מספר.';return}
+        if(Math.abs(v-q.a)<1e-6){finish(true);inp.disabled=true;fb.className='fb ok';fb.innerHTML='✔ נכון!'+(q.exp?' '+q.exp:'')}else{finish(false);fb.className='fb no';fb.innerHTML='✘ לא נכון — נסו שוב.'}};
+      r.querySelector('button').onclick=chk;inp.addEventListener('keydown',e=>{if(e.key==='Enter')chk()});
+    }else if(q.t==='proof'){
+      const r=document.createElement('div');r.className='row';r.innerHTML=`<button class="b">כתבתי הוכחה במחברת ✓</button>`;d.appendChild(r);
+      r.querySelector('button').onclick=e=>{if(solved)return;finish(true);e.target.disabled=true;fb.className='fb ok';fb.textContent='כל הכבוד! השוו להוכחה המלאה.'};
+    }
+    d.appendChild(fb);
+    if(q.hint||q.sol){const tl=document.createElement('div');tl.className='tools';
+      if(q.hint)tl.innerHTML+=`<button class="b" data-x="hint">💡 רמז</button>`;
+      if(q.sol)tl.innerHTML+=`<button class="b" data-x="sol">הצגת פתרון</button>`;
+      d.appendChild(tl);
+      const hn=document.createElement('div');hn.className='hint';hn.innerHTML=q.hint||'';d.appendChild(hn);
+      const sn=document.createElement('div');sn.className='sol';sn.innerHTML=(q.sol||[]).map(l=>`<span class="ln">${l}</span>`).join('');d.appendChild(sn);
+      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
+    }
+    root.appendChild(d);
+  });
+  upd();
+}
+
+mountPractice(BASIC,document.getElementById('basicQ'),'scB','totB','doneB',`<button class="b pri" onclick="show(10)">לתרגול המתקדם ←</button>`,'basic');
+mountPractice(ADV,document.getElementById('advQ'),'scA','totA','doneA',`<div style="margin-top:6px">סיימתם את שיעור 1! 🙌</div><a class="b pri" style="display:inline-block;text-decoration:none;margin-top:10px" href="index.html">חזרה לדף הקורס</a>`,'adv');
+CourseAPI.start(1,prog=>{
+  if(prog){maxSeen=Math.max(maxSeen,Math.min(N-1,(prog.max||1)-1));(prog.passed||[]).forEach(n=>{passed.add(n-1);if(SOLVERS[n-1])SOLVERS[n-1]()});save()}
+  show(cur);
+});
+</script>
+</body>
+</html>

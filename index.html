@@ -1,76 +1,51 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>קורס וקטורים – יב 5</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>וקטורים · יב׳ 5 יח״ל</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "Rubik", "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(160deg, #eef3fb 0%, #f8fafc 100%);
-    color: #1e293b;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  .card {
-    background: #fff;
-    max-width: 560px;
-    width: 100%;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(30, 41, 59, 0.08);
-    padding: 44px 36px;
-    text-align: center;
-  }
-  .arrow {
-    width: 120px;
-    height: 70px;
-    margin: 0 auto 24px;
-    display: block;
-  }
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 8px;
-  }
-  .sub {
-    font-size: 1.15rem;
-    color: #475569;
-    margin-bottom: 28px;
-  }
-  .status {
-    display: inline-block;
-    background: #e0ecff;
-    color: #1d4ed8;
-    padding: 10px 20px;
-    border-radius: 999px;
-    font-size: 1rem;
-  }
-  footer {
-    margin-top: 32px;
-    font-size: 0.9rem;
-    color: #94a3b8;
-  }
-</style>
-</head>
+body{margin:0;font-family:Rubik,system-ui,sans-serif;background:#F4F6FA;color:#172230;line-height:1.8}
+.credit{background:#172230;color:#fff;text-align:center;font-size:14px;padding:6px}
+header{background:#fff;border-bottom:3px solid #2B44A0;padding:26px 20px;text-align:center}
+header h1{margin:0;font-size:32px}header p{margin:4px 0 0;color:#5b6575}
+main{max-width:860px;margin:0 auto;padding:20px 16px 50px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+a.l,div.l{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #dde3ec;border-radius:14px;padding:14px 16px}
+a.l:hover{border-color:#2B44A0;box-shadow:0 3px 10px rgba(43,68,160,.12)}
+.l .n{font-size:13px;color:#2B44A0;font-weight:600}.l .t{font-size:18px;font-weight:600}.l .d{font-size:14px;color:#5b6575}
+div.l{opacity:.55}.soon{font-size:12px;background:#EEF2F8;border-radius:10px;padding:1px 8px;margin-right:6px}
+h2{font-size:18px;color:#2B44A0;margin:26px 0 10px}
+footer{text-align:center;color:#8A96A5;font-size:13px;padding:20px}
+</style></head>
 <body>
-  <main class="card">
-    <svg class="arrow" viewBox="0 0 120 70" aria-hidden="true">
-      <defs>
-        <marker id="head" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-          <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
-        </marker>
-      </defs>
-      <circle cx="14" cy="58" r="4" fill="#2563eb"/>
-      <line x1="14" y1="58" x2="104" y2="14" stroke="#2563eb" stroke-width="4"
-            stroke-linecap="round" marker-end="url(#head)"/>
-    </svg>
-    <h1>קורס וקטורים</h1>
-    <p class="sub">מתמטיקה 5 יחידות – כיתה יב</p>
-    <span class="status">השיעור הראשון יעלה בקרוב</span>
-    <footer>אמתי · מתמטיקה</footer>
-  </main>
-</body>
-</html>
+<div class="credit">פותח על ידי אמתי צוברי · © כל הזכויות שמורות</div>
+<header><h1>וקטורים</h1><p>כיתה יב׳ · 5 יח״ל · קורס בלמידה חצי-עצמאית</p></header>
+<main>
+<h2>וקטורים בגישה גאומטרית</h2>
+<div class="grid" id="g1"></div>
+<h2>הצגה אלגברית ויישומים במרחב</h2>
+<div class="grid" id="g2"></div>
+</main>
+<footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות</footer>
+<script>
+const L=[
+ [1,'מהו וקטור?','גודל וכיוון, קטע מכוון, שוויון וקטורים','lesson-1.html'],
+ [2,'חיבור, חיסור וכפל בסקלר','הפעולות והחוקים שלהן'],
+ [3,'צירוף לינארי','הבעת וקטורים בעזרת וקטורים אחרים'],
+ [4,'תלות לינארית','על ישר, במישור ובמרחב'],
+ [5,'יחידות ההצגה','יחסי קטעים והוכחות'],
+ [6,'מכפלה סקלרית','זוויות ואורכים'],
+ [7,'הוכחות בעזרת מכפלה סקלרית','ניצבות ומשפט שלושת האנכים'],
+ [8,'מערכת צירים במרחב','הצגה אלגברית של וקטורים'],
+ [9,'ישרים במרחב','הצגה פרמטרית ומצב הדדי'],
+ [10,'מישורים','הצגה פרמטרית, משוואה ומצבים הדדיים'],
+ [11,'מרחקים במרחב','נקודה, ישר ומישור'],
+ [12,'זוויות במרחב','בכלים טריגונומטריים ובכלים וקטוריים'],
+ [13,'יישומים בגופים','גליל, חרוט, כדור, שטחים ונפחים'],
+];
+L.forEach(([n,t,d,h])=>{const g=document.getElementById(n<=7?'g1':'g2');
+ g.innerHTML+=h?`<a class="l" href="${h}"><div class="n">שיעור ${n}</div><div class="t">${t}</div><div class="d">${d}</div></a>`
+ :`<div class="l"><div class="n">שיעור ${n}<span class="soon">בקרוב</span></div><div class="t">${t}</div><div class="d">${d}</div></div>`});
+</script>
+</body></html>
