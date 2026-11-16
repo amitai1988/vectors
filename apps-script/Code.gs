@@ -101,7 +101,7 @@ function doGet(e) {
       .map(r => ({ lesson: Number(r[2]), max: Number(r[4]) || 0, passed: String(r[5] || '').split(',').filter(String).length,
         basic: r[6], basicDone: r[7], adv: r[8], advDone: r[9], done: r[10] === 'כן',
         last: r[11] instanceof Date ? r[11].toISOString() : r[11] }));
-    return out_({ ok: true, name: st.name, code: st.code, prog: prog, all: all });
+    return out_({ ok: true, name: st.name, code: st.code, prog: prog, all: all, resetAt: resetAt_(st.code) });
   }
   return out_({ ok: false, error: 'unknown action' });
 }
@@ -113,6 +113,7 @@ function doPost(e) {
   const events = Array.isArray(d.events) ? d.events : [d];
   const st = findStudent_(d.code);
   if (!st) return out_({ ok: false, error: 'bad code' });
+  const resetAt = resetAt_(st.code);
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
@@ -121,6 +122,7 @@ function doPost(e) {
     const kinds = { screen: 'מעבר מסך', check: 'בדיקת הבנה', sort: 'מיון', q: 'תרגול', done: 'סיום שיעור' };
     events.forEach(ev => {
       const t = ev.t ? new Date(ev.t) : new Date();
+      if (resetAt && t.getTime() < resetAt) return; // פעולות מלפני איפוס — לא נרשמות
       if (ev.ev !== 'screen') {
         log.appendRow([t, st.code, st.name, d.lesson, kinds[ev.ev] || ev.ev, ev.title || ev.screen || '',
           ev.q ? (ev.sec === 'adv' ? 'מתקדם ' : 'בסיסי ') + ev.q : '',
@@ -153,8 +155,31 @@ function doPost(e) {
 }
 
 /* נתונים לדף המורה */
+function resetAt_(code) {
+  return Number(PropertiesService.getScriptProperties().getProperty('reset_' + code) || 0);
+}
+
+/* איפוס ההתקדמות של תלמיד: מוחק את השורות שלו בשתי הלשוניות */
+function reset_(code) {
+  code = String(code || '').trim().toUpperCase();
+  if (!code) return out_({ ok: false, error: 'חסר קוד' });
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const ss = SpreadsheetApp.getActive();
+    [[SH_LOG, 1], [SH_PROG, 0]].forEach(([name, col]) => {
+      const sh = ss.getSheetByName(name); if (!sh) return;
+      const v = sh.getDataRange().getValues();
+      for (let i = v.length - 1; i >= 1; i--) if (String(v[i][col]).trim().toUpperCase() === code) sh.deleteRow(i + 1);
+    });
+    PropertiesService.getScriptProperties().setProperty('reset_' + code, String(Date.now()));
+  } finally { lock.releaseLock(); }
+  return out_({ ok: true });
+}
+
 function teacher_(p) {
   if (String(p.key || '') !== TEACHER_KEY) return out_({ ok: false, error: 'סיסמה שגויה' });
+  if (p.reset) return reset_(p.reset);
   const ss = SpreadsheetApp.getActive();
   const conv = r => r.map(x => x instanceof Date ? x.toISOString() : x);
   const rows = name => { const sh = ss.getSheetByName(name); return sh ? sh.getDataRange().getValues().slice(1).map(conv) : []; };

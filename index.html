@@ -113,15 +113,16 @@ const LIVE=CourseAPI.live;
 if(!LIVE)document.body.insertBefore(Object.assign(document.createElement('div'),{className:'prev',textContent:'מצב תצוגה מקדימה — אפשר להקליד כל קוד; ההתקדמות לא נשמרת בשרת'}),document.body.firstChild);
 
 // התקדמות מקומית (מהדפדפן) — גיבוי כשהשרת לא זמין
-function localProg(n){try{const s=JSON.parse(localStorage.getItem('vec-l'+n+'-progress')||'null');return s?{max:(s.max||0)+1,passed:(s.passed||[]).length}:null}catch(e){return null}}
+function localProg(n,code,resetAt){const k='vec-l'+n+'-progress-'+code;try{const s=JSON.parse(localStorage.getItem(k)||'null');if(!s)return null;
+  if(resetAt&&(s.t||0)<resetAt){localStorage.removeItem(k);return null}return {max:(s.max||0)+1,passed:(s.passed||[]).length}}catch(e){return null}}
 
 function showLogin(){ $('#me').style.display='none';$('#login').style.display='flex';setTimeout(()=>$('#code').focus(),50) }
-function showMe(st,all){
+function showMe(st,all,resetAt){
   $('#login').style.display='none';$('#me').style.display='block';
   $('#hello').textContent=`שלום, ${st.name} 👋`;
   const byL={};(all||[]).forEach(r=>byL[r.lesson]=r);
   // מיזוג עם ההתקדמות המקומית (למקרה שעוד לא נשלחה לשרת)
-  LESSONS.filter(l=>l.href).forEach(l=>{const lp=localProg(l.n);if(lp){const r=byL[l.n]=byL[l.n]||{lesson:l.n,max:0,passed:0};r.max=Math.max(r.max||0,lp.max);r.passed=Math.max(r.passed||0,lp.passed)}});
+  LESSONS.filter(l=>l.href).forEach(l=>{const lp=localProg(l.n,st.code,resetAt);if(lp){const r=byL[l.n]=byL[l.n]||{lesson:l.n,max:0,passed:0};r.max=Math.max(r.max||0,lp.max);r.passed=Math.max(r.passed||0,lp.passed)}});
   const open=LESSONS.filter(l=>l.href);
   const pct=l=>{const r=byL[l.n];return r?Math.min(100,Math.round((r.max||0)/l.screens*100)):0};
   // לאן להמשיך: השיעור הפתוח הראשון שלא הסתיים
@@ -154,7 +155,7 @@ async function enter(code){
     if(!j.ok){err.textContent='הקוד לא נמצא. בדקו אותו ונסו שוב.';$('#go').disabled=false;return}
     const st={code:j.code,name:j.name};CourseAPI.setStudent(st);
     if(!j.all){$('#note').textContent='(ההתקדמות מהשרת תופיע כאן אחרי עדכון השרת)'}
-    showMe(st,j.all||[]);
+    showMe(st,j.all||[],j.resetAt);
   }catch(e){err.textContent='אין חיבור לשרת. בדקו את החיבור לאינטרנט ונסו שוב.'}
   $('#go').disabled=false;
 }
@@ -165,7 +166,7 @@ $('#logout').onclick=()=>{CourseAPI.logout();$('#code').value='';showLogin()};
 const saved=CourseAPI.student;
 if(saved){
   showMe(saved,[]); // מציג מיד מההתקדמות המקומית, ואז מתעדכן מהשרת
-  if(LIVE)CourseAPI.loginFull(saved.code).then(j=>{if(j.ok)showMe(saved,j.all||[]);else{CourseAPI.logout();showLogin()}}).catch(()=>{$('#note').textContent='אין חיבור לשרת — מוצגת ההתקדמות השמורה במכשיר.'});
+  if(LIVE)CourseAPI.loginFull(saved.code).then(j=>{if(j.ok)showMe(saved,j.all||[],j.resetAt);else{CourseAPI.logout();showLogin()}}).catch(()=>{$('#note').textContent='אין חיבור לשרת — מוצגת ההתקדמות השמורה במכשיר.'});
 }else showLogin();
 </script>
 </body></html>

@@ -25,12 +25,16 @@
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   async function send() {
-    if (!LIVE || sending || !queue.length || !student) return;
+    if (!LIVE || sending || !queue.length) return;
     sending = true;
-    const batch = queue.slice(0, 40);
+    // כל אירוע נשלח עם הקוד של התלמיד שעשה אותו (גם אם בינתיים נכנס תלמיד אחר)
+    const c = queue[0].c || (student && student.code), L = queue[0].l || lesson;
+    if (!c) { sending = false; return; }
+    let k = 0; while (k < queue.length && k < 40 && (queue[k].c || c) === c && (queue[k].l || lesson) === L) k++;
+    const batch = queue.slice(0, k);
     try {
       const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ code: student.code, lesson, events: batch }) });
+        body: JSON.stringify({ code: c, lesson: L, events: batch }) });
       const j = await r.json();
       if (j.ok) { queue = queue.slice(batch.length); saveQ(); }
     } catch (e) { /* ננסה שוב בהמשך */ }
@@ -39,7 +43,8 @@
   }
   function log(ev) {
     if (!LIVE) return;
-    ev.t = new Date().toISOString(); queue.push(ev); saveQ();
+    if (!student) return;
+    ev.t = new Date().toISOString(); ev.c = student.code; ev.l = lesson; queue.push(ev); saveQ();
     clearTimeout(log._t); log._t = setTimeout(send, 600);
   }
   window.addEventListener('online', send);
@@ -68,7 +73,7 @@
         const j = await login(code);
         if (!j.ok) { err.textContent = 'הקוד לא נמצא. בדקו אותו ונסו שוב.'; btn.disabled = false; return; }
         student = { code: j.code, name: j.name }; try { localStorage.setItem(SKEY, JSON.stringify(student)); } catch (e) {}
-        ov.remove(); whoBadge(); done(j.prog);
+        ov.remove(); whoBadge(); done(j.prog, j.resetAt);
       } catch (e) { err.textContent = 'אין חיבור לשרת. בדקו את החיבור לאינטרנט ונסו שוב.'; btn.disabled = false; }
     };
     btn.onclick = go; inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
@@ -84,9 +89,9 @@
     whoBadge();
     // סנכרון התקדמות מהשרת (למשל אחרי מעבר מכשיר) — בלי לעכב את התלמיד יותר משלוש שניות
     let finished = false;
-    const fin = p => { if (finished) return; finished = true; cb(p); };
+    const fin = (p, r) => { if (finished) return; finished = true; cb(p, r); };
     setTimeout(() => fin(null), 3000);
-    login(student.code).then(j => { if (j && j.ok === false) { try { localStorage.removeItem(SKEY); } catch (e) {} location.reload(); return; } fin(j && j.prog); }).catch(() => fin(null));
+    login(student.code).then(j => { if (j && j.ok === false) { try { localStorage.removeItem(SKEY); } catch (e) {} location.reload(); return; } fin(j && j.prog, j && j.resetAt); }).catch(() => fin(null));
     send();
   }
   async function loginFull(code) {

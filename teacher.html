@@ -106,14 +106,14 @@ function render(){
     <div class="kpi"><div class="n">${avg(8)}</div><div class="t">ממוצע תרגול מתקדם (מתוך ${meta.adv})</div></div></div></section>`;
   // table
   h+=`<section><h2>התקדמות התלמידים</h2><div class="muted">לחיצה על שורה מציגה את כל הפעולות של התלמיד.</div><div class="tw"><table><thead><tr>
-    <th>שם</th><th>קוד</th><th>התקדמות במסכים</th><th>מסך אחרון</th><th>בדיקות הבנה</th><th>תרגול בסיסי</th><th>תרגול מתקדם</th><th>סיים</th><th>פעילות אחרונה</th></tr></thead><tbody>`;
+    <th>שם</th><th>קוד</th><th>התקדמות במסכים</th><th>מסך אחרון</th><th>בדיקות הבנה</th><th>תרגול בסיסי</th><th>תרגול מתקדם</th><th>סיים</th><th>פעילות אחרונה</th><th></th></tr></thead><tbody>`;
   studs.forEach(s=>{const p=prog[s.code];
-    if(!p){h+=`<tr><td><b>${esc(s.name)}</b></td><td>${esc(s.code)}</td><td colspan="7"><span class="pill none">עוד לא נכנס לשיעור</span></td></tr>`;return}
+    if(!p){h+=`<tr><td><b>${esc(s.name)}</b></td><td>${esc(s.code)}</td><td colspan="8"><span class="pill none">עוד לא נכנס לשיעור</span></td></tr>`;return}
     const mx=Number(p[4])||0,chk=String(p[5]||'').split(',').filter(String).length;
     h+=`<tr class="click" data-c="${esc(s.code)}"><td><b>${esc(s.name)}</b></td><td>${esc(s.code)}</td>
       <td><div class="prog"><div class="b"><i style="width:${Math.round(mx/meta.screens*100)}%"></i></div><span dir="ltr">${mx} / ${meta.screens}</span></div></td>
       <td>${esc(p[3])}</td><td>${pill(chk,meta.checks)}</td><td>${pill(p[6],meta.basic)} <span class="muted">${esc(p[7])}</span></td>
-      <td>${pill(p[8],meta.adv)} <span class="muted">${esc(p[9])}</span></td><td>${p[10]==='כן'?'✅':''}</td><td>${ago(p[11])}</td></tr>`});
+      <td>${pill(p[8],meta.adv)} <span class="muted">${esc(p[9])}</span></td><td>${p[10]==='כן'?'✅':''}</td><td>${ago(p[11])}</td><td><button class="g rst" data-r="${esc(s.code)}" title="מחיקת כל ההתקדמות של התלמיד/ה">איפוס</button></td></tr>`});
   h+=`</tbody></table></div><div id="detail"></div></section>`;
   // hard items: first attempts
   const items={};
@@ -130,7 +130,16 @@ function render(){
       <div><div class="bar2"><i style="width:${pct}%;background:${col}"></i></div><div class="muted">${pct}% (${it.ok} מתוך ${it.n})</div></div></div>`});
   h+='</div></section>';
   $('#main').innerHTML=h;
-  document.querySelectorAll('tr.click').forEach(tr=>tr.onclick=()=>detail(tr.dataset.c,log));
+  document.querySelectorAll('tr.click').forEach(tr=>tr.onclick=e=>{if(e.target.closest('.rst'))return;detail(tr.dataset.c,log)});
+  document.querySelectorAll('.rst').forEach(b=>b.onclick=async e=>{e.stopPropagation();
+    if(!b.dataset.sure){b.dataset.sure=1;b.textContent='בטוח? לחצו שוב';b.style.cssText='background:#c92a2a;color:#fff;border-color:#c92a2a';
+      setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent='איפוס';b.style.cssText=''}},4000);return}
+    if(!CourseAPI.live){$('#err').textContent='בתצוגה המקדימה אי אפשר לאפס';return}
+    b.disabled=true;b.textContent='מאפס...';
+    try{const r=await fetch(`${CourseAPI.url}?action=teacher&key=${encodeURIComponent($('#key').value.trim())}&reset=${encodeURIComponent(b.dataset.r)}`);const j=await r.json();
+      if(j.ok&&j.students){$('#err').textContent='צריך לעדכן את הקוד ב־ Apps Script (גרסה חדשה) כדי שהאיפוס יעבוד';b.disabled=false;b.textContent='איפוס'}
+      else if(j.ok)load();else{$('#err').textContent=j.error==='פעולה לא מוכרת'?'צריך לעדכן את הקוד ב־ Apps Script':(j.error||'שגיאה');b.disabled=false;b.textContent='איפוס'}}
+    catch(err){$('#err').textContent='אין חיבור לשרת';b.disabled=false;b.textContent='איפוס'}});
 }
 function detail(code,log){
   const rows=log.filter(r=>String(r[1]).toUpperCase()===code);const s=DATA.students.find(x=>x.code===code);

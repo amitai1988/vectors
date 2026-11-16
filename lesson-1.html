@@ -609,10 +609,13 @@ const CHECKS={
   7:{q:`בתיבה <span class="m">ABCDA'B'C'D'</span>, איזה וקטור שווה ל־ ${vecHTML("BB'",'')}?`,o:[vecHTML("DD'",''),vecHTML("D'D",''),vecHTML("B'B",''),vecHTML('BC','')],a:0,ok:'נכון! המקצועות הצדדיים מקבילים ושווים, ושניהם מצביעים מהבסיס התחתון אל העליון.'},
 };
 const screens=[...document.querySelectorAll('.screen')],N=screens.length;
-const KEY='vec-l1-progress';
-let cur=0,maxSeen=0,passed=new Set(),hadLocal=false;
-try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){hadLocal=true;cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[])}}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed]}))}catch(e){}};
+// ההתקדמות נשמרת בנפרד לכל תלמיד (חשוב במכשיר משותף)
+const keyFor=()=>'vec-l1-progress-'+((CourseAPI.student&&CourseAPI.student.code)||'guest');
+let KEY=keyFor();
+let cur=0,maxSeen=0,passed=new Set(),hadLocal=false,localT=0;
+function loadLocal(){cur=0;maxSeen=0;passed=new Set();hadLocal=false;localT=0;
+  try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){hadLocal=true;localT=s.t||0;cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[])}}catch(e){}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed],t:Date.now()}))}catch(e){}};
 const gated=i=>CHECKS[i]||screens[i].dataset.gate;
 function markPassed(i){passed.add(i);save();if(i===cur)updNav()}
 const SOLVERS={};
@@ -804,9 +807,13 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
 
 mountPractice(BASIC,document.getElementById('basicQ'),'scB','totB','doneB',`<button class="b pri" onclick="show(10)">לתרגול המתקדם ←</button>`,'basic');
 mountPractice(ADV,document.getElementById('advQ'),'scA','totA','doneA',`<div style="margin-top:6px">סיימתם את שיעור 1! 🙌</div><a class="b pri" style="display:inline-block;text-decoration:none;margin-top:10px" href="index.html">חזרה לדף האישי</a>`,'adv');
-CourseAPI.start(1,prog=>{
-  if(prog){maxSeen=Math.max(maxSeen,Math.min(N-1,(prog.max||1)-1));(prog.passed||[]).forEach(n=>{passed.add(n-1);if(SOLVERS[n-1])SOLVERS[n-1]()});if(!hadLocal)cur=maxSeen;save()}
-  show(cur);
+CourseAPI.start(1,(prog,resetAt)=>{
+  KEY=keyFor();loadLocal();
+  // המורה איפס/ה את ההתקדמות — מוחקים גם את מה שנשמר במכשיר
+  if(resetAt&&hadLocal&&localT<resetAt){try{localStorage.removeItem(KEY)}catch(e){}loadLocal()}
+  if(prog){maxSeen=Math.max(maxSeen,Math.min(N-1,(prog.max||1)-1));(prog.passed||[]).forEach(n=>passed.add(n-1));if(!hadLocal)cur=maxSeen}
+  passed.forEach(i=>{if(SOLVERS[i])SOLVERS[i]()});
+  save();show(cur);
 });
 </script>
 </body>
