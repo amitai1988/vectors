@@ -4,7 +4,10 @@
   const API_URL = 'https://script.google.com/macros/s/AKfycbzVcIDpz17058Pm1e5Vd42DqXa-ZxtQoO6EtYverGJHDV7a7oVmRAMLJg6-BiNCeUh7/exec'; // ← כתובת אפליקציית האינטרנט של Apps Script
   const SKEY = 'vec-student', QKEY = 'vec-queue';
   const host = location.hostname;
-  const LIVE = !!API_URL && (host.endsWith('pages.dev') || host === 'localhost' || host === '127.0.0.1');
+  // תצוגה מקדימה למורה: ‎?preview=1‎ — רק בדפדפן שבו המורה כבר נכנס/ה לדף המורה
+  let tkey = null; try { tkey = localStorage.getItem('vec-tkey'); } catch (e) {}
+  const PREVIEW = new URLSearchParams(location.search).has('preview') && (!!tkey || !(host.endsWith('pages.dev')));
+  const LIVE = !PREVIEW && !!API_URL && (host.endsWith('pages.dev') || host === 'localhost' || host === '127.0.0.1');
   let student = null, lesson = 0, queue = [], sending = false;
   try { student = JSON.parse(localStorage.getItem(SKEY) || 'null'); queue = JSON.parse(localStorage.getItem(QKEY) || '[]'); } catch (e) {}
   const saveQ = () => { try { localStorage.setItem(QKEY, JSON.stringify(queue.slice(-300))); } catch (e) {} };
@@ -81,6 +84,11 @@
   }
   function start(lessonNo, cb) {
     lesson = lessonNo;
+    if (PREVIEW) {
+      const b = document.createElement('div'); b.className = 'cl-prev';
+      b.innerHTML = '👁 תצוגה מקדימה למורה — כל המסכים פתוחים ושום דבר לא נשמר · <a href="teacher.html" style="color:#8a6400">חזרה לדף המורה</a>';
+      document.body.prepend(b); cb(null); return;
+    }
     if (!LIVE) {
       const b = document.createElement('div'); b.className = 'cl-prev'; b.textContent = 'מצב תצוגה מקדימה — התשובות לא נשמרות';
       document.body.prepend(b); cb(null); return;
@@ -99,5 +107,5 @@
   }
   function setStudent(s) { student = s; try { localStorage.setItem(SKEY, JSON.stringify(s)); } catch (e) {} }
   function logout() { if (queue.length) send(); student = null; try { localStorage.removeItem(SKEY); } catch (e) {} }
-  window.CourseAPI = { start, log, url: API_URL, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send };
+  window.CourseAPI = { start, log, url: API_URL, preview: PREVIEW, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send };
 })();

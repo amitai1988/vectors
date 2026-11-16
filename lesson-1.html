@@ -610,13 +610,13 @@ const CHECKS={
 };
 const screens=[...document.querySelectorAll('.screen')],N=screens.length;
 // ההתקדמות נשמרת בנפרד לכל תלמיד (חשוב במכשיר משותף)
-const keyFor=()=>'vec-l1-progress-'+((CourseAPI.student&&CourseAPI.student.code)||'guest');
+const keyFor=()=>'vec-l1-progress-'+(CourseAPI.preview?'preview':((CourseAPI.student&&CourseAPI.student.code)||'guest'));
 let KEY=keyFor();
 let cur=0,maxSeen=0,passed=new Set(),hadLocal=false,localT=0;
 function loadLocal(){cur=0;maxSeen=0;passed=new Set();hadLocal=false;localT=0;
   try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){hadLocal=true;localT=s.t||0;cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[])}}catch(e){}}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed],t:Date.now()}))}catch(e){}};
-const gated=i=>CHECKS[i]||screens[i].dataset.gate;
+const gated=i=>!CourseAPI.preview&&(CHECKS[i]||screens[i].dataset.gate);
 function markPassed(i){passed.add(i);save();if(i===cur)updNav()}
 const SOLVERS={};
 // build check boxes
@@ -812,6 +812,7 @@ CourseAPI.start(1,(prog,resetAt)=>{
   // המורה איפס/ה את ההתקדמות — מוחקים גם את מה שנשמר במכשיר
   if(resetAt&&hadLocal&&localT<resetAt){try{localStorage.removeItem(KEY)}catch(e){}loadLocal()}
   if(prog){maxSeen=Math.max(maxSeen,Math.min(N-1,(prog.max||1)-1));(prog.passed||[]).forEach(n=>passed.add(n-1));if(!hadLocal)cur=maxSeen}
+  if(CourseAPI.preview)maxSeen=N-1;
   passed.forEach(i=>{if(SOLVERS[i])SOLVERS[i]()});
   save();show(cur);
 });
