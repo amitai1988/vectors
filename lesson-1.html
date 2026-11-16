@@ -133,7 +133,7 @@ a.home{color:var(--blue)}
 <body>
 <div class="credit">פותח על ידי אמתי צוברי · © כל הזכויות שמורות</div>
 <div class="topbar"><div class="wrap">
-  <div class="row1"><span class="ttl"><a href="index.html">וקטורים</a> · שיעור 1: מהו וקטור?</span><span class="cnt" id="cnt"></span></div>
+  <div class="row1"><span class="ttl"><a href="index.html">🏠 הדף שלי</a> · שיעור 1: מהו וקטור?</span><span class="cnt" id="cnt"></span></div>
   <div class="dots" id="dots"></div>
   <div id="who" style="text-align:left;line-height:1.4;margin-top:3px"></div>
 </div></div>
@@ -303,7 +303,7 @@ a.home{color:var(--blue)}
   <button class="b pri" id="next">הבא ←</button>
 </div>
 </main>
-<footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות · <a class="home" href="index.html">לדף הקורס</a></footer>
+<footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות · <a class="home" href="index.html">לדף האישי</a></footer>
 <script src="course-api.js"></script>
 <script>
 /* ================= helpers ================= */
@@ -610,8 +610,8 @@ const CHECKS={
 };
 const screens=[...document.querySelectorAll('.screen')],N=screens.length;
 const KEY='vec-l1-progress';
-let cur=0,maxSeen=0,passed=new Set();
-try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[])}}catch(e){}
+let cur=0,maxSeen=0,passed=new Set(),hadLocal=false;
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){hadLocal=true;cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[])}}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed]}))}catch(e){}};
 const gated=i=>CHECKS[i]||screens[i].dataset.gate;
 function markPassed(i){passed.add(i);save();if(i===cur)updNav()}
@@ -803,9 +803,9 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
 }
 
 mountPractice(BASIC,document.getElementById('basicQ'),'scB','totB','doneB',`<button class="b pri" onclick="show(10)">לתרגול המתקדם ←</button>`,'basic');
-mountPractice(ADV,document.getElementById('advQ'),'scA','totA','doneA',`<div style="margin-top:6px">סיימתם את שיעור 1! 🙌</div><a class="b pri" style="display:inline-block;text-decoration:none;margin-top:10px" href="index.html">חזרה לדף הקורס</a>`,'adv');
+mountPractice(ADV,document.getElementById('advQ'),'scA','totA','doneA',`<div style="margin-top:6px">סיימתם את שיעור 1! 🙌</div><a class="b pri" style="display:inline-block;text-decoration:none;margin-top:10px" href="index.html">חזרה לדף האישי</a>`,'adv');
 CourseAPI.start(1,prog=>{
-  if(prog){maxSeen=Math.max(maxSeen,Math.min(N-1,(prog.max||1)-1));(prog.passed||[]).forEach(n=>{passed.add(n-1);if(SOLVERS[n-1])SOLVERS[n-1]()});save()}
+  if(prog){maxSeen=Math.max(maxSeen,Math.min(N-1,(prog.max||1)-1));(prog.passed||[]).forEach(n=>{passed.add(n-1);if(SOLVERS[n-1])SOLVERS[n-1]()});if(!hadLocal)cur=maxSeen;save()}
   show(cur);
 });
 </script>

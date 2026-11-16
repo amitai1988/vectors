@@ -7,7 +7,7 @@
  * הלשוניות "תשובות" ו"התקדמות" נוצרות אוטומטית.
  */
 // ↓↓↓ סיסמת המורה לדף המורה — שנו למשהו משלכם ↓↓↓
-const TEACHER_KEY = 'vec2026';
+const TEACHER_KEY = 'כתבו-כאן-את-הסיסמה';
 
 const SH_STUDENTS = 'תלמידים';
 const SH_LOG = 'תשובות';
@@ -95,7 +95,13 @@ function doGet(e) {
       const r = progRow_(SpreadsheetApp.getActive().getSheetByName(SH_PROG), st.code, p.lesson);
       if (r) prog = { max: Number(r.vals[4]) || 0, passed: String(r.vals[5] || '').split(',').filter(String).map(Number) };
     }
-    return out_({ ok: true, name: st.name, code: st.code, prog: prog });
+    // התקדמות בכל השיעורים — לדף האישי
+    const all = SpreadsheetApp.getActive().getSheetByName(SH_PROG).getDataRange().getValues().slice(1)
+      .filter(r => String(r[0]) === st.code)
+      .map(r => ({ lesson: Number(r[2]), max: Number(r[4]) || 0, passed: String(r[5] || '').split(',').filter(String).length,
+        basic: r[6], basicDone: r[7], adv: r[8], advDone: r[9], done: r[10] === 'כן',
+        last: r[11] instanceof Date ? r[11].toISOString() : r[11] }));
+    return out_({ ok: true, name: st.name, code: st.code, prog: prog, all: all });
   }
   return out_({ ok: false, error: 'unknown action' });
 }

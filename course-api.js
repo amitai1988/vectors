@@ -89,5 +89,10 @@
     login(student.code).then(j => { if (j && j.ok === false) { try { localStorage.removeItem(SKEY); } catch (e) {} location.reload(); return; } fin(j && j.prog); }).catch(() => fin(null));
     send();
   }
-  window.CourseAPI = { start, log, url: API_URL, get live() { return LIVE; } };
+  async function loginFull(code) {
+    const r = await fetch(`${API_URL}?action=login&code=${encodeURIComponent(code)}`); return r.json();
+  }
+  function setStudent(s) { student = s; try { localStorage.setItem(SKEY, JSON.stringify(s)); } catch (e) {} }
+  function logout() { if (queue.length) send(); student = null; try { localStorage.removeItem(SKEY); } catch (e) {} }
+  window.CourseAPI = { start, log, url: API_URL, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send };
 })();

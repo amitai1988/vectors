@@ -5,47 +5,167 @@
 <title>וקטורים · יב׳ 5 יח״ל</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Rubik,system-ui,sans-serif;background:#F4F6FA;color:#172230;line-height:1.8}
-.credit{background:#172230;color:#fff;text-align:center;font-size:14px;padding:6px}
-header{background:#fff;border-bottom:3px solid #2B44A0;padding:26px 20px;text-align:center}
-header h1{margin:0;font-size:32px}header p{margin:4px 0 0;color:#5b6575}
-main{max-width:860px;margin:0 auto;padding:20px 16px 50px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-a.l,div.l{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #dde3ec;border-radius:14px;padding:14px 16px}
-a.l:hover{border-color:#2B44A0;box-shadow:0 3px 10px rgba(43,68,160,.12)}
-.l .n{font-size:13px;color:#2B44A0;font-weight:600}.l .t{font-size:18px;font-weight:600}.l .d{font-size:14px;color:#5b6575}
-div.l{opacity:.55}.soon{font-size:12px;background:#EEF2F8;border-radius:10px;padding:1px 8px;margin-right:6px}
-h2{font-size:18px;color:#2B44A0;margin:26px 0 10px}
-footer{text-align:center;color:#8A96A5;font-size:13px;padding:20px}
+:root{--navy:#172230;--blue:#2B44A0;--blue-l:#EEF2F8;--gray:#8A96A5;--bg:#F4F6FA;--eq:#16935a;--bad:#c92a2a}
+*{box-sizing:border-box}
+body{margin:0;font-family:Rubik,system-ui,sans-serif;background:var(--bg);color:var(--navy);line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+.credit{background:var(--navy);color:#fff;text-align:center;font-size:13.5px;padding:5px}
+main{flex:1;width:100%;max-width:820px;margin:0 auto;padding:18px 14px 40px}
+footer{text-align:center;color:var(--gray);font-size:13px;padding:14px}
+button,input{font:inherit}
+.btn{display:inline-block;border:0;background:var(--blue);color:#fff;border-radius:10px;padding:10px 20px;font-size:17px;cursor:pointer;text-decoration:none;text-align:center}
+.btn.g{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+.btn:disabled{opacity:.5}
+/* login */
+#login{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:70vh}
+.hero{text-align:center;margin-bottom:18px}
+.hero svg{width:110px;height:70px}
+.hero h1{margin:4px 0 0;font-size:34px}
+.hero p{margin:2px 0;color:#5b6575}
+.box{background:#fff;border:1px solid #dde3ec;border-radius:18px;padding:24px 22px;width:100%;max-width:380px;text-align:center;box-shadow:0 6px 24px rgba(23,34,48,.07)}
+.box label{display:block;font-weight:600;margin-bottom:6px}
+.box input{width:100%;font-size:26px;text-align:center;letter-spacing:4px;padding:10px;border:2px solid #b9c4d6;border-radius:12px;direction:ltr;text-transform:uppercase}
+.box input:focus{outline:none;border-color:var(--blue)}
+.box .btn{width:100%;margin-top:12px}
+.err{color:var(--bad);min-height:26px;margin-top:6px;font-size:15px}
+.teach{margin-top:18px;font-size:15px}
+.teach a{color:var(--blue)}
+/* personal */
+#me{display:none}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.top h1{margin:0;font-size:26px}
+.top .out{font-size:14px;color:var(--gray)}
+.top .out a{color:var(--blue);cursor:pointer;text-decoration:underline}
+.cont{background:linear-gradient(135deg,#2B44A0,#3f5bc7);color:#fff;border-radius:18px;padding:20px 22px;margin-bottom:16px}
+.cont .k{font-size:14px;opacity:.85}.cont .t{font-size:23px;font-weight:700;margin:2px 0 8px}
+.cont .pb{height:10px;background:rgba(255,255,255,.25);border-radius:5px;overflow:hidden;margin:6px 0 4px}
+.cont .pb i{display:block;height:100%;background:#FFD43B}
+.cont .s{font-size:14px;opacity:.9}
+.cont .btn{background:#FFD43B;color:var(--navy);font-weight:700;margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat{background:#fff;border:1px solid #dde3ec;border-radius:14px;padding:10px 12px;text-align:center}
+.stat .n{font-size:24px;font-weight:700;color:var(--blue)}.stat .l{font-size:13px;color:#5b6575}
+h2{font-size:18px;color:var(--blue);margin:20px 0 8px}
+.lessons{display:grid;gap:8px}
+.ls{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;background:#fff;border:1px solid #dde3ec;border-radius:14px;padding:10px 14px;text-decoration:none;color:inherit}
+a.ls:hover{border-color:var(--blue);box-shadow:0 3px 10px rgba(43,68,160,.1)}
+.ls .num{width:40px;height:40px;border-radius:50%;background:var(--blue-l);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700}
+.ls.done .num{background:#DDF2E3;color:var(--eq)}
+.ls.lock{opacity:.5}
+.ls .tt{font-weight:600}.ls .dd{font-size:13.5px;color:#5b6575}
+.ls .mini{height:6px;background:#e6eaf1;border-radius:3px;overflow:hidden;margin-top:4px;max-width:220px}
+.ls .mini i{display:block;height:100%;background:var(--blue)}
+.tag{font-size:12.5px;border-radius:10px;padding:1px 9px;white-space:nowrap;font-weight:600}
+.tag.ok{background:#DDF2E3;color:#1c6b3a}.tag.go{background:#FFF0C2;color:#8a6400}.tag.new{background:var(--blue-l);color:var(--blue)}.tag.soon{background:#eef0f4;color:#8A96A5}
+.note{font-size:13.5px;color:var(--gray);text-align:center;margin-top:10px}
+.prev{background:#FFF6DC;color:#8a6400;text-align:center;font-size:13.5px;padding:4px}
+@media(max-width:520px){.stats{grid-template-columns:1fr 1fr 1fr}.stat .n{font-size:20px}.cont .t{font-size:20px}}
 </style></head>
 <body>
 <div class="credit">פותח על ידי אמתי צוברי · © כל הזכויות שמורות</div>
-<header><h1>וקטורים</h1><p>כיתה יב׳ · 5 יח״ל · קורס בלמידה חצי-עצמאית</p></header>
 <main>
-<h2>וקטורים בגישה גאומטרית</h2>
-<div class="grid" id="g1"></div>
-<h2>הצגה אלגברית ויישומים במרחב</h2>
-<div class="grid" id="g2"></div>
+  <!-- כניסה -->
+  <section id="login">
+    <div class="hero">
+      <svg viewBox="0 0 110 70"><line x1="12" y1="58" x2="92" y2="14" stroke="#2B44A0" stroke-width="6" stroke-linecap="round"/><polygon points="102,8 80,12 92,30" fill="#2B44A0"/><circle cx="12" cy="58" r="6" fill="#172230"/></svg>
+      <h1>וקטורים</h1>
+      <p>כיתה יב׳ · 5 יח״ל</p>
+    </div>
+    <div class="box">
+      <label for="code">הקוד האישי שלי</label>
+      <input id="code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10">
+      <button class="btn" id="go">כניסה</button>
+      <div class="err" id="err"></div>
+    </div>
+    <div class="teach"><a href="teacher.html">כניסה לאזור המורה</a></div>
+  </section>
+
+  <!-- דף אישי -->
+  <section id="me">
+    <div class="top"><h1 id="hello"></h1><span class="out">לא את/ה? <a id="logout">יציאה</a></span></div>
+    <div class="cont" id="cont"></div>
+    <div class="stats" id="stats"></div>
+    <h2>השיעורים שלי</h2>
+    <div class="lessons" id="lessons"></div>
+    <div class="note" id="note"></div>
+  </section>
 </main>
 <footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות</footer>
+<script src="course-api.js"></script>
 <script>
-const L=[
- [1,'מהו וקטור?','גודל וכיוון, קטע מכוון, שוויון וקטורים','lesson-1.html'],
- [2,'חיבור, חיסור וכפל בסקלר','הפעולות והחוקים שלהן'],
- [3,'צירוף לינארי','הבעת וקטורים בעזרת וקטורים אחרים'],
- [4,'תלות לינארית','על ישר, במישור ובמרחב'],
- [5,'יחידות ההצגה','יחסי קטעים והוכחות'],
- [6,'מכפלה סקלרית','זוויות ואורכים'],
- [7,'הוכחות בעזרת מכפלה סקלרית','ניצבות ומשפט שלושת האנכים'],
- [8,'מערכת צירים במרחב','הצגה אלגברית של וקטורים'],
- [9,'ישרים במרחב','הצגה פרמטרית ומצב הדדי'],
- [10,'מישורים','הצגה פרמטרית, משוואה ומצבים הדדיים'],
- [11,'מרחקים במרחב','נקודה, ישר ומישור'],
- [12,'זוויות במרחב','בכלים טריגונומטריים ובכלים וקטוריים'],
- [13,'יישומים בגופים','גליל, חרוט, כדור, שטחים ונפחים'],
+const LESSONS=[
+ {n:1,t:'מהו וקטור?',d:'גודל וכיוון, קטע מכוון, שוויון וקטורים',href:'lesson-1.html',screens:11,checks:7,basic:10,adv:7},
+ {n:2,t:'חיבור, חיסור וכפל בסקלר',d:'הפעולות והחוקים שלהן'},
+ {n:3,t:'צירוף לינארי',d:'הבעת וקטורים בעזרת וקטורים אחרים'},
+ {n:4,t:'תלות לינארית',d:'על ישר, במישור ובמרחב'},
+ {n:5,t:'יחידות ההצגה',d:'יחסי קטעים והוכחות'},
+ {n:6,t:'מכפלה סקלרית',d:'זוויות ואורכים'},
+ {n:7,t:'הוכחות בעזרת מכפלה סקלרית',d:'ניצבות ומשפט שלושת האנכים'},
+ {n:8,t:'מערכת צירים במרחב',d:'הצגה אלגברית של וקטורים'},
+ {n:9,t:'ישרים במרחב',d:'הצגה פרמטרית ומצב הדדי'},
+ {n:10,t:'מישורים',d:'הצגה פרמטרית, משוואה ומצבים הדדיים'},
+ {n:11,t:'מרחקים במרחב',d:'נקודה, ישר ומישור'},
+ {n:12,t:'זוויות במרחב',d:'בכלים טריגונומטריים ובכלים וקטוריים'},
+ {n:13,t:'יישומים בגופים',d:'גליל, חרוט, כדור, שטחים ונפחים'},
 ];
-L.forEach(([n,t,d,h])=>{const g=document.getElementById(n<=7?'g1':'g2');
- g.innerHTML+=h?`<a class="l" href="${h}"><div class="n">שיעור ${n}</div><div class="t">${t}</div><div class="d">${d}</div></a>`
- :`<div class="l"><div class="n">שיעור ${n}<span class="soon">בקרוב</span></div><div class="t">${t}</div><div class="d">${d}</div></div>`});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LIVE=CourseAPI.live;
+if(!LIVE)document.body.insertBefore(Object.assign(document.createElement('div'),{className:'prev',textContent:'מצב תצוגה מקדימה — אפשר להקליד כל קוד; ההתקדמות לא נשמרת בשרת'}),document.body.firstChild);
+
+// התקדמות מקומית (מהדפדפן) — גיבוי כשהשרת לא זמין
+function localProg(n){try{const s=JSON.parse(localStorage.getItem('vec-l'+n+'-progress')||'null');return s?{max:(s.max||0)+1,passed:(s.passed||[]).length}:null}catch(e){return null}}
+
+function showLogin(){ $('#me').style.display='none';$('#login').style.display='flex';setTimeout(()=>$('#code').focus(),50) }
+function showMe(st,all){
+  $('#login').style.display='none';$('#me').style.display='block';
+  $('#hello').textContent=`שלום, ${st.name} 👋`;
+  const byL={};(all||[]).forEach(r=>byL[r.lesson]=r);
+  // מיזוג עם ההתקדמות המקומית (למקרה שעוד לא נשלחה לשרת)
+  LESSONS.filter(l=>l.href).forEach(l=>{const lp=localProg(l.n);if(lp){const r=byL[l.n]=byL[l.n]||{lesson:l.n,max:0,passed:0};r.max=Math.max(r.max||0,lp.max);r.passed=Math.max(r.passed||0,lp.passed)}});
+  const open=LESSONS.filter(l=>l.href);
+  const pct=l=>{const r=byL[l.n];return r?Math.min(100,Math.round((r.max||0)/l.screens*100)):0};
+  // לאן להמשיך: השיעור הפתוח הראשון שלא הסתיים
+  const next=open.find(l=>!(byL[l.n]&&byL[l.n].done))||open[open.length-1];
+  const r=byL[next.n],started=r&&r.max>0;
+  const allDone=open.every(l=>byL[l.n]&&byL[l.n].done);
+  $('#cont').innerHTML=allDone
+    ?`<div class="k">כל הכבוד!</div><div class="t">סיימת את כל השיעורים שפתוחים כרגע 🎉</div><div class="s">שיעור חדש יופיע כאן כשייפתח. אפשר תמיד לחזור לשיעורים הקודמים ולתרגל.</div>`
+    :`<div class="k">${started?'להמשיך מאיפה שעצרת':'השיעור הבא שלך'}</div><div class="t">שיעור ${next.n} · ${esc(next.t)}</div>
+      <div class="pb"><i style="width:${pct(next)}%"></i></div><div class="s">${started?`הגעת למסך ${r.max} מתוך ${next.screens}`:'עוד לא התחלת'}</div>
+      <a class="btn" href="${next.href}">${started?'המשך ←':'התחל ←'}</a>`;
+  const doneN=open.filter(l=>byL[l.n]&&byL[l.n].done).length;
+  const basics=open.map(l=>byL[l.n]&&byL[l.n].basic).filter(v=>v!==''&&v!=null&&v!==undefined);
+  const checks=open.reduce((a,l)=>a+(byL[l.n]?Number(byL[l.n].passed)||0:0),0),checksTot=open.reduce((a,l)=>a+l.checks,0);
+  $('#stats').innerHTML=`<div class="stat"><div class="n">${doneN}</div><div class="l">שיעורים שהושלמו</div></div>
+    <div class="stat"><div class="n">${checks}</div><div class="l">בדיקות הבנה שעברת (מתוך ${checksTot})</div></div>
+    <div class="stat"><div class="n">${basics.length?String(+(basics.map(Number).reduce((a,b)=>a+b,0)/basics.length).toFixed(1)):'—'}</div><div class="l">ניקוד ממוצע בתרגול הבסיסי</div></div>`;
+  $('#lessons').innerHTML=LESSONS.map(l=>{
+    if(!l.href)return `<div class="ls lock"><div class="num">${l.n}</div><div><div class="tt">${esc(l.t)}</div><div class="dd">${esc(l.d)}</div></div><span class="tag soon">בקרוב</span></div>`;
+    const r=byL[l.n];const done=r&&r.done,st=r&&r.max>0;
+    const sc=r&&(r.basic!==''&&r.basic!=null)?`תרגול בסיסי: ${r.basic} מתוך ${l.basic}`+(r.adv!==''&&r.adv!=null?` · מתקדם: ${r.adv} מתוך ${l.adv}`:''):esc(l.d);
+    return `<a class="ls ${done?'done':''}" href="${l.href}"><div class="num">${done?'✓':l.n}</div><div><div class="tt">${esc(l.t)}</div><div class="dd">${sc}</div>${st&&!done?`<div class="mini"><i style="width:${pct(l)}%"></i></div>`:''}</div>
+      <span class="tag ${done?'ok':st?'go':'new'}">${done?'הושלם':st?'בתהליך':'חדש'}</span></a>`}).join('');
+}
+async function enter(code){
+  const err=$('#err');err.textContent='';
+  if(!LIVE){const st={code:code.toUpperCase(),name:'תלמיד/ה לדוגמה'};CourseAPI.setStudent(st);showMe(st,[]);return}
+  $('#go').disabled=true;err.textContent='בודק...';
+  try{const j=await CourseAPI.loginFull(code);
+    if(!j.ok){err.textContent='הקוד לא נמצא. בדקו אותו ונסו שוב.';$('#go').disabled=false;return}
+    const st={code:j.code,name:j.name};CourseAPI.setStudent(st);
+    if(!j.all){$('#note').textContent='(ההתקדמות מהשרת תופיע כאן אחרי עדכון השרת)'}
+    showMe(st,j.all||[]);
+  }catch(e){err.textContent='אין חיבור לשרת. בדקו את החיבור לאינטרנט ונסו שוב.'}
+  $('#go').disabled=false;
+}
+$('#go').onclick=()=>{const c=$('#code').value.trim();if(!c){$('#err').textContent='הקלידו את הקוד שלכם';return}enter(c)};
+$('#code').addEventListener('keydown',e=>{if(e.key==='Enter')$('#go').click()});
+$('#logout').onclick=()=>{CourseAPI.logout();$('#code').value='';showLogin()};
+
+const saved=CourseAPI.student;
+if(saved){
+  showMe(saved,[]); // מציג מיד מההתקדמות המקומית, ואז מתעדכן מהשרת
+  if(LIVE)CourseAPI.loginFull(saved.code).then(j=>{if(j.ok)showMe(saved,j.all||[]);else{CourseAPI.logout();showLogin()}}).catch(()=>{$('#note').textContent='אין חיבור לשרת — מוצגת ההתקדמות השמורה במכשיר.'});
+}else showLogin();
 </script>
 </body></html>
