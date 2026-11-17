@@ -110,7 +110,7 @@ const LESSONS=[
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const LIVE=CourseAPI.live;
-if(!LIVE)document.body.insertBefore(Object.assign(document.createElement('div'),{className:'prev',textContent:'מצב תצוגה מקדימה — אפשר להקליד כל קוד; ההתקדמות לא נשמרת בשרת'}),document.body.firstChild);
+if(!LIVE&&!CourseAPI.guest)document.body.insertBefore(Object.assign(document.createElement('div'),{className:'prev',textContent:'מצב תצוגה מקדימה — אפשר להקליד כל קוד; ההתקדמות לא נשמרת בשרת'}),document.body.firstChild);
 
 // התקדמות מקומית (מהדפדפן) — גיבוי כשהשרת לא זמין
 function localProg(n,code,resetAt){const k='vec-l'+n+'-progress-'+code;try{const s=JSON.parse(localStorage.getItem(k)||'null');if(!s)return null;
@@ -119,7 +119,7 @@ function localProg(n,code,resetAt){const k='vec-l'+n+'-progress-'+code;try{const
 function showLogin(){ $('#me').style.display='none';$('#login').style.display='flex';setTimeout(()=>$('#code').focus(),50) }
 function showMe(st,all,resetAt){
   $('#login').style.display='none';$('#me').style.display='block';
-  $('#hello').textContent=`שלום, ${st.name} 👋`;
+  $('#hello').textContent=st.name?`שלום, ${st.name} 👋`:'שלום 👋';
   const byL={};(all||[]).forEach(r=>byL[r.lesson]=r);
   // מיזוג עם ההתקדמות המקומית (למקרה שעוד לא נשלחה לשרת)
   LESSONS.filter(l=>l.href).forEach(l=>{const lp=localProg(l.n,st.code,resetAt);if(lp){const r=byL[l.n]=byL[l.n]||{lesson:l.n,max:0,passed:0};r.max=Math.max(r.max||0,lp.max);r.passed=Math.max(r.passed||0,lp.passed)}});
@@ -164,7 +164,9 @@ $('#code').addEventListener('keydown',e=>{if(e.key==='Enter')$('#go').click()});
 $('#logout').onclick=()=>{CourseAPI.logout();$('#code').value='';showLogin()};
 
 const saved=CourseAPI.student;
-if(saved){
+if(CourseAPI.guest){
+  showMe(saved,[]);document.querySelector('.top .out').style.display='none';
+}else if(saved){
   showMe(saved,[]); // מציג מיד מההתקדמות המקומית, ואז מתעדכן מהשרת
   if(LIVE)CourseAPI.loginFull(saved.code).then(j=>{if(j.ok)showMe(saved,j.all||[],j.resetAt);else{CourseAPI.logout();showLogin()}}).catch(()=>{$('#note').textContent='אין חיבור לשרת — מוצגת ההתקדמות השמורה במכשיר.'});
 }else showLogin();

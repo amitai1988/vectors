@@ -7,9 +7,20 @@
   // תצוגה מקדימה למורה: ‎?preview=1‎ — רק בדפדפן שבו המורה כבר נכנס/ה לדף המורה
   let tkey = null; try { tkey = localStorage.getItem('vec-tkey'); } catch (e) {}
   const PREVIEW = new URLSearchParams(location.search).has('preview') && (!!tkey || !(host.endsWith('pages.dev')));
-  const LIVE = !PREVIEW && !!API_URL && (host.endsWith('pages.dev') || host === 'localhost' || host === '127.0.0.1');
+  // גרסה פתוחה (למורים אחרים ולתלמידים שלהם): ‎?open‎ — בלי קוד, ושום דבר לא נשלח לגיליון.
+  // המצב נשמר בדפדפן; ‎?code‎ מחזיר לגרסה הרגילה עם קוד.
+  const params = new URLSearchParams(location.search);
+  let guestFlag = params.has('open');
+  try {
+    if (params.has('open')) localStorage.setItem('vec-open', '1');
+    if (params.has('code')) localStorage.removeItem('vec-open');
+    guestFlag = localStorage.getItem('vec-open') === '1';
+  } catch (e) {}
+  const GUEST = !PREVIEW && guestFlag;
+  const LIVE = !PREVIEW && !GUEST && !!API_URL && (host.endsWith('pages.dev') || host === 'localhost' || host === '127.0.0.1');
   let student = null, lesson = 0, queue = [], sending = false;
   try { student = JSON.parse(localStorage.getItem(SKEY) || 'null'); queue = JSON.parse(localStorage.getItem(QKEY) || '[]'); } catch (e) {}
+  if (GUEST) student = { code: 'OPEN', name: '' };
   const saveQ = () => { try { localStorage.setItem(QKEY, JSON.stringify(queue.slice(-300))); } catch (e) {} };
 
   const css = `
@@ -84,6 +95,7 @@
   }
   function start(lessonNo, cb) {
     lesson = lessonNo;
+    if (GUEST) { cb(null); return; }
     if (PREVIEW) {
       const b = document.createElement('div'); b.className = 'cl-prev';
       b.innerHTML = '👁 תצוגה מקדימה למורה — כל המסכים פתוחים ושום דבר לא נשמר · <a href="teacher.html" style="color:#8a6400">חזרה לדף המורה</a>';
@@ -107,5 +119,5 @@
   }
   function setStudent(s) { student = s; try { localStorage.setItem(SKEY, JSON.stringify(s)); } catch (e) {} }
   function logout() { if (queue.length) send(); student = null; try { localStorage.removeItem(SKEY); } catch (e) {} }
-  window.CourseAPI = { start, log, url: API_URL, preview: PREVIEW, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send };
+  window.CourseAPI = { start, log, url: API_URL, preview: PREVIEW, guest: GUEST, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send };
 })();
