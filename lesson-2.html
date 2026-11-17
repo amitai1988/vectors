@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שיעור 2 · חיבור, חיסור וכפל בסקלר · שביל הווקטורים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Varela+Round&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#172230;--blue:#2B44A0;--blue-l:#EEF2F8;--gray:#8A96A5;--bg:#F4F6FA;
+  --vec:#2f5bea;--vec2:#d6336c;--len:#e8590c;--dir:#7b3fe4;--eq:#16935a;--bad:#c92a2a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:"Rubik",system-ui,sans-serif;background:var(--bg);color:var(--navy);line-height:1.9;font-size:17px}
+.credit{background:var(--navy);color:#fff;text-align:center;font-size:13.5px;padding:5px 10px}
+.topbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--blue);box-shadow:0 2px 8px rgba(23,34,48,.06)}
+.topbar .wrap{max-width:860px;margin:0 auto;padding:8px 14px 8px}
+.topbar .row1{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.topbar .ttl{font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .ttl a{color:var(--blue);text-decoration:none;font-weight:500}
+.topbar .cnt{font-size:13.5px;color:var(--gray);white-space:nowrap}
+.dots{display:flex;gap:4px;margin-top:6px}
+.dots button{flex:1;height:7px;border:0;border-radius:4px;background:#e1e6ef;padding:0;cursor:pointer}
+.dots button.done{background:#9fb0dd}
+.dots button.cur{background:var(--blue)}
+.dots button:disabled{cursor:default}
+main{max-width:860px;margin:0 auto;padding:14px 14px 40px}
+.screen{display:none;background:#fff;border:1px solid #dde3ec;border-radius:16px;padding:20px 22px;animation:fade .25s}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.screen h2{margin:0 0 4px;font-size:24px;color:var(--blue);line-height:1.4}
+.badge{display:inline-block;font-size:12.5px;border-radius:10px;padding:1px 10px;margin-bottom:8px;font-weight:600}
+.badge.cls{background:#FFF0C2;color:#8a6400}.badge.self{background:#DDF2E3;color:#1c6b3a}
+h3{font-size:19px;margin:16px 0 4px}
+p{margin:8px 0}
+.m{direction:ltr;unicode-bidi:isolate;font-style:normal;white-space:nowrap}
+.v{display:inline-block;position:relative;direction:ltr;unicode-bidi:isolate;font-weight:600;font-style:normal;padding-top:.28em;line-height:1;white-space:nowrap}
+.v::before{content:"";position:absolute;left:1px;right:4px;top:.06em;border-top:1.6px solid currentColor}
+.v::after{content:"";position:absolute;right:0;top:calc(.06em - 3.2px);border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid currentColor}
+.c-vec{color:var(--vec)}.c-vec2{color:var(--vec2)}.c-len{color:var(--len)}.c-dir{color:var(--dir)}.c-eq{color:var(--eq)}
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.plan div{border-radius:10px;padding:10px 14px;font-size:15.5px;line-height:1.75}
+.plan .cls{background:#FFF6DC;border:1px solid #f0d58a}
+.plan .self{background:#E8F5EC;border:1px solid #a9d8b8}
+.plan b{display:block}
+.goals li{margin-bottom:4px}
+.def{background:var(--blue-l);border-right:5px solid var(--blue);border-radius:8px;padding:12px 16px;margin:12px 0}
+.def .t{font-weight:700;color:var(--blue);display:block}
+.ex{color:#4a5566;font-size:15.5px;margin-top:4px}
+.note{background:#FFF8E6;border-right:5px solid #f0b400;border-radius:8px;padding:10px 16px;margin:12px 0}
+.disc{background:#FFF1F5;border-right:5px solid var(--vec2);border-radius:8px;padding:10px 16px;margin:12px 0}
+.disc .t{font-weight:700;color:var(--vec2)}
+.widget{border:1px solid #c9d3e6;border-radius:12px;margin:14px 0;background:#fbfcfe;overflow:hidden}
+.widget .wt{background:var(--blue-l);padding:7px 14px;font-weight:600;font-size:15px;color:var(--blue);border-bottom:1px solid #dbe2ef}
+.widget .slot{background:#fff;line-height:0}
+.widget svg,.widget canvas{display:block;width:100%;touch-action:none;background:#fff}
+.widget .ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;border-top:1px solid #e3e8f1}
+.widget .status{padding:8px 14px;font-size:15.5px;border-top:1px solid #e3e8f1;line-height:1.8;min-height:44px}
+.widget .legend{padding:4px 14px 8px;font-size:13px;color:#5b6575;display:flex;gap:14px;flex-wrap:wrap;align-items:center;line-height:1.6}
+.legend .hd{display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFD43B;border:2px solid #172230;vertical-align:middle;margin-left:4px}
+.legend .fx{display:inline-block;width:8px;height:8px;border-radius:50%;background:#172230;vertical-align:middle;margin-left:4px}
+button.b{font:inherit;font-size:14.5px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;padding:7px 12px;cursor:pointer;line-height:1.5}
+button.b.pri{background:var(--blue);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.b.on{background:var(--blue);color:#fff}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin:10px 0}
+.card{border:1px solid #d5ddea;border-radius:10px;padding:8px 12px;background:#fff;font-size:15.5px;line-height:1.6}
+.card .opts{display:flex;gap:6px;margin-top:6px}
+.card .opts button{flex:1;font:inherit;font-size:14px;border:1px solid #c9d3e6;background:#fff;border-radius:7px;padding:5px;cursor:pointer}
+.card .opts button.sel{background:var(--blue);color:#fff;border-color:var(--blue)}
+.card.ok{border-color:var(--eq);background:#EEF8F1}
+.card.no{border-color:var(--bad);background:#FDEEEE}
+.card .why{font-size:13.5px;color:#4a5566;margin-top:4px;display:none}
+.card.ok .why,.card.no .why{display:block}
+/* check box */
+.check{margin-top:18px;border:2px solid #c9d3e6;border-radius:12px;padding:12px 16px;background:#FAFBFE}
+.check.done{border-color:var(--eq);background:#F2FAF4}
+.check .h{font-weight:700;color:var(--blue);font-size:15px}
+.check .cq{margin:4px 0 8px}
+.check .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.check .opts button{font:inherit;font-size:16px;border:1px solid #c9d3e6;background:#fff;border-radius:9px;padding:7px;cursor:pointer;color:var(--navy)}
+.check .opts button.ok{background:#E3F3E8;border-color:var(--eq);color:var(--eq)}
+.check .opts button.no{background:#FBE6E6;border-color:var(--bad);color:var(--bad)}
+.check .fb{margin-top:8px;font-size:15.5px;line-height:1.8}
+.check .fb.ok{color:var(--eq)}.check .fb.no{color:var(--bad)}
+.more{display:none;margin-top:10px;background:#FFF8E6;border:1px solid #f3dc9b;border-radius:10px;padding:10px 14px;font-size:15.5px}
+.more.on{display:block}
+.navbtns{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:18px;flex-wrap:wrap}
+.navbtns .gate{font-size:13.5px;color:var(--gray)}
+.summary li{margin-bottom:8px}
+/* practice */
+.q{border:1px solid #dde3ec;border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.q .qh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.q .qn{font-weight:700;color:var(--navy);font-size:17px}
+.q .tag{font-size:12.5px;color:var(--gray)}
+.q .given{margin:6px 0 2px}
+.q .ask{margin:4px 0 8px}
+.q .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
+.q .opts button{font:inherit;font-size:17px;border:1px solid #c9d3e6;background:#fff;border-radius:9px;padding:7px;cursor:pointer;color:var(--navy)}
+.q .opts button:hover:not(:disabled){border-color:var(--blue)}
+.q .opts button.ok{background:#E3F3E8;border-color:var(--eq);color:var(--eq)}
+.q .opts button.no{background:#FBE6E6;border-color:var(--bad);color:var(--bad)}
+.q input.num{font:inherit;width:120px;padding:5px 8px;border:1px solid #b9c4d6;border-radius:7px;direction:ltr;text-align:center}
+.q .fb{margin-top:8px;font-size:15.5px;line-height:1.8}
+.q .fb.ok{color:var(--eq)}.q .fb.no{color:var(--bad)}
+.q .hint,.q .sol{display:none;margin-top:8px;padding:9px 13px;border-radius:8px;font-size:15.5px;line-height:1.85}
+.q .hint{background:#FFF8E6;border:1px solid #f3dc9b}
+.q .sol{background:#F3F8F4;border:1px solid #b9dcc4}
+.q .sol .ln{display:block;margin:3px 0}
+.q .tools{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.q figure{margin:8px 0}
+.scorebar{background:var(--blue-l);border-radius:10px;padding:6px 14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:15px;margin:10px 0}
+.small{font-size:14.5px;color:#5b6575}
+.endbox{margin-top:16px;border:2px solid var(--eq);background:#F2FAF4;border-radius:14px;padding:16px;text-align:center;line-height:1.9;animation:fade .4s}
+.endbox .big{font-size:20px;font-weight:700;color:var(--eq)}
+.endbox .b{margin-top:10px;font-size:16px;padding:9px 18px}
+.endbox a.b{background:var(--blue);color:#fff;border-radius:8px}
+footer{text-align:center;color:var(--gray);font-size:13px;padding:10px 20px 24px}
+a.home{color:var(--blue)}
+@media (max-width:600px){
+  body{font-size:16px}
+  .screen{padding:16px 14px;border-radius:12px}
+  .screen h2{font-size:21px}
+  .plan{grid-template-columns:1fr}
+  main{padding:10px 8px 30px}
+  .widget{margin:12px -6px}
+}
+
+/* ===== עיצוב "שביל הפסגה" ===== */
+:root{--blue:#5149D6;--blue-l:#ECEAFF;--navy:#26324A;--bg:#EEF6FF;--cor:#FF6B6B;--vio:#6C63FF;--grn:#4CB782}
+body{background:linear-gradient(180deg,#DDF0FF 0,#EEF6FF 260px,#F4F8FD 100%) fixed}
+.credit{background:transparent;color:#7D8BA6;font-size:12px;padding:4px}
+.screen h2,.topbar .ttl,.check .h,.endbox .big,.widget .wt,h3{font-family:'Varela Round',Rubik,sans-serif;font-weight:400}
+.screen h2{color:var(--navy);font-size:26px}
+.topbar{background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-bottom:0;box-shadow:0 4px 18px rgba(40,60,90,.08);border-radius:0 0 22px 22px}
+.topbar .ttl{font-size:16.5px}
+.topbar .ttl a{color:var(--vio);background:var(--blue-l);border-radius:999px;padding:2px 10px;font-weight:400}
+.topbar .stn{color:var(--vio)}
+/* פס ההתקדמות כשביל עם תחנות */
+.dots{position:relative;gap:0;margin:8px 4px 2px;align-items:center;height:18px}
+.dots::before{content:"";position:absolute;left:6px;right:6px;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:repeating-linear-gradient(90deg,#D5DCE8 0 8px,transparent 8px 13px)}
+.dots button{position:relative;flex:1;height:18px;background:transparent;border-radius:0}
+.dots button::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #D5DCE8;transition:all .2s}
+.dots button.done{background:transparent}
+.dots button.done::after{background:var(--grn);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--grn)}
+.dots button.cur{background:transparent}
+.dots button.cur::after{width:18px;height:18px;margin:-9px 0 0 -9px;background:var(--vio);box-shadow:0 0 0 3px #fff,0 2px 8px rgba(108,99,255,.5)}
+.screen{border:0;border-radius:26px;box-shadow:0 10px 30px rgba(40,60,90,.09);padding:22px 24px}
+.badge{border-radius:999px;padding:2px 12px;font-weight:500}
+.def{background:#F1F0FF;border-right:0;border-radius:18px;box-shadow:inset 4px 0 0 0 var(--vio)}
+.def .t{color:var(--blue)}
+.note{background:#FFF6E2;border-right:0;border-radius:18px;box-shadow:inset 4px 0 0 0 #FFB547}
+.disc{border-right:0;border-radius:18px;box-shadow:inset 4px 0 0 0 var(--vec2)}
+.plan div{border-radius:18px}
+.widget{border:0;border-radius:20px;box-shadow:0 4px 16px rgba(40,60,90,.08);background:#fff}
+.widget .wt{background:#F1F0FF;color:var(--blue);border-bottom:0}
+button.b{border-radius:999px;padding:7px 15px;border-color:#CFCBFF;color:var(--blue)}
+button.b.pri,.endbox a.b{background:var(--cor);border-color:var(--cor);color:#fff;box-shadow:0 5px 12px rgba(255,107,107,.3)}
+button.b.on{background:var(--vio);border-color:var(--vio)}
+.navbtns button.b{font-size:16px;padding:9px 20px}
+.card{border-radius:16px;border-color:#E2E7F0}
+.card .opts button{border-radius:999px}
+.card .opts button.sel{background:var(--vio);border-color:var(--vio)}
+.check{border:0;border-radius:20px;background:#F6F5FF;box-shadow:inset 0 0 0 2px #E3E0FF}
+.check.done{background:#EFF9F2;box-shadow:inset 0 0 0 2px #BFE5CC}
+.check .opts button,.q .opts button{border-radius:14px}
+.more{border-radius:16px}
+.q{border:0;border-radius:20px;box-shadow:0 3px 14px rgba(40,60,90,.07)}
+.q .hint,.q .sol{border-radius:14px}
+.scorebar{background:#F1F0FF;border-radius:999px;padding:6px 18px}
+.endbox{border:0;border-radius:22px;background:linear-gradient(135deg,#EFF9F2,#FFF6E2);box-shadow:0 8px 24px rgba(76,183,130,.18)}
+.endbox .big{font-size:22px}
+footer a.home{color:var(--vio)}
+@media (max-width:600px){.screen{border-radius:20px;padding:16px 14px}.topbar{border-radius:0 0 18px 18px}.topbar .row1{flex-wrap:wrap;row-gap:0}.topbar .ttl{flex:1 1 100%}.topbar .cnt{font-size:12.5px}}
+
+.tbl{display:grid;gap:6px;margin:10px 0}
+.tbl div{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#F7F8FC;border-radius:14px;padding:8px 14px;flex-wrap:wrap}
+.tbl b{color:var(--blue);font-weight:500}
+.steps{display:flex;flex-direction:column;align-items:flex-start;gap:4px;background:#F7F8FC;border-radius:14px;padding:10px 16px;margin:8px 0}
+.steps .m{direction:ltr}
+</style>
+</head>
+<body>
+<div class="credit">פותח על ידי אמתי צוברי · © כל הזכויות שמורות</div>
+<div class="topbar"><div class="wrap">
+  <div class="row1"><span class="ttl"><a href="index.html">⛰ השביל שלי</a> · <span class="stn">תחנה 2</span> חיבור, חיסור וכפל בסקלר</span><span class="cnt" id="cnt"></span></div>
+  <div class="dots" id="dots"></div>
+  <div id="who" style="text-align:left;line-height:1.4;margin-top:3px"></div>
+</div></div>
+
+<main id="app">
+<!-- 0 -->
+<div class="screen" data-t="פתיחה">
+  <h2>שיעור 2 · חיבור, חיסור וכפל בסקלר</h2>
+  <p>בשיעור הקודם הכרנו את הווקטור. עכשיו נלמד <b class="c-vec">לחשב</b> עם וקטורים: לחבר אותם, לחסר אותם ולכפול אותם במספר.</p>
+  <ul class="goals">
+    <li>חיבור וקטורים: כלל המשולש, כלל המקבילית וחיבור של כמה וקטורים ברצף.</li>
+    <li>וקטור האפס, וקטור נגדי וחיסור וקטורים.</li>
+    <li>כפל וקטור במספר (סקלר), וקטורים מקבילים ואמצע קטע.</li>
+    <li>חוקי הפעולות, והבעת וקטורים בתוך מקבילית ומשולש.</li>
+  </ul>
+  <div class="plan">
+    <div class="cls"><b>בכיתה, יחד</b>מסכים 1–3: חיבור כמסע, כלל המקבילית ושרשרת של וקטורים.</div>
+    <div class="self"><b>לבד (בכיתה ובבית)</b>מסכים 4–9, הסיכום והתרגול.</div>
+  </div>
+  <p class="small">בסוף כל מסך יש שאלת בדיקה קצרה. כדי לעבור למסך הבא צריך לענות עליה נכון. ההתקדמות נשמרת, כך שאפשר להמשיך בבית מאותו מקום.</p>
+</div>
+
+<!-- 1 -->
+<div class="screen" data-t="חיבור כמסע" data-w="w1">
+  <span class="badge cls">בכיתה</span>
+  <h2>חיבור וקטורים — כלל המשולש</h2>
+  <p>מטיילת הולכת מהנקודה <span class="m">A</span> אל הנקודה <span class="m">B</span>, ומשם ממשיכה אל הנקודה <span class="m">C</span>. איפה היא נמצאת בסוף, ביחס לנקודת ההתחלה?</p>
+  <div class="widget" id="w1">
+    <div class="wt">שתי תזוזות ברצף</div>
+    <div class="slot"></div>
+    <div class="ctl"><button class="b pri" data-a="sum">הצגת התזוזה הכוללת</button><button class="b" data-a="rnd">מסלול חדש</button></div>
+    <div class="status"></div>
+    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  </div>
+  <p>התזוזה הכוללת היא הווקטור <span class="v c-eq">AC</span>. לכן מגדירים:</p>
+  <div class="def"><span class="t">כלל המשולש</span>
+    <span class="m"><span class="v c-vec">AB</span> + <span class="v c-vec2">BC</span> = <span class="v c-eq">AC</span></span>
+    <div class="ex">כדי לחבר שני וקטורים, מצמידים את הזנב של הווקטור השני לראש של הראשון. הסכום הוא הווקטור מהזנב של הראשון אל הראש של השני.</div></div>
+  <div class="more">אפשר לזכור את זה כך: האות ה"פנימית" — <span class="m">B</span> — מופיעה בסוף הווקטור הראשון ובתחילת השני, ו"נעלמת" בסכום. למשל <span class="m"><span class="v">PQ</span> + <span class="v">QR</span> = <span class="v">PR</span></span>. אבל זהירות: ב־ <span class="m"><span class="v">PQ</span> + <span class="v">RQ</span></span> האותיות לא מסתדרות כך, ואי אפשר להשתמש בכלל ישירות.</div>
+</div>
+
+<!-- 2 -->
+<div class="screen" data-t="כלל המקבילית" data-w="w2">
+  <span class="badge cls">בכיתה</span>
+  <h2>כלל המקבילית</h2>
+  <p>לפעמים שני הווקטורים יוצאים <b>מאותה נקודה</b>. איך מחברים אותם? בעזרת וקטורים שווים (משיעור 1) מעבירים את אחד הווקטורים בהזזה מקבילה, ומשלימים <b>מקבילית</b>.</p>
+  <div class="widget" id="w2">
+    <div class="wt">שתי דרכים לאותו סכום</div>
+    <div class="slot"></div>
+    <div class="ctl"><button class="b on" data-a="par">כלל המקבילית</button><button class="b" data-a="tri1">קודם <span class="v">u</span></button><button class="b" data-a="tri2">קודם <span class="v">v</span></button></div>
+    <div class="status"></div>
+    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  </div>
+  <div class="def"><span class="t">כלל המקבילית</span>
+    אם שני וקטורים יוצאים מאותה נקודה, הסכום שלהם הוא <b>האלכסון</b> של המקבילית שהם יוצרים — האלכסון שיוצא מאותה נקודה.
+    <div class="ex">במקבילית <span class="m">ABCD</span>: <span class="m"><span class="v c-vec">AB</span> + <span class="v c-vec2">AD</span> = <span class="v c-eq">AC</span></span></div></div>
+  <div class="def"><span class="t">חוק החילוף</span>
+    <span class="m"><span class="v c-vec">u</span> + <span class="v c-vec2">v</span> = <span class="v c-vec2">v</span> + <span class="v c-vec">u</span></span>
+    <div class="ex">שני המסלולים — "קודם <span class="v">u</span>" ו"קודם <span class="v">v</span>" — הם שתי הצלעות של המקבילית, ושניהם מגיעים לאותו קודקוד.</div></div>
+  <div class="more">למה זה נכון? במקבילית <span class="m">ABCD</span> מתקיים <span class="m"><span class="v">AD</span> = <span class="v">BC</span></span>. לכן <span class="m"><span class="v">AB</span> + <span class="v">AD</span> = <span class="v">AB</span> + <span class="v">BC</span> = <span class="v">AC</span></span> — חזרנו לכלל המשולש.</div>
+</div>
+
+<!-- 3 -->
+<div class="screen" data-t="שרשרת של וקטורים" data-w="w3">
+  <span class="badge cls">בכיתה</span>
+  <h2>חיבור של כמה וקטורים, ווקטור האפס</h2>
+  <p>אפשר לחבר כמה וקטורים ברצף: כל וקטור מתחיל בראש של הקודם. הסכום הוא הווקטור מנקודת ההתחלה של השרשרת אל נקודת הסיום שלה.</p>
+  <div class="widget" id="w3">
+    <div class="wt">שרשרת של ארבעה וקטורים</div>
+    <div class="slot"></div>
+    <div class="ctl"><button class="b" data-a="close">סגירת המסלול</button><button class="b" data-a="rnd">מסלול חדש</button></div>
+    <div class="status"></div>
+    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  </div>
+  <div class="def"><span class="t">כלל המצולע</span>
+    <span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CD</span> + <span class="v">DE</span> = <span class="v c-eq">AE</span></span></div>
+  <div class="def"><span class="t">וקטור האפס</span>
+    כשהמסלול חוזר לנקודת ההתחלה, הסכום הוא <b>וקטור האפס</b>, ומסמנים אותו <span class="v">0</span>. האורך שלו 0, ואין לו כיוון מוגדר.
+    <div class="ex">לדוגמה: <span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">AA</span> = <span class="v">0</span></span>, ולכל וקטור מתקיים <span class="m"><span class="v">u</span> + <span class="v">0</span> = <span class="v">u</span></span>.</div></div>
+  <div class="disc"><span class="t">לדיון בכיתה</span><br>
+    מה הסכום <span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CA</span></span> בכל משולש <span class="m">ABC</span>? ומה קורה במרובע, אם מחברים את ארבע הצלעות ברצף?</div>
+</div>
+
+<!-- 4 -->
+<div class="screen" data-t="וקטור נגדי וחיסור" data-w="w4">
+  <span class="badge self">לבד</span>
+  <h2>וקטור נגדי וחיסור וקטורים</h2>
+  <div class="def"><span class="t">וקטור נגדי</span>
+    הווקטור הנגדי ל־ <span class="v">u</span> הוא הווקטור שיש לו <b class="c-len">אותו אורך</b> ו<b class="c-dir">כיוון מנוגד</b>. מסמנים אותו <span class="m">−<span class="v">u</span></span>.
+    <div class="ex">לדוגמה: <span class="m">−<span class="v">AB</span> = <span class="v">BA</span></span>, ולכן <span class="m"><span class="v">u</span> + (−<span class="v">u</span>) = <span class="v">0</span></span>.</div></div>
+  <div class="def"><span class="t">חיסור וקטורים</span>
+    לחסר וקטור = להוסיף את הנגדי שלו:
+    <span class="m"><span class="v c-vec">u</span> − <span class="v c-vec2">v</span> = <span class="v c-vec">u</span> + (−<span class="v c-vec2">v</span>)</span></div>
+  <div class="widget" id="w4">
+    <div class="wt">שתי דרכים לראות את <span class="m"><span class="v">u</span> − <span class="v">v</span></span></div>
+    <div class="slot"></div>
+    <div class="ctl"><button class="b on" data-a="neg">חיבור הנגדי</button><button class="b" data-a="heads">מראש לראש</button></div>
+    <div class="status"></div>
+    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  </div>
+  <p>כשהווקטורים יוצאים מאותה נקודה, ההפרש <span class="m"><span class="v">u</span> − <span class="v">v</span></span> הוא הווקטור <b>מהראש של <span class="v">v</span> אל הראש של <span class="v">u</span></b>. במקבילית זה <b>האלכסון השני</b>.</p>
+  <div class="note"><b>כלל שימושי:</b> <span class="m"><span class="v">AB</span> − <span class="v">AC</span> = <span class="v">CB</span></span> — כששני וקטורים יוצאים מאותה נקודה <span class="m">A</span>, ההפרש הולך מהראש של המחוסר (<span class="m">C</span>) אל הראש של הראשון (<span class="m">B</span>).</div>
+  <div class="more">בדיקה בעזרת חיבור: אם <span class="m"><span class="v">u</span> − <span class="v">v</span> = <span class="v">w</span></span>, אז <span class="m"><span class="v">v</span> + <span class="v">w</span> = <span class="v">u</span></span>. בשרטוט: יוצאים מהזנב, הולכים לאורך <span class="v">v</span> עד הראש שלו, ומשם <span class="v">w</span> מוביל לראש של <span class="v">u</span>. בדיוק כמו בכלל המשולש: <span class="m"><span class="v">AC</span> + <span class="v">CB</span> = <span class="v">AB</span></span>.</div>
+</div>
+
+<!-- 5 -->
+<div class="screen" data-t="כפל בסקלר" data-w="w5">
+  <span class="badge self">לבד</span>
+  <h2>כפל וקטור במספר</h2>
+  <p>מה המשמעות של <span class="m"><span class="v">u</span> + <span class="v">u</span> + <span class="v">u</span></span>? שלוש פעמים אותה תזוזה — וקטור באותו כיוון, ארוך פי 3. מסמנים אותו <span class="m">3<span class="v">u</span></span>.</p>
+  <div class="def"><span class="t">כפל בסקלר</span>
+    לכל מספר <span class="m">k</span> ולכל וקטור <span class="v">u</span>, הווקטור <span class="m">k<span class="v">u</span></span> הוא:
+    <div class="ex">• באורך <span class="m">|k| · |<span class="v">u</span>|</span><br>
+    • באותו כיוון כמו <span class="v">u</span> כאשר <span class="m">k &gt; 0</span>, ובכיוון מנוגד כאשר <span class="m">k &lt; 0</span><br>
+    • וקטור האפס כאשר <span class="m">k = 0</span></div></div>
+  <div class="widget" id="w5">
+    <div class="wt">הזיזו את <span class="m">k</span> וראו מה קורה</div>
+    <div class="slot"></div>
+    <div class="ctl"><span class="m">k =</span> <input type="range" dir="ltr" id="kRange" min="-3" max="3" step="0.5" value="2" style="flex:1;min-width:140px;accent-color:#6C63FF"> <b class="m" id="kVal">2</b><button class="b" data-a="other">וקטור אחר</button></div>
+    <div class="status"></div>
+  </div>
+  <div class="note"><b>שימו לב:</b> <span class="m">(−1)<span class="v">u</span> = −<span class="v">u</span></span> — הנגדי של <span class="v">u</span>. ו־ <span class="m">½<span class="v">u</span></span> הוא חצי וקטור: אותו כיוון, חצי אורך.</div>
+  <div class="more">חשבו על <span class="m">k</span> כעל "מתיחה". אם <span class="m">k = 2</span> מותחים פי 2. אם <span class="m">k = ½</span> מכווצים לחצי. סימן המינוס "מסובב" את הווקטור בחצי סיבוב — הפוך לכיוון השני. למשל, הווקטור <span class="m">−3<span class="v">u</span></span> ארוך פי 3 מ־ <span class="v">u</span> ומצביע לכיוון ההפוך.</div>
+</div>
+
+<!-- 6 -->
+<div class="screen" data-t="מקבילות ואמצע קטע">
+  <span class="badge self">לבד</span>
+  <h2>וקטורים מקבילים, ואמצע של קטע</h2>
+  <p>הווקטור <span class="m">k<span class="v">u</span></span> תמיד מקביל ל־ <span class="v">u</span> (או מונח על אותו ישר). גם להפך:</p>
+  <div class="def"><span class="t">וקטורים מקבילים</span>
+    אם <span class="v">u</span> ו־ <span class="v">v</span> אינם וקטור האפס, הם מקבילים (או על אותו ישר) <b>אם ורק אם</b> יש מספר <span class="m">k</span> כך ש־ <span class="m"><span class="v">v</span> = k<span class="v">u</span></span>.
+    <div class="ex">לדוגמה: אם <span class="m"><span class="v">AB</span> = 3<span class="v">CD</span></span>, אז <span class="m">AB ∥ CD</span> (או שהם על אותו ישר), וגם <span class="m">AB = 3 · CD</span>.</div></div>
+  <figure id="midFig" style="margin:10px 0"></figure>
+  <div class="def"><span class="t">אמצע של קטע</span>
+    הנקודה <span class="m">M</span> היא אמצע הקטע <span class="m">AB</span> אם ורק אם <span class="m"><span class="v">AM</span> = <span class="v">MB</span></span>. ואז:
+    <div class="ex"><span class="m"><span class="v">AM</span> = ½<span class="v">AB</span></span> &nbsp;·&nbsp; <span class="m"><span class="v">AB</span> = 2<span class="v">AM</span></span> &nbsp;·&nbsp; <span class="m"><span class="v">MA</span> = −½<span class="v">AB</span></span></div></div>
+  <div class="note"><b>שימו לב לכיוון:</b> <span class="m"><span class="v">MA</span></span> מצביע מ־ <span class="m">M</span> אל <span class="m">A</span>, כלומר הפוך מ־ <span class="v">AB</span>. לכן המקדם שלו שלילי.</div>
+  <div class="more">איך מוצאים את <span class="m">k</span>? משווים אורכים וכיוונים. אם <span class="m">AB = 6</span> ו־ <span class="m">AM = 3</span>, והווקטורים באותו כיוון — אז <span class="m">k = 3 : 6 = ½</span>. אם הם בכיוונים מנוגדים — <span class="m">k = −½</span>.</div>
+</div>
+
+<!-- 7 -->
+<div class="screen" data-t="חוקי הפעולות">
+  <span class="badge self">לבד</span>
+  <h2>חוקי הפעולות</h2>
+  <p>החדשות הטובות: עם וקטורים מחשבים כמעט כמו עם אותיות באלגברה. לכל הווקטורים <span class="v">u</span>, <span class="v">v</span>, <span class="v">w</span> ולכל המספרים <span class="m">k</span>, <span class="m">t</span>:</p>
+  <div class="tbl">
+    <div><b>חילוף</b><span class="m"><span class="v">u</span> + <span class="v">v</span> = <span class="v">v</span> + <span class="v">u</span></span></div>
+    <div><b>קיבוץ</b><span class="m">(<span class="v">u</span> + <span class="v">v</span>) + <span class="v">w</span> = <span class="v">u</span> + (<span class="v">v</span> + <span class="v">w</span>)</span></div>
+    <div><b>פילוג (1)</b><span class="m">k(<span class="v">u</span> + <span class="v">v</span>) = k<span class="v">u</span> + k<span class="v">v</span></span></div>
+    <div><b>פילוג (2)</b><span class="m">(k + t)<span class="v">u</span> = k<span class="v">u</span> + t<span class="v">u</span></span></div>
+    <div><b>קיבוץ מקדמים</b><span class="m">k(t<span class="v">u</span>) = (kt)<span class="v">u</span></span></div>
+  </div>
+  <h3>דוגמה: פישוט ביטוי</h3>
+  <div class="steps">
+    <span class="m">2(<span class="v">a</span> + 3<span class="v">b</span>) − 3(<span class="v">a</span> − <span class="v">b</span>)</span>
+    <span class="m">= 2<span class="v">a</span> + 6<span class="v">b</span> − 3<span class="v">a</span> + 3<span class="v">b</span></span>
+    <span class="m">= −<span class="v">a</span> + 9<span class="v">b</span></span>
+  </div>
+  <p>פותחים סוגריים, ואז מכנסים "איברים דומים": מקדמים של <span class="v">a</span> לחוד ומקדמים של <span class="v">b</span> לחוד.</p>
+  <div class="note"><b>מה אסור:</b> לחבר וקטור למספר. ביטוי כמו <span class="m"><span class="v">a</span> + 3</span> הוא חסר משמעות.</div>
+  <div class="more">עוד דוגמה, צעד אחר צעד:<div class="steps">
+    <span class="m">4<span class="v">u</span> − (<span class="v">u</span> − 2<span class="v">v</span>) + ½(2<span class="v">u</span> − 4<span class="v">v</span>)</span>
+    <span class="m">= 4<span class="v">u</span> − <span class="v">u</span> + 2<span class="v">v</span> + <span class="v">u</span> − 2<span class="v">v</span></span>
+    <span class="m">= 4<span class="v">u</span></span></div>
+    שימו לב למינוס לפני הסוגריים: הוא הופך את הסימן של <b>כל</b> איבר בתוכם.</div>
+</div>
+
+<!-- 8 -->
+<div class="screen" data-t="וקטורים בתוך צורות" data-w="w8">
+  <span class="badge self">לבד</span>
+  <h2>הבעת וקטורים בתוך מקבילית</h2>
+  <p>במקבילית <span class="m">ABCD</span> מסמנים <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">a</span></span> ו־ <span class="m"><span class="v c-vec2">AD</span> = <span class="v c-vec2">b</span></span>. בעזרת שני הווקטורים האלה אפשר להביע <b>כל</b> וקטור בשרטוט. הנקודה <span class="m">M</span> היא אמצע הצלע <span class="m">BC</span>.</p>
+  <div class="widget" id="w8">
+    <div class="wt">בחרו וקטור — ונבנה אותו מ־ <span class="v">a</span> ו־ <span class="v">b</span></div>
+    <div class="slot"></div>
+    <div class="ctl" id="w8targets"></div>
+    <div class="status"></div>
+  </div>
+  <p>השיטה: הולכים מהזנב אל הראש <b>לאורך צלעות</b> שאנחנו כבר יודעים להביע, ומחברים את הווקטורים לאורך הדרך.</p>
+  <div class="more">טיפ: כשהולכים לאורך צלע "נגד הכיוון" של <span class="v">a</span> או של <span class="v">b</span>, מקבלים מינוס. למשל <span class="m"><span class="v">CD</span> = −<span class="v">a</span></span>, כי <span class="v">CD</span> מקביל ל־ <span class="v">AB</span>, באותו אורך, ומצביע לצד ההפוך.</div>
+</div>
+
+<!-- 9 -->
+<div class="screen" data-t="סיכום">
+  <h2>סיכום השיעור</h2>
+  <ul class="summary">
+    <li><b>כלל המשולש:</b> <span class="m"><span class="v">AB</span> + <span class="v">BC</span> = <span class="v">AC</span></span>. <b>כלל המצולע:</b> <span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CD</span> = <span class="v">AD</span></span>.</li>
+    <li><b>כלל המקבילית:</b> במקבילית <span class="m">ABCD</span>, <span class="m"><span class="v">AB</span> + <span class="v">AD</span> = <span class="v">AC</span></span>.</li>
+    <li><b>וקטור האפס</b> <span class="v">0</span>: מסלול שחוזר לנקודת ההתחלה. <span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">0</span></span>.</li>
+    <li><b>וקטור נגדי:</b> <span class="m">−<span class="v">AB</span> = <span class="v">BA</span></span>. <b>חיסור:</b> <span class="m"><span class="v">u</span> − <span class="v">v</span> = <span class="v">u</span> + (−<span class="v">v</span>)</span>, ובפרט <span class="m"><span class="v">AB</span> − <span class="v">AC</span> = <span class="v">CB</span></span>.</li>
+    <li><b>כפל בסקלר:</b> האורך של <span class="m">k<span class="v">u</span></span> הוא <span class="m">|k| · |<span class="v">u</span>|</span>. הכיוון זהה ל־ <span class="v">u</span> כאשר <span class="m">k &gt; 0</span> והפוך כאשר <span class="m">k &lt; 0</span>.</li>
+    <li><b>מקבילות:</b> <span class="m"><span class="v">v</span> = k<span class="v">u</span></span> אם ורק אם הווקטורים מקבילים (או על אותו ישר).</li>
+    <li><b>אמצע קטע:</b> אם <span class="m">M</span> אמצע <span class="m">AB</span>, אז <span class="m"><span class="v">AM</span> = <span class="v">MB</span> = ½<span class="v">AB</span></span>.</li>
+    <li>מחשבים עם וקטורים כמו באלגברה: חילוף, קיבוץ ופילוג.</li>
+  </ul>
+  <p>עכשיו — לתרגול!</p>
+</div>
+
+<!-- 10 -->
+<div class="screen" data-t="תרגול בסיסי">
+  <span class="badge self">לבד</span>
+  <h2>תרגול בסיסי</h2>
+  <p class="small">אפשר לנסות שוב אחרי טעות. תשובה נכונה בניסיון הראשון — נקודה שלמה; בניסיון נוסף — חצי נקודה.</p>
+  <div class="scorebar"><span>ניקוד: <b id="scB">0</b> מתוך <b id="totB">0</b></span><span id="doneB"></span></div>
+  <div id="basicQ"></div>
+</div>
+
+<!-- 11 -->
+<div class="screen" data-t="תרגול מתקדם">
+  <span class="badge self">לבד</span>
+  <h2>תרגול מתקדם</h2>
+  <p class="small">בשאלות האלה יש רמז, ובחלקן אפשר לראות פתרון מלא — נסו קודם לבד!</p>
+  <div class="scorebar"><span>ניקוד: <b id="scA">0</b> מתוך <b id="totA">0</b></span><span id="doneA"></span></div>
+  <div id="advQ"></div>
+</div>
+
+<div class="navbtns" id="nav">
+  <button class="b" id="prev">→ הקודם</button>
+  <span class="gate" id="gate"></span>
+  <button class="b pri" id="next">הבא ←</button>
+</div>
+</main>
+
+<footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות · <a class="home" href="index.html">חזרה לשביל</a></footer>
+<script src="course-api.js"></script>
+<script>
+/* ================= helpers ================= */
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+const COL={vec:'#2f5bea',vec2:'#d6336c',len:'#e8590c',dir:'#7b3fe4',eq:'#16935a',bad:'#c92a2a',navy:'#172230',grid:'#e3e8f1'};
+const COARSE=window.matchMedia&&matchMedia('(pointer:coarse)').matches;
+const HR=COARSE?13:10;
+const fmt=(x,d=2)=>String(+(+x).toFixed(d));
+const vecHTML=(t,cls='c-vec')=>`<span class="v ${cls}">${t}</span>`;
+const clampBox=(p,b,m=.35)=>[Math.max(b.x0+m,Math.min(b.x1-m,p[0])),Math.max(b.y0+m,Math.min(b.y1-m,p[1]))];
+function mkSvg(slot,H){slot.innerHTML='';const W=Math.max(260,slot.clientWidth||600);H=Math.round(H);return el('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H},slot)}
+
+class Board{
+  constructor(svg,{x0,x1,y0,y1,grid=true}){
+    this.svg=svg;const vb=svg.viewBox.baseVal;this.W=vb.width;this.H=vb.height;
+    this.x0=x0;this.x1=x1;this.y0=y0;this.y1=y1;this.s=Math.min(this.W/(x1-x0),this.H/(y1-y0));
+    this.ox=(this.W-(x1-x0)*this.s)/2;this.oy=(this.H-(y1-y0)*this.s)/2;
+    this.gl=el('g',{},svg);this.dl=el('g',{},svg);this.hl=el('g',{},svg);
+    if(grid){for(let x=Math.ceil(x0);x<=x1;x++)el('line',{x1:this.X(x),y1:this.Y(y0),x2:this.X(x),y2:this.Y(y1),stroke:COL.grid,'stroke-width':1},this.gl);
+      for(let y=Math.ceil(y0);y<=y1;y++)el('line',{x1:this.X(x0),y1:this.Y(y),x2:this.X(x1),y2:this.Y(y),stroke:COL.grid,'stroke-width':1},this.gl);}
+  }
+  X(x){return this.ox+(x-this.x0)*this.s}Y(y){return this.oy+(this.y1-y)*this.s}
+  P(p){return [this.X(p[0]),this.Y(p[1])]}
+  toWorld(e){const pt=this.svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const q=pt.matrixTransform(this.svg.getScreenCTM().inverse());return [(q.x-this.ox)/this.s+this.x0,this.y1-(q.y-this.oy)/this.s]}
+  clear(){this.dl.innerHTML=''}
+  arrow(p,q,col,w=4,opt={}){
+    const [x1,y1]=this.P(p),[x2,y2]=this.P(q);const L=Math.hypot(x2-x1,y2-y1);if(L<1)return;
+    const ux=(x2-x1)/L,uy=(y2-y1)/L,h=Math.min(16,L*.45),hw=h*.5;
+    const g=el('g',{opacity:opt.op??1},this.dl);
+    el('line',{x1,y1,x2:x2-ux*h*.8,y2:y2-uy*h*.8,stroke:col,'stroke-width':w,'stroke-linecap':'round','stroke-dasharray':opt.dash||''},g);
+    el('polygon',{points:`${x2},${y2} ${x2-ux*h-uy*hw},${y2-uy*h+ux*hw} ${x2-ux*h+uy*hw},${y2-uy*h-ux*hw}`,fill:col},g);
+    return g;
+  }
+  seg(p,q,col,w=2,dash=''){const [x1,y1]=this.P(p),[x2,y2]=this.P(q);return el('line',{x1,y1,x2,y2,stroke:col,'stroke-width':w,'stroke-dasharray':dash,'stroke-linecap':'round'},this.dl)}
+  dot(p,col=COL.navy,r=4){const [x,y]=this.P(p);return el('circle',{cx:x,cy:y,r,fill:col},this.dl)}
+  text(px,py,t,{col=COL.navy,size=18,w=700,anchor='middle',vec=false,halo=true}={}){
+    const g=el('g',{},this.dl);
+    const tx=el('text',{x:px,y:py,'font-size':size,'font-weight':w,fill:col,'text-anchor':anchor,'dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',direction:'ltr',...(halo?{stroke:'#fff','stroke-width':4,'paint-order':'stroke'}:{})},g);
+    tx.textContent=t;
+    if(vec){let bb=tx.getBBox();if(!bb.width){const wd=t.length*size*.58;bb={x:anchor==='middle'?px-wd/2:(anchor==='end'?px-wd:px),y:py-size*.55,width:wd}}
+      const yy=bb.y-1.5;el('line',{x1:bb.x+1,y1:yy,x2:bb.x+bb.width-2,y2:yy,stroke:col,'stroke-width':1.8},g);
+      el('polygon',{points:`${bb.x+bb.width+2},${yy} ${bb.x+bb.width-5},${yy-3.6} ${bb.x+bb.width-5},${yy+3.6}`,fill:col},g)}
+    return g;
+  }
+  midLabel(p,q,t,opt={},off=18){
+    const [x1,y1]=this.P(p),[x2,y2]=this.P(q);const L=Math.hypot(x2-x1,y2-y1)||1;let nx=-(y2-y1)/L,ny=(x2-x1)/L;
+    if(off<0){nx=-nx;ny=-ny;off=-off}
+    return this.text((x1+x2)/2+nx*off,(y1+y2)/2+ny*off,t,opt);
+  }
+  handle(getP,setP,{snap=false,onTap=null}={}){
+    const c=el('circle',{r:HR,fill:'#FFD43B',stroke:COL.navy,'stroke-width':2.2,style:'cursor:grab'},this.hl);
+    const place=()=>{const [x,y]=this.P(getP());c.setAttribute('cx',x);c.setAttribute('cy',y)};place();
+    let drag=null;
+    c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);drag={x:e.clientX,y:e.clientY,m:0};e.preventDefault()});
+    c.addEventListener('pointermove',e=>{if(!drag)return;drag.m+=Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y);drag.x=e.clientX;drag.y=e.clientY;
+      if(drag.m<4)return;let w=this.toWorld(e);if(snap)w=w.map(Math.round);setP(w)});
+    c.addEventListener('pointerup',()=>{if(!drag)return;const tap=drag.m<4;drag=null;if(tap&&onTap)onTap()});
+    c.addEventListener('pointercancel',()=>{drag=null});
+    return {el:c,place};
+  }
+}
+const lab=(B,p,n,center,dist=20,size=19)=>{const [x,y]=B.P(p),[cx,cy]=B.P(center);const L=Math.hypot(x-cx,y-cy)||1;B.text(x+(x-cx)/L*dist,y+(y-cy)/L*dist,n,{size})};
+
+const V=(t,c='')=>`<span class="v ${c}">${t}</span>`;
+const M=s=>`<span class="m">${s}</span>`;
+const EQ=(...a)=>M(a.join(' = '));
+/* ================= lesson 2 widgets ================= */
+const vsum=(p,q)=>[p[0]+q[0],p[1]+q[1]],vdif=(p,q)=>[p[0]-q[0],p[1]-q[1]],vmul=(k,p)=>[k*p[0],k*p[1]];
+const same=(p,q)=>Math.abs(p[0]-q[0])<1e-9&&Math.abs(p[1]-q[1])<1e-9;
+const mv=(d)=>{const r=[];if(d[0])r.push(`${Math.abs(d[0])} ${d[0]>0?'ימינה':'שמאלה'}`);if(d[1])r.push(`${Math.abs(d[1])} ${d[1]>0?'למעלה':'למטה'}`);return r.length?r.join(' ו־ '):'בלי תזוזה'};
+// a named point label placed away from the given neighbours
+function ptLab(B,p,n,others,dist=20){const [x,y]=B.P(p);let dx=0,dy=0;others.forEach(o=>{const [ox,oy]=B.P(o);const L=Math.hypot(x-ox,y-oy)||1;dx+=(x-ox)/L;dy+=(y-oy)/L});
+  let L=Math.hypot(dx,dy);if(L<.3){dx=-.7;dy=-.7;L=1}B.text(x+dx/L*dist,y+dy/L*dist,n,{size:19})}
+function gridBox(slot){const W=slot.clientWidth,ph=W<520;return {ph,box:ph?{x0:0,x1:10,y0:0,y1:10}:{x0:0,x1:16,y0:0,y1:9},H:ph?W*1.0:360}}
+
+/* ---------- W1: triangle rule ---------- */
+const W1=(()=>{
+  const w=document.getElementById('w1'),st=w.querySelector('.status');let B,box,A,Bp,C,showSum=false,hs=[];
+  const sets=[[[1,2],[5,6],[8,3]],[[2,6],[6,2],[9,7]],[[1,1],[3,7],[8,5]],[[2,4],[7,8],[6,1]]];let si=0;
+  const fit=s=>s.map(p=>clampBox(p,box,.6).map(Math.round));
+  function draw(){
+    B.clear();
+    if(same(A,Bp)||same(Bp,C)){}
+    B.arrow(A,Bp,COL.vec,4.5);B.arrow(Bp,C,COL.vec2,4.5);
+    B.midLabel(A,Bp,'AB',{col:COL.vec,size:19,vec:true},-22);B.midLabel(Bp,C,'BC',{col:COL.vec2,size:19,vec:true},-22);
+    if(showSum&&!same(A,C)){B.arrow(A,C,COL.eq,5);B.midLabel(A,C,'AC',{col:COL.eq,size:20,vec:true},22)}
+    [A,Bp,C].forEach(p=>B.dot(p,COL.navy,4));
+    ptLab(B,A,'A',[Bp,C]);ptLab(B,Bp,'B',[A,C]);ptLab(B,C,'C',[A,Bp]);
+    hs.forEach(h=>h.place());
+    const d1=vdif(Bp,A),d2=vdif(C,Bp),d=vdif(C,A);
+    st.innerHTML=`התזוזה ${vecHTML('AB')}: ${mv(d1)} · התזוזה ${vecHTML('BC','c-vec2')}: ${mv(d2)}<br>`+
+      (showSum?(same(A,C)?`המטיילת חזרה לנקודת ההתחלה! התזוזה הכוללת היא וקטור האפס.`:`<b class="c-eq">התזוזה הכוללת</b> ${vecHTML('AC','c-eq')}: ${mv(d)}. <span class="m">${vecHTML('AB')} + ${vecHTML('BC','c-vec2')} = ${vecHTML('AC','c-eq')}</span>`)
+       :'מה התזוזה הכוללת מ־ <span class="m">A</span> אל <span class="m">C</span>? חשבו, ואז לחצו על "הצגת התזוזה הכוללת".');
+  }
+  function build(slot){
+    const g=gridBox(slot);box=g.box;const svg=mkSvg(slot,g.H);B=new Board(svg,box);
+    [A,Bp,C]=fit(sets[si]);
+    const mk=(get,set)=>B.handle(get,p=>{set(clampBox(p,box,.6).map(Math.round));draw()},{snap:true});
+    hs=[mk(()=>A,p=>A=p),mk(()=>Bp,p=>Bp=p),mk(()=>C,p=>C=p)];draw();
+  }
+  w.querySelector('[data-a=sum]').onclick=e=>{showSum=!showSum;e.currentTarget.textContent=showSum?'הסתרת התזוזה הכוללת':'הצגת התזוזה הכוללת';draw()};
+  w.querySelector('[data-a=rnd]').onclick=()=>{si=(si+1)%sets.length;[A,Bp,C]=fit(sets[si]);draw()};
+  return {build};
+})();
+
+/* ---------- W2: parallelogram rule ---------- */
+const W2=(()=>{
+  const w=document.getElementById('w2'),st=w.querySelector('.status');let B,box,O,U,Vv,mode='par',hs=[];
+  function draw(){
+    B.clear();const u=vdif(U,O),v=vdif(Vv,O),S=vsum(U,v);
+    const poly=[O,U,S,Vv].map(p=>B.P(p).join(',')).join(' ');
+    el('polygon',{points:poly,fill:'rgba(108,99,255,.06)',stroke:'none'},B.dl);
+    if(mode!=='tri2'){B.arrow(U,S,COL.vec2,3.5,{dash:'8 6',op:mode==='par'?.75:1});B.midLabel(U,S,'v',{col:COL.vec2,size:18,vec:true},-18)}
+    if(mode!=='tri1'){B.arrow(Vv,S,COL.vec,3.5,{dash:'8 6',op:mode==='par'?.75:1});B.midLabel(Vv,S,'u',{col:COL.vec,size:18,vec:true},18)}
+    B.arrow(O,U,COL.vec,4.5);B.arrow(O,Vv,COL.vec2,4.5);
+    B.midLabel(O,U,'u',{col:COL.vec,size:19,vec:true},-18);B.midLabel(O,Vv,'v',{col:COL.vec2,size:19,vec:true},18);
+    if(!same(S,O)){B.arrow(O,S,COL.eq,5);B.midLabel(O,S,'u + v',{col:COL.eq,size:18,vec:false},-24)}
+    hs.forEach(h=>h.place());
+    st.innerHTML=mode==='par'?`הסכום <span class="m c-eq"><span class="v">u</span> + <span class="v">v</span></span> הוא האלכסון של המקבילית. הקווים המקווקווים הם <b>העתקים</b> של <span class="v">u</span> ושל <span class="v">v</span> — וקטורים שווים להם.`
+      :mode==='tri1'?`קודם הולכים לאורך <span class="v c-vec">u</span>, ואז לאורך העתק של <span class="v c-vec2">v</span> — מגיעים לקצה האלכסון: <span class="m"><span class="v">u</span> + <span class="v">v</span></span>.`
+      :`קודם הולכים לאורך <span class="v c-vec2">v</span>, ואז לאורך העתק של <span class="v c-vec">u</span> — מגיעים <b>לאותה נקודה</b>! לכן <span class="m"><span class="v">v</span> + <span class="v">u</span> = <span class="v">u</span> + <span class="v">v</span></span>.`;
+  }
+  function build(slot){
+    const g=gridBox(slot);box=g.box;const svg=mkSvg(slot,g.H);B=new Board(svg,box);
+    if(g.ph){O=[1,1];U=U&&U[0]<=9?U:[6,2];Vv=Vv&&Vv[0]<=9?Vv:[2,5]}else{O=[2,1];U=U||[8,2];Vv=Vv||[4,5]}
+    const ok=(p,which)=>{const u=which==='U'?vdif(p,O):vdif(U,O),v=which==='V'?vdif(p,O):vdif(Vv,O);const S=vsum(vsum(O,u),v);return S[0]>=box.x0+.5&&S[0]<=box.x1-.5&&S[1]>=box.y0+.5&&S[1]<=box.y1-.5};
+    hs=[B.handle(()=>U,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok(p,'U')&&!same(p,O)){U=p;draw()}},{snap:true}),
+        B.handle(()=>Vv,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok(p,'V')&&!same(p,O)){Vv=p;draw()}},{snap:true})];
+    draw();
+  }
+  w.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{mode=b.dataset.a;w.querySelectorAll('[data-a]').forEach(x=>x.classList.toggle('on',x===b));draw()});
+  return {build};
+})();
+
+/* ---------- W3: chain / polygon rule ---------- */
+const W3=(()=>{
+  const w=document.getElementById('w3'),st=w.querySelector('.status');let B,box,P=[],hs=[];
+  const setsW=[[[1,1],[4,3],[6,7],[9,6],[13,2]],[[2,2],[3,6],[8,8],[12,5],[9,2]],[[1,4],[5,8],[10,7],[13,3],[7,1]]];
+  const setsP=[[[1,1],[2,5],[5,8],[8,6],[8,2]],[[1,2],[2,7],[6,9],[9,5],[6,1]],[[1,5],[4,9],[8,7],[9,3],[4,1]]];let si=0;
+  const cols=[COL.vec,COL.vec2,COL.dir,COL.len],names=['AB','BC','CD','DE'],L='ABCDE';
+  const fit=i=>(box.x1<16?setsP:setsW)[i].map(p=>clampBox(p,box,.6).map(Math.round));
+  function draw(){
+    B.clear();
+    for(let i=0;i<4;i++)if(!same(P[i],P[i+1])){B.arrow(P[i],P[i+1],cols[i],4);B.midLabel(P[i],P[i+1],names[i],{col:cols[i],size:17,vec:true},-18)}
+    const closed=same(P[0],P[4]);
+    if(!closed){B.arrow(P[0],P[4],COL.eq,5.5);B.midLabel(P[0],P[4],'AE',{col:COL.eq,size:19,vec:true},20)}
+    else{const [x,y]=B.P(P[0]);el('circle',{cx:x,cy:y,r:16,fill:'none',stroke:COL.eq,'stroke-width':3,'stroke-dasharray':'4 4'},B.dl)}
+    P.forEach((p,i)=>{B.dot(p);const nb=[P[i-1],P[i+1]].filter(Boolean);ptLab(B,p,closed&&i===4?'A = E':closed&&i===0?'':L[i],nb.length?nb:[P[1]])});
+    hs.forEach(h=>h.place());
+    st.innerHTML=closed?`<b class="c-eq">המסלול נסגר!</b> <span class="m">${vecHTML('AB','')} + ${vecHTML('BC','')} + ${vecHTML('CD','')} + ${vecHTML('DE','')} = ${vecHTML('0','')}</span> — הסכום הוא וקטור האפס.`
+      :`<span class="m">${vecHTML('AB')} + ${vecHTML('BC','c-vec2')} + ${vecHTML('CD','c-dir')} + ${vecHTML('DE','c-len')} = ${vecHTML('AE','c-eq')}</span><br>גררו את הנקודות: הסכום תלוי רק בנקודת ההתחלה ובנקודת הסיום.`;
+  }
+  function build(slot){
+    const g=gridBox(slot);box=g.box;const svg=mkSvg(slot,g.H);B=new Board(svg,box);
+    if(!P.length||P.some(p=>p[0]>box.x1||p[1]>box.y1))P=fit(si);
+    hs=[1,2,3,4].map(i=>B.handle(()=>P[i],p=>{P[i]=clampBox(p,box,.6).map(Math.round);draw()},{snap:true}));draw();
+  }
+  w.querySelector('[data-a=close]').onclick=()=>{P[4]=P[0].slice();draw()};
+  w.querySelector('[data-a=rnd]').onclick=()=>{si=(si+1)%3;P=fit(si);draw()};
+  return {build};
+})();
+
+/* ---------- W4: negative & difference ---------- */
+const W4=(()=>{
+  const w=document.getElementById('w4'),st=w.querySelector('.status');let B,box,O,U,Vv,mode='neg',hs=[];
+  function draw(){
+    B.clear();const v=vdif(Vv,O),D=vdif(U,v); // O + (u - v)
+    if(mode==='neg'){
+      B.arrow(U,D,COL.vec2,3.5,{dash:'8 6'});B.midLabel(U,D,'−v',{col:COL.vec2,size:18},-18);
+      if(!same(D,O)){B.arrow(O,D,COL.dir,5);B.midLabel(O,D,'u − v',{col:COL.dir,size:18},-20)}
+    }else{
+      if(!same(U,Vv)){B.arrow(Vv,U,COL.dir,5);B.midLabel(Vv,U,'u − v',{col:COL.dir,size:18},20)}
+      if(!same(D,O))B.arrow(O,D,COL.dir,3,{dash:'5 6',op:.45});
+    }
+    B.arrow(O,U,COL.vec,4.5);B.arrow(O,Vv,COL.vec2,4.5);
+    B.midLabel(O,U,'u',{col:COL.vec,size:19,vec:true},mode==='neg'?20:-18);B.midLabel(O,Vv,'v',{col:COL.vec2,size:19,vec:true},18);
+    hs.forEach(h=>h.place());
+    st.innerHTML=mode==='neg'?`מצמידים את <span class="m c-vec2">−<span class="v">v</span></span> (הנגדי של <span class="v">v</span>) לראש של <span class="v c-vec">u</span>. לפי כלל המשולש, הסכום <span class="m c-dir"><span class="v">u</span> + (−<span class="v">v</span>)</span> הוא <span class="m c-dir"><span class="v">u</span> − <span class="v">v</span></span>.`
+      :`הווקטור מהראש של <span class="v c-vec2">v</span> אל הראש של <span class="v c-vec">u</span> שווה ל־ <span class="m c-dir"><span class="v">u</span> − <span class="v">v</span></span> (המקווקו החלש הוא אותו וקטור מהדרך הראשונה). בדקו: <span class="m"><span class="v">v</span> + (<span class="v">u</span> − <span class="v">v</span>) = <span class="v">u</span></span>.`;
+  }
+  function build(slot){
+    const g=gridBox(slot);box=g.box;const svg=mkSvg(slot,g.H);B=new Board(svg,box);
+    if(g.ph){O=[4,1];U=[7,6];Vv=[2,5]}else{O=[7,1];U=[13,5];Vv=[4,6]}
+    const ok=p=>{const D=vdif(p.U,vdif(p.V,O));return D[0]>=box.x0+.4&&D[0]<=box.x1-.4&&D[1]>=box.y0+.4&&D[1]<=box.y1-.4};
+    hs=[B.handle(()=>U,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok({U:p,V:Vv})&&!same(p,O)){U=p;draw()}},{snap:true}),
+        B.handle(()=>Vv,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok({U,V:p})&&!same(p,O)){Vv=p;draw()}},{snap:true})];
+    draw();
+  }
+  w.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{mode=b.dataset.a;w.querySelectorAll('[data-a]').forEach(x=>x.classList.toggle('on',x===b));draw()});
+  return {build};
+})();
+
+/* ---------- W5: scalar multiplication ---------- */
+const W5=(()=>{
+  const w=document.getElementById('w5'),st=w.querySelector('.status'),kr=document.getElementById('kRange'),kv=document.getElementById('kVal');
+  let B,box,k=2,vi=0;const VS=[[2,1],[1,2],[2,-1],[-2,1]];
+  const kTxt=k=>(k===.5?'½':k===-.5?'−½':String(k).replace('-','−'));
+  function draw(){
+    B.clear();const a=VS[vi];const T1=[box.x0+(box.x1-box.x0)/2-a[0]/2,box.y1-2.2-Math.max(0,a[1])+ (a[1]<0?0:0)];
+    // a on the upper row, k·a centered on the lower row
+    const yA=box.y1-2,yK=(box.y1+box.y0)/2-1.2;
+    const tA=[(box.x0+box.x1)/2-a[0]/2,yA-a[1]/2],hA=vsum(tA,a);
+    B.arrow(tA,hA,COL.vec,4.5);B.midLabel(tA,hA,'u',{col:COL.vec,size:19,vec:true},-18);
+    const ka=vmul(k,a),tK=[(box.x0+box.x1)/2-ka[0]/2,yK-ka[1]/2],hK=vsum(tK,ka);
+    if(k!==0){B.arrow(tK,hK,COL.len,5);const lb=kTxt(k)+'u';B.midLabel(tK,hK,lb,{col:COL.len,size:19,vec:false},20)}
+    else{B.dot(tK,COL.len,6);B.text(B.X(tK[0]),B.Y(tK[1])+22,'0',{col:COL.len,size:19,vec:true})}
+    const La=Math.hypot(...a);
+    let msg;
+    if(k===0)msg=`כאשר <span class="m">k = 0</span> מקבלים את <b>וקטור האפס</b>.`;
+    else if(k===1)msg=`כאשר <span class="m">k = 1</span> הווקטור לא משתנה: <span class="m">1<span class="v">u</span> = <span class="v">u</span></span>.`;
+    else if(k===-1)msg=`כאשר <span class="m">k = −1</span> מקבלים את הווקטור <b>הנגדי</b>: אותו אורך, כיוון מנוגד.`;
+    else if(k>1)msg=`<span class="m">k &gt; 1</span>: אותו כיוון, והווקטור <b>מתארך</b> פי ${kTxt(k)}.`;
+    else if(k>0)msg=`<span class="m">0 &lt; k &lt; 1</span>: אותו כיוון, והווקטור <b>מתקצר</b>.`;
+    else msg=`<span class="m">k &lt; 0</span>: הכיוון <b>מתהפך</b>, והאורך פי ${kTxt(Math.abs(k))}.`;
+    st.innerHTML=msg+`<br><span class="m">|${kTxt(k)}<span class="v">u</span>| = |${kTxt(k)}| · |<span class="v">u</span>| = ${fmt(Math.abs(k)*La)}</span> &nbsp; (כאן <span class="m">|<span class="v">u</span>| = ${fmt(La)}</span>)`;
+  }
+  function build(slot){const W=slot.clientWidth,ph=W<520;box=ph?{x0:0,x1:14,y0:0,y1:12}:{x0:0,x1:20,y0:0,y1:10};const svg=mkSvg(slot,ph?W*.86:340);B=new Board(svg,box);draw()}
+  kr.addEventListener('input',()=>{k=+kr.value;kv.textContent=kTxt(k);draw()});
+  w.querySelector('[data-a=other]').onclick=()=>{vi=(vi+1)%VS.length;draw()};
+  return {build};
+})();
+
+/* ---------- W8: expressing vectors in a parallelogram ---------- */
+const W8=(()=>{
+  const w=document.getElementById('w8'),st=w.querySelector('.status'),tb=document.getElementById('w8targets');
+  let B,ti=-1;const P={A:[0,0],B:[6,1],D:[2,4]};P.C=vsum(P.B,vdif(P.D,P.A));P.M=vmul(.5,vsum(P.B,P.C));
+  const a=V('a','c-vec'),b=V('b','c-vec2');
+  const T=[
+    {n:'AC',path:[['A','B','a'],['B','C','b']],txt:`${M(`${V('AC','c-eq')} = ${V('AB')} + ${V('BC')}`)}<br>${M(`${V('AB')} = ${a}`)}, ${M(`${V('BC')} = ${V('AD')} = ${b}`)}<br>לכן ${M(`${V('AC','c-eq')} = ${a} + ${b}`)}`},
+    {n:'BD',path:[['B','A','-a'],['A','D','b']],txt:`${M(`${V('BD','c-eq')} = ${V('BA')} + ${V('AD')}`)}<br>${M(`${V('BA')} = −${a}`)}, ${M(`${V('AD')} = ${b}`)}<br>לכן ${M(`${V('BD','c-eq')} = −${a} + ${b} = ${b} − ${a}`)}`},
+    {n:'DB',path:[['D','A','-b'],['A','B','a']],txt:`${M(`${V('DB','c-eq')} = ${V('DA')} + ${V('AB')}`)}<br>לכן ${M(`${V('DB','c-eq')} = −${b} + ${a} = ${a} − ${b}`)} — הנגדי של ${V('BD')}.`},
+    {n:'AM',path:[['A','B','a'],['B','M','½b']],txt:`${M(`${V('AM','c-eq')} = ${V('AB')} + ${V('BM')}`)}<br>${M(`${V('BM')} = ½${V('BC')} = ½${b}`)}, כי ${M('M')} אמצע ${M('BC')}<br>לכן ${M(`${V('AM','c-eq')} = ${a} + ½${b}`)}`},
+    {n:'DM',path:[['D','C','a'],['C','M','-½b']],txt:`${M(`${V('DM','c-eq')} = ${V('DC')} + ${V('CM')}`)}<br>${M(`${V('DC')} = ${a}`)}, ${M(`${V('CM')} = −½${b}`)}<br>לכן ${M(`${V('DM','c-eq')} = ${a} − ½${b}`)}`},
+  ];
+  function renderT(){tb.innerHTML=T.map((t,i)=>`<button class="b ${i===ti?'on':''}" data-t="${i}">${V(t.n)}</button>`).join('')}
+  tb.addEventListener('click',e=>{const bt=e.target.closest('[data-t]');if(!bt)return;ti=+bt.dataset.t;renderT();draw()});
+  function draw(){
+    B.clear();const pts=['A','B','C','D'].map(n=>P[n]);
+    el('polygon',{points:pts.map(p=>B.P(p).join(',')).join(' '),fill:'rgba(108,99,255,.05)',stroke:'#9aa7bd','stroke-width':2},B.dl);
+    if(ti<0){B.arrow(P.A,P.B,COL.vec,4.5);B.midLabel(P.A,P.B,'a',{col:COL.vec,size:19,vec:true},18);
+      B.arrow(P.A,P.D,COL.vec2,4.5);B.midLabel(P.A,P.D,'b',{col:COL.vec2,size:19,vec:true},-18)}
+    else{const t=T[ti];
+      t.path.forEach(([p,q,lb])=>{const c=lb.includes('a')?COL.vec:COL.vec2;B.arrow(P[p],P[q],c,4,{dash:'9 6'});B.midLabel(P[p],P[q],lb.replace('-','−'),{col:c,size:17},lb.includes('a')?18:-18)});
+      B.arrow(P[t.n[0]],P[t.n[1]],COL.eq,5.5)}
+    const cen=vmul(.25,vsum(vsum(P.A,P.B),vsum(P.C,P.D)));
+    ['A','B','C','D'].forEach(n=>{B.dot(P[n]);lab(B,P[n],n,cen,18,20)});
+    B.dot(P.M,COL.navy,5);lab(B,P.M,'M',cen,18,20);
+    st.innerHTML=ti<0?`בחרו וקטור למעלה. הוא יופיע בירוק, והדרך לאורך הצלעות — במקווקו.`:T[ti].txt;
+  }
+  function build(slot){const W=slot.clientWidth;const svg=mkSvg(slot,Math.min(330,W*.7));B=new Board(svg,{x0:-1.2,x1:9.2,y0:-1.1,y1:5.6,grid:false});draw()}
+  renderT();
+  return {build};
+})();
+const WIDGETS={w1:W1,w2:W2,w3:W3,w4:W4,w5:W5,w8:W8};
+
+// static figure on screen 6: segment AB with its midpoint M
+(()=>{const f=document.getElementById('midFig');const svg=el('svg',{viewBox:'0 0 420 110',style:'max-width:460px;width:100%;display:block;margin:auto'});
+  const B=new Board(svg,{x0:-.6,x1:10.6,y0:-1.1,y1:1.8,grid:false});
+  B.arrow([0,0],[5,0],COL.vec,4);B.arrow([5,0],[10,0],COL.vec2,4);
+  B.midLabel([0,0],[5,0],'AM',{col:COL.vec,size:17,vec:true},-18);B.midLabel([5,0],[10,0],'MB',{col:COL.vec2,size:17,vec:true},-18);
+  [[0,'A'],[5,'M'],[10,'B']].forEach(([x,n])=>{B.dot([x,0]);B.text(B.X(x),B.Y(0)+22,n,{size:19})});f.appendChild(svg)})();
+
+/* ================= screen checks ================= */
+// סדר התשובות מעורבב לכל תלמיד
+const shuffled=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const S=(...p)=>M(p.join(' '));           // math sequence, e.g. S(V('a'),'+',V('b'))
+const CHECKS={
+  1:{q:`מה הסכום ${S(V('PQ'),'+',V('QR'))}?`,o:[V('PR'),V('RP'),V('QP'),V('PQR')],a:0,ok:`נכון! לפי כלל המשולש: מ־ ${M('P')} אל ${M('Q')}, ומשם אל ${M('R')} — בסך הכול מ־ ${M('P')} אל ${M('R')}.`},
+  2:{q:`במקבילית ${M('ABCD')}, מה הסכום ${S(V('DA'),'+',V('DC'))}?`,o:[V('DB'),V('BD'),V('AC'),V('CA')],a:0,ok:`נכון! שני הווקטורים יוצאים מ־ ${M('D')}, ולכן הסכום הוא האלכסון שיוצא מ־ ${M('D')}: ${V('DB')}.`},
+  3:{q:`מה הסכום ${S(V('AB'),'+',V('BC'),'+',V('CD'),'+',V('DA'))}?`,o:[V('0'),V('AD'),V('DA'),V('AC')],a:0,ok:'נכון! המסלול חוזר לנקודת ההתחלה, ולכן הסכום הוא וקטור האפס.'},
+  4:{q:`מה ההפרש ${S(V('AB'),'−',V('AC'))}?`,o:[V('CB'),V('BC'),V('AC'),V('CA')],a:0,ok:`נכון! שני הווקטורים יוצאים מ־ ${M('A')}, וההפרש הולך מהראש של ${V('AC')} אל הראש של ${V('AB')}: מ־ ${M('C')} אל ${M('B')}.`},
+  5:{q:`נתון ${M('|'+V('u')+'| = 3')}. מה נכון לגבי הווקטור ${S('−2'+V('u'))}?`,o:['אורכו 6, וכיוונו מנוגד לכיוון של '+V('u'),'אורכו <span class="m">−6</span>, וכיוונו כמו של '+V('u'),'אורכו 1, וכיוונו מנוגד לכיוון של '+V('u'),'אורכו 6, וכיוונו כמו של '+V('u')],a:0,ok:`נכון! האורך הוא ${M('|−2| · 3 = 6')} (אורך אף פעם לא שלילי), והמינוס הופך את הכיוון.`},
+  6:{q:`הנקודה ${M('M')} היא אמצע הקטע ${M('AB')}. איזה וקטור שווה ל־ ${V('BM')}?`,o:[S('−½'+V('AB')),S('½'+V('AB')),S('2'+V('AM')),S('−2'+V('AB'))],a:0,ok:`נכון! האורך של ${V('BM')} הוא חצי מ־ ${M('AB')}, והוא מצביע מ־ ${M('B')} אל ${M('A')} — הפוך מ־ ${V('AB')}.`},
+  7:{q:`פשטו: ${S('3('+V('a'),'−',V('b')+')','+','2'+V('b'))}`,o:[S('3'+V('a'),'−',V('b')),S('3'+V('a'),'−','5'+V('b')),S('3'+V('a'),'+',V('b')),S('3'+V('a'),'−','2'+V('b'))],a:0,ok:`נכון! ${S('3'+V('a'),'−','3'+V('b'),'+','2'+V('b'),'=','3'+V('a'),'−',V('b'))}`},
+  8:{q:`במקבילית ${M('ABCD')} עם ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AD'),'=',V('b'))}, מהו ${V('CA')}?`,o:[S('−'+V('a'),'−',V('b')),S(V('a'),'+',V('b')),S(V('a'),'−',V('b')),S(V('b'),'−',V('a'))],a:0,ok:`נכון! ${V('CA')} הוא הנגדי של ${S(V('AC'),'=',V('a'),'+',V('b'))}, ולכן ${S(V('CA'),'=','−'+V('a'),'−',V('b'))}.`},
+};
+
+/* ================= practice figures (lesson 2) ================= */
+// grid with labelled arrows; arrows: [tail, head, name, colour]
+const GRID_AB=()=>figGrid([[[1,1],[4,2],'a'],[[1,4],[2,6],'b',COL.vec2],
+  [[6,1],[10,4],'p',COL.eq],[[6,6],[8,5],'q',COL.dir],[[12,1],[10,2],'r',COL.len],[[11,4],[15,5],'s','#0b7285']],{x1:16,y1:7});
+const parFigAD=(extra=[])=>figPoly([['A',[0,0]],['B',[7,0]],['C',[9,4]],['D',[2,4]]],{h:200,extra});
+const triFig=(extra=[])=>figPoly([['A',[1,5]],['B',[0,0]],['C',[8,1]]],{h:220,extra});
+const midDot=(p,n,off=[0,-18])=>B=>{B.dot(p);B.text(B.X(p[0])+off[0],B.Y(p[1])+off[1],n,{size:19})};
+
+const BASIC=[
+  {t:'mc',fig:GRID_AB,ask:`בשרטוט כל משבצת היא יחידה אחת. איזה וקטור שווה ל־ ${S(V('a'),'+',V('b'))}?`,opts:[V('p'),V('q'),V('r'),V('s')],a:0,
+    exp:`${V('a')} הולך 3 ימינה ו־ 1 למעלה, ו־ ${V('b')} הולך 1 ימינה ו־ 2 למעלה. בסך הכול: 4 ימינה ו־ 3 למעלה — בדיוק ${V('p')}.`},
+  {t:'mc',fig:GRID_AB,ask:`באותו שרטוט. איזה וקטור שווה ל־ ${S(V('a'),'−',V('b'))}?`,opts:[V('p'),V('q'),V('r'),V('s')],a:1,
+    exp:`${S(V('a'),'−',V('b'))}: ${M('3 − 1 = 2')} ימינה, ו־ ${M('1 − 2 = −1')} — כלומר 1 למטה. זה ${V('q')}.`},
+  {t:'mc',ask:`מה הסכום ${S(V('AB'),'+',V('BC'),'+',V('CD'))}?`,opts:[V('AD'),V('DA'),V('AC'),V('BD')],a:0,exp:'כלל המצולע: מתחילים ב־ A ומסיימים ב־ D.'},
+  {t:'mc',ask:`מה ההפרש ${S(V('PQ'),'−',V('PR'))}?`,opts:[V('RQ'),V('QR'),V('PR'),V('RP')],a:0,
+    exp:`שני הווקטורים יוצאים מ־ ${M('P')}. ההפרש הולך מהראש של המחוסר (${M('R')}) אל הראש של הראשון (${M('Q')}). בדיקה: ${S(V('PR'),'+',V('RQ'),'=',V('PQ'))}.`},
+  {t:'mc',fig:()=>parFigAD(),given:`נתונה מקבילית ${M('ABCD')}.`,ask:`מה הסכום ${S(V('BA'),'+',V('BC'))}?`,opts:[V('BD'),V('DB'),V('AC'),V('CA')],a:0,
+    exp:`שני הווקטורים יוצאים מ־ ${M('B')}, ולכן לפי כלל המקבילית הסכום הוא האלכסון שיוצא מ־ ${M('B')}: ${V('BD')}.`},
+  {t:'num',ask:`נתון ${M('|'+V('a')+'| = 3')}. מהו האורך ${M('|−4'+V('a')+'|')}?`,a:12,exp:`${M('|−4| · 3 = 12')}. המינוס משנה את הכיוון, לא את האורך.`},
+  {t:'tf',ask:`לווקטור ${S('−2'+V('a'))} יש אותו כיוון כמו לווקטור ${V('a')}.`,a:false,exp:'המקדם שלילי, ולכן הכיוון מנוגד.'},
+  {t:'mc',ask:`פשטו את הביטוי ${S('2('+V('a'),'+','3'+V('b')+')','−','('+V('a'),'−',V('b')+')')}`,opts:[S(V('a'),'+','7'+V('b')),S(V('a'),'+','5'+V('b')),S('3'+V('a'),'+','7'+V('b')),S(V('a'),'+','6'+V('b'))],a:0,
+    exp:`${S('2'+V('a'),'+','6'+V('b'),'−',V('a'),'+',V('b'),'=',V('a'),'+','7'+V('b'))}. שימו לב: המינוס לפני הסוגריים הופך גם את הסימן של ${V('b')}.`},
+  {t:'tf',ask:`הנקודה ${M('M')} היא אמצע הקטע ${M('AB')}. לכן ${S(V('AM'),'=',V('MB'))}.`,a:true,exp:`ל־ ${V('AM')} ול־ ${V('MB')} יש אותו אורך (חצי מ־ ${M('AB')}), ושניהם מצביעים מ־ ${M('A')} לכיוון ${M('B')}.`},
+  {t:'num',ask:`לווקטורים ${V('a')} ו־ ${V('b')} יש כיוונים מנוגדים, ${M('|'+V('a')+'| = 5')} ו־ ${M('|'+V('b')+'| = 2')}. מהו האורך ${M('|'+V('a')+' + '+V('b')+'|')}?`,a:3,
+    exp:'כשהולכים 5 צעדים לכיוון אחד ו־ 2 צעדים לכיוון ההפוך, מגיעים למרחק 3 מנקודת ההתחלה.'},
+];
+
+const ADV=[
+  {t:'mc',fig:()=>parFigAD([midDot([5.5,4],'M',[0,-18])]),given:`במקבילית ${M('ABCD')} מסמנים ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AD'),'=',V('b'))}. הנקודה ${M('M')} היא אמצע הצלע ${M('DC')}.`,
+    ask:`איזה ביטוי שווה ל־ ${V('AM')}?`,opts:[S(V('b'),'+','½'+V('a')),S(V('a'),'+','½'+V('b')),S('½'+V('a'),'−',V('b')),S(V('b'),'−','½'+V('a'))],a:0,
+    hint:`לכו מ־ ${M('A')} אל ${M('D')}, ומשם לאורך חצי מהצלע ${M('DC')}.`,
+    sol:[S(V('AM'),'=',V('AD'),'+',V('DM')),S(V('DM'),'=','½'+V('DC'),'=','½'+V('a')),`(כי ${S(V('DC'),'=',V('AB'),'=',V('a'))})`,S(V('AM'),'=',V('b'),'+','½'+V('a'))]},
+  {t:'mc',fig:()=>triFig([midDot([4,.5],'M',[0,20])]),given:`במשולש ${M('ABC')} מסמנים ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AC'),'=',V('b'))}. הנקודה ${M('M')} היא אמצע הצלע ${M('BC')}.`,
+    ask:`איזה ביטוי שווה ל־ ${V('AM')}?`,opts:[S('½'+V('a'),'+','½'+V('b')),S(V('a'),'+','½'+V('b')),S('½'+V('b'),'−','½'+V('a')),S(V('a'),'+',V('b'))],a:0,
+    hint:`${S(V('AM'),'=',V('AB'),'+',V('BM'))}. איך מביעים את ${V('BC')} בעזרת ${V('a')} ו־ ${V('b')}?`,
+    sol:[S(V('BC'),'=',V('AC'),'−',V('AB'),'=',V('b'),'−',V('a')),S(V('BM'),'=','½'+V('BC'),'=','½'+V('b'),'−','½'+V('a')),S(V('AM'),'=',V('AB'),'+',V('BM')),S(V('AM'),'=',V('a'),'+','½'+V('b'),'−','½'+V('a')),S(V('AM'),'=','½'+V('a'),'+','½'+V('b'))]},
+  {t:'mc',fig:()=>figPoly(hexPts(),{extra:[B=>{B.dot([0,0]);B.text(B.X(0)+16,B.Y(0)+14,'O',{size:19})}],h:240}),given:`נתון משושה משוכלל ${M('ABCDEF')} שמרכזו ${M('O')}.`,
+    ask:`מה הסכום ${S(V('AB'),'+',V('AF'))}?`,opts:[V('AO'),V('AD'),V('OA'),S('2'+V('AO'))],a:0,
+    hint:`המרובע ${M('ABOF')} הוא מעוין (כל צלעותיו שוות לצלע המשושה). השתמשו בכלל המקבילית.`,
+    exp:`${V('AB')} ו־ ${V('AF')} יוצאים מ־ ${M('A')}, והם צלעות של המעוין ${M('ABOF')}. לפי כלל המקבילית הסכום הוא האלכסון ${V('AO')}.`},
+  {t:'num',given:`הנקודה ${M('M')} היא אמצע הקטע ${M('AB')}, והנקודה ${M('N')} היא אמצע הקטע ${M('AM')}.`,
+    ask:`מצאו את המספר ${M('k')} שעבורו ${S(V('NB'),'=','k'+V('AB'))}. (אפשר לכתוב שבר, למשל 2/3, או מספר עשרוני.)`,a:.75,
+    hint:'סמנו את אורך הקטע AB כ־ 4 יחידות. כמה יחידות יש מ־ N עד B?',
+    sol:[S(V('NB'),'=',V('NM'),'+',V('MB')),S(V('NM'),'=','¼'+V('AB')),S(V('MB'),'=','½'+V('AB')),S(V('NB'),'=','¾'+V('AB')),'לכן k = 3/4.']},
+  {t:'proof',given:`נתון מרובע ${M('ABCD')}.`,ask:`הוכיחו: ${S(V('AB'),'+',V('CD'),'=',V('AD'),'+',V('CB'))}`,
+    hint:`נסו להביע את ${V('AB')} כסכום של שני וקטורים שעוברים דרך ${M('D')}.`,
+    sol:['מתחילים מהאגף השמאלי:',S(V('AB'),'=',V('AD'),'+',V('DB')),S(V('AB'),'+',V('CD'),'=',V('AD'),'+',V('DB'),'+',V('CD')),`לפי חוק החילוף: ${S(V('DB'),'+',V('CD'),'=',V('CD'),'+',V('DB'),'=',V('CB'))}`,S(V('AB'),'+',V('CD'),'=',V('AD'),'+',V('CB')),'וזה מה שרצינו להוכיח.']},
+  {t:'tf',ask:`אם ${M(V('a')+' ∥ '+V('b'))} וגם ${M('|'+V('a')+'| = 2|'+V('b')+'|')}, אז בהכרח ${S(V('a'),'=','2'+V('b'))}.`,a:false,
+    hint:'האם שני וקטורים מקבילים חייבים להצביע לאותו צד?',
+    exp:`ייתכן ש־ ${V('a')} ו־ ${V('b')} בכיוונים מנוגדים, ואז ${S(V('a'),'=','−2'+V('b'))}. לכן ${S(V('a'),'=','2'+V('b'))} או ${S(V('a'),'=','−2'+V('b'))}.`},
+  {t:'mc',fig:()=>boxFig(),given:`בתיבה ${M("ABCDA'B'C'D'")} מסמנים ${S(V('AB'),'=',V('a'))}, ${S(V('AD'),'=',V('b'))} ו־ ${S(V("AA'"),'=',V('c'))}.`,
+    ask:`איזה ביטוי שווה ל־ ${V("DB'")}?`,opts:[S(V('a'),'−',V('b'),'+',V('c')),S(V('a'),'+',V('b'),'+',V('c')),S(V('b'),'−',V('a'),'+',V('c')),S(V('a'),'−',V('b'),'−',V('c'))],a:0,
+    hint:`לכו מ־ ${M('D')} אל ${M('A')}, משם אל ${M('B')}, ומשם למעלה אל ${M("B'")}.`,
+    sol:[S(V("DB'"),'=',V('DA'),'+',V('AB'),'+',V("BB'")),S(V('DA'),'=','−'+V('b')),S(V("BB'"),'=',V("AA'"),'=',V('c')),S(V("DB'"),'=','−'+V('b'),'+',V('a'),'+',V('c')),S(V("DB'"),'=',V('a'),'−',V('b'),'+',V('c'))]},
+];
+
+/* ================= screen engine ================= */
+const screens=[...document.querySelectorAll('.screen')],N=screens.length;
+// ההתקדמות נשמרת בנפרד לכל תלמיד (חשוב במכשיר משותף)
+const keyFor=()=>'vec-l2-progress-'+(CourseAPI.preview?'preview':((CourseAPI.student&&CourseAPI.student.code)||'guest'));
+let KEY=keyFor();
+let cur=0,maxSeen=0,passed=new Set(),hadLocal=false,localT=0,doneL=false;
+function loadLocal(){cur=0;maxSeen=0;passed=new Set();hadLocal=false;localT=0;doneL=false;
+  try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){hadLocal=true;localT=s.t||0;cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[]);doneL=!!s.done}}catch(e){}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed],done:doneL,t:Date.now()}))}catch(e){}};
+const gated=i=>!CourseAPI.preview&&(CHECKS[i]||screens[i].dataset.gate);
+function markPassed(i){passed.add(i);save();if(i===cur)updNav()}
+const SOLVERS={};
+// build check boxes
+screens.forEach((sc,i)=>{
+  const more=sc.querySelector('.more');
+  const c=CHECKS[i];
+  if(!c&&!more)return;
+  const box=document.createElement('div');box.className='check';
+  if(c){
+    box.innerHTML=`<div class="h">בדיקת הבנה</div><div class="cq">${c.q}</div><div class="opts">${shuffled(c.o.map((t,j)=>`<button data-j="${j}">${t}</button>`)).join('')}</div><div class="fb"></div>`;
+    const fb=box.querySelector('.fb');
+    let att=0;const solve=()=>{box.classList.add('done');box.querySelectorAll('.opts button').forEach(b=>{b.disabled=true;if(+b.dataset.j===c.a)b.classList.add('ok')});fb.className='fb ok';fb.innerHTML='✔ '+c.ok};
+    SOLVERS[i]=solve;if(passed.has(i))solve();
+    box.querySelector('.opts').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;
+      att++;CourseAPI.log({ev:'check',screen:i+1,title:sc.dataset.t,ok:+b.dataset.j===c.a,attempt:att});
+      if(+b.dataset.j===c.a){solve();markPassed(i)}else{b.classList.add('no');b.disabled=true;fb.className='fb no';fb.innerHTML='✘ לא נכון — נסו שוב'+(more?', או לחצו על "אני צריך עוד הסבר".':'.')}});
+  }else box.style.borderStyle='dashed';
+  if(more){const mb=document.createElement('button');mb.className='b';mb.style.marginTop='10px';mb.textContent='אני צריך עוד הסבר';mb.onclick=()=>{more.classList.toggle('on');mb.textContent=more.classList.contains('on')?'הסתרת ההסבר':'אני צריך עוד הסבר'};box.appendChild(mb);box.appendChild(more)}
+  sc.appendChild(box);
+});
+const nav=document.getElementById('nav');
+function updNav(){
+  const g=gated(cur)&&!passed.has(cur);
+  document.getElementById('prev').disabled=cur===0;
+  const nx=document.getElementById('next');nx.style.visibility=cur===N-1?'hidden':'visible';nx.disabled=g;
+  document.getElementById('gate').textContent=g?(screens[cur].dataset.gate==='sort'?'מיינו את כל הכרטיסים נכון כדי להמשיך':'ענו נכון על שאלת הבדיקה כדי להמשיך'):'';
+  document.getElementById('cnt').textContent=`מסך ${cur+1} מתוך ${N} · ${screens[cur].dataset.t}`;
+  const dots=document.getElementById('dots');
+  dots.innerHTML=screens.map((s,i)=>`<button title="${s.dataset.t}" class="${i===cur?'cur':(i<=maxSeen?'done':'')}" ${i>maxSeen?'disabled':''} data-i="${i}"></button>`).join('');
+}
+document.getElementById('dots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;show(+b.dataset.i)});
+const builtW={};
+function buildWidget(i){const id=screens[i].dataset.w;if(!id)return;const slot=document.querySelector('#'+id+' .slot');const w=slot.clientWidth;if(builtW[id]===w)return;builtW[id]=w;WIDGETS[id].build(slot)}
+function show(i){
+  screens[cur].classList.remove('on');cur=i;screens[cur].classList.add('on');
+  screens[cur].appendChild(nav);
+  if(cur>maxSeen)maxSeen=cur;save();updNav();buildWidget(cur);
+  CourseAPI.log({ev:'screen',screen:cur+1,title:screens[cur].dataset.t});
+  window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});
+}
+document.getElementById('prev').onclick=()=>{if(cur>0)show(cur-1)};
+document.getElementById('next').onclick=()=>{if(cur<N-1&&!(gated(cur)&&!passed.has(cur)))show(cur+1)};
+let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>buildWidget(cur),200)});
+
+/* ================= practice figures ================= */
+function figGrid(arrows,{x1=14,y1=8}={}){
+  const u=30;const svg=el('svg',{viewBox:`0 0 ${x1*u} ${y1*u}`,style:`max-width:${x1*u*1.3}px;width:100%;display:block;margin:auto;background:#fff`});
+  const B=new Board(svg,{x0:0,x1,y0:0,y1});
+  arrows.forEach(([p,q,n,c])=>{B.arrow(p,q,c||COL.vec,4);B.midLabel(p,q,n,{col:c||COL.vec,size:19,vec:true},20)});
+  return svg;
+}
+function figPoly(pts,{close=true,extra=[],w=420,h=240,pad=1}={}){
+  const xs=pts.map(p=>p[1][0]),ys=pts.map(p=>p[1][1]);
+  const x0=Math.min(...xs)-pad,x1=Math.max(...xs)+pad,y0=Math.min(...ys)-pad,y1=Math.max(...ys)+pad;
+  const s=Math.min(w/(x1-x0),h/(y1-y0));
+  const svg=el('svg',{viewBox:`0 0 ${(x1-x0)*s} ${(y1-y0)*s}`,style:`max-width:${w*1.3}px;width:100%;display:block;margin:auto;background:#fff`});
+  const B=new Board(svg,{x0,x1,y0,y1,grid:false});
+  if(close)el('polygon',{points:pts.map(p=>B.P(p[1]).join(',')).join(' '),fill:'rgba(43,68,160,.04)',stroke:'#172230','stroke-width':2},B.dl);
+  extra.forEach(f=>f(B));
+  const cx=xs.reduce((a,b)=>a+b)/xs.length,cy=ys.reduce((a,b)=>a+b)/ys.length;
+  pts.forEach(([n,p])=>{B.dot(p);lab(B,p,n,[cx,cy],18,20)});
+  return svg;
+}
+function boxFig(opt={}){
+  const svg=el('svg',{viewBox:'0 0 460 280',style:'max-width:480px;width:100%;display:block;margin:auto;background:#fff'});
+  const pr=(x,y,z)=>[48+x*46+y*24,240-z*44-y*15];
+  const a=6.2,b=3,h=3.6;
+  const P={A:pr(0,0,0),B:pr(a,0,0),C:pr(a,b,0),D:pr(0,b,0),"A'":pr(0,0,h),"B'":pr(a,0,h),"C'":pr(a,b,h),"D'":pr(0,b,h)};
+  const ln=(p,q,dash)=>el('line',{x1:P[p][0],y1:P[p][1],x2:P[q][0],y2:P[q][1],stroke:dash?'#9aa7bd':'#172230','stroke-width':dash?1.5:2,'stroke-dasharray':dash?'6 5':''},svg);
+  [['A','B'],['B','C'],["A'","B'"],["B'","C'"],["C'","D'"],["D'","A'"],['A',"A'"],['B',"B'"],['C',"C'"]].forEach(e=>ln(...e));
+  [['C','D'],['D','A'],['D',"D'"]].forEach(e=>ln(...e,true));
+  const off={A:[-14,12],B:[10,15],C:[17,6],D:[-17,-4],"A'":[-17,-6],"B'":[6,-14],"C'":[17,-8],"D'":[-6,-15]};
+  if(opt.mid){P.M=pr(a/2,0,0);P.N=pr(a/2,b,h);off.M=[0,17];off.N=[0,-15]}
+  for(const n in P){if(n==='M'||n==='N')el('circle',{cx:P[n][0],cy:P[n][1],r:4.5,fill:'#172230'},svg);
+    const t=el('text',{x:P[n][0]+off[n][0],y:P[n][1]+off[n][1],'font-size':19,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',fill:'#172230',direction:'ltr',stroke:'#fff','stroke-width':4,'paint-order':'stroke'},svg);t.textContent=n}
+  return svg;
+}
+
+const hexPts=()=>{const out=[];'ABCDEF'.split('').forEach((n,i)=>{const a=(200-60*i)*Math.PI/180;out.push([n,[3*Math.cos(a),3*Math.sin(a)]])});return out};
+
+
+function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
+  let score=0,done=0;const tot=list.length;document.getElementById(totId).textContent=tot;
+  const endBox=document.createElement('div');endBox.className='endbox';
+  const upd=()=>{document.getElementById(scId).textContent=fmt(score,1);document.getElementById(doneId).textContent=`נענו ${done} מתוך ${tot}`;
+    if(done===tot&&!endBox.dataset.shown){endBox.dataset.shown=1;endBox.innerHTML=`<div class="big">🎉 סיימתם את כל השאלות — כל הכבוד!</div><div>הניקוד שלכם: <b>${fmt(score,1)}</b> מתוך <b>${tot}</b>.</div>`+endHTML;root.after(endBox);
+      setTimeout(()=>endBox.scrollIntoView({behavior:'smooth',block:'center'}),400)}};
+  list.forEach((q,i)=>{
+    const d=document.createElement('div');d.className='q';
+    const tag={mc:'בחירה',tf:'נכון / לא נכון',num:'תשובה פתוחה',proof:'הוכחה'}[q.t];
+    d.innerHTML=`<div class="qh"><span class="qn">${i+1}.</span><span class="tag">${tag}</span></div>`+
+      (q.given?`<div class="given">${q.given}</div>`:'')+`<div class="figslot"></div><div class="ask">${q.t==='tf'?'האם הטענה נכונה? ':''}${q.ask}</div>`;
+    if(q.fig){const f=document.createElement('figure');f.appendChild(q.fig());d.querySelector('.figslot').appendChild(f)}
+    let tries=0,solved=false;
+    const fb=document.createElement('div');fb.className='fb';
+    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd()}tries++;
+      CourseAPI.log({ev:'q',sec,q:i+1,ok,attempt:tries,score:fmt(score,1),done,tot});if(ok&&done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
+    if(q.t==='mc'||q.t==='tf'){
+      const opts=q.t==='tf'?['נכון','לא נכון']:q.opts;const ans=q.t==='tf'?(q.a?0:1):q.a;
+      const o=document.createElement('div');o.className='opts';const bts=opts.map((t,j)=>`<button data-j="${j}">${t}</button>`);o.innerHTML=(q.t==='mc'?shuffled(bts):bts).join('');d.appendChild(o);
+      o.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||solved||b.disabled)return;const j=+b.dataset.j;
+        if(j===ans){b.classList.add('ok');finish(true);o.querySelectorAll('button').forEach(x=>x.disabled=true);fb.className='fb ok';fb.innerHTML='✔ נכון! '+(q.exp||'')}
+        else{b.classList.add('no');b.disabled=true;finish(false);fb.className='fb no';fb.innerHTML='✘ לא נכון — נסו שוב.'}});
+    }else if(q.t==='num'){
+      const r=document.createElement('div');r.className='row';r.innerHTML=`תשובה: <input class="num" inputmode="decimal"> <button class="b pri">בדיקה</button>`;d.appendChild(r);
+      const inp=r.querySelector('input');const chk=()=>{if(solved)return;const raw=inp.value.trim().replace(',','.').replace(/\s/g,'');const fr=raw.match(/^(-?\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);const v=fr?(+fr[1])/(+fr[2]):parseFloat(raw);if(isNaN(v)){fb.className='fb no';fb.textContent='כתבו מספר.';return}
+        if(Math.abs(v-q.a)<1e-6){finish(true);inp.disabled=true;fb.className='fb ok';fb.innerHTML='✔ נכון!'+(q.exp?' '+q.exp:'')}else{finish(false);fb.className='fb no';fb.innerHTML='✘ לא נכון — נסו שוב.'}};
+      r.querySelector('button').onclick=chk;inp.addEventListener('keydown',e=>{if(e.key==='Enter')chk()});
+    }else if(q.t==='proof'){
+      const r=document.createElement('div');r.className='row';r.innerHTML=`<button class="b">כתבתי הוכחה במחברת ✓</button>`;d.appendChild(r);
+      r.querySelector('button').onclick=e=>{if(solved)return;finish(true);e.target.disabled=true;fb.className='fb ok';fb.textContent='כל הכבוד! השוו להוכחה המלאה.'};
+    }
+    d.appendChild(fb);
+    if(q.hint||q.sol){const tl=document.createElement('div');tl.className='tools';
+      if(q.hint)tl.innerHTML+=`<button class="b" data-x="hint">💡 רמז</button>`;
+      if(q.sol)tl.innerHTML+=`<button class="b" data-x="sol">הצגת פתרון</button>`;
+      d.appendChild(tl);
+      const hn=document.createElement('div');hn.className='hint';hn.innerHTML=q.hint||'';d.appendChild(hn);
+      const sn=document.createElement('div');sn.className='sol';sn.innerHTML=(q.sol||[]).map(l=>`<span class="ln">${l}</span>`).join('');d.appendChild(sn);
+      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
+    }
+    root.appendChild(d);
+  });
+  upd();
+}
+
+mountPractice(BASIC,document.getElementById('basicQ'),'scB','totB','doneB',`<button class="b pri" onclick="show(11)">לתרגול המתקדם ←</button>`,'basic');
+mountPractice(ADV,document.getElementById('advQ'),'scA','totA','doneA',`<div style="margin-top:6px">כבשתם את תחנה 2! 🚩 הדמות שלכם כבר מחכה לצאת לתחנה הבאה.</div><a class="b pri" style="display:inline-block;text-decoration:none;margin-top:10px" href="index.html">חזרה לשביל ←</a>`,'adv');
+CourseAPI.start(2,(prog,resetAt)=>{
+  KEY=keyFor();loadLocal();
+  // המורה איפס/ה את ההתקדמות — מוחקים גם את מה שנשמר במכשיר
+  if(resetAt&&hadLocal&&localT<resetAt){try{localStorage.removeItem(KEY)}catch(e){}loadLocal()}
+  if(prog){maxSeen=Math.max(maxSeen,Math.min(N-1,(prog.max||1)-1));(prog.passed||[]).forEach(n=>passed.add(n-1));if(!hadLocal)cur=maxSeen}
+  if(CourseAPI.preview)maxSeen=N-1;
+  passed.forEach(i=>{if(SOLVERS[i])SOLVERS[i]()});
+  save();show(cur);
+});
+</script>
+</body>
+</html>
