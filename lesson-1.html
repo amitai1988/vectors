@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>וקטורים · שיעור 1 · מהו וקטור?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Varela+Round&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#172230;--blue:#2B44A0;--blue-l:#EEF2F8;--gray:#8A96A5;--bg:#F4F6FA;
@@ -128,12 +128,59 @@ a.home{color:var(--blue)}
   main{padding:10px 8px 30px}
   .widget{margin:12px -6px}
 }
+
+/* ===== עיצוב "שביל הפסגה" ===== */
+:root{--blue:#5149D6;--blue-l:#ECEAFF;--navy:#26324A;--bg:#EEF6FF;--cor:#FF6B6B;--vio:#6C63FF;--grn:#4CB782}
+body{background:linear-gradient(180deg,#DDF0FF 0,#EEF6FF 260px,#F4F8FD 100%) fixed}
+.credit{background:transparent;color:#7D8BA6;font-size:12px;padding:4px}
+.screen h2,.topbar .ttl,.check .h,.endbox .big,.widget .wt,h3{font-family:'Varela Round',Rubik,sans-serif;font-weight:400}
+.screen h2{color:var(--navy);font-size:26px}
+.topbar{background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-bottom:0;box-shadow:0 4px 18px rgba(40,60,90,.08);border-radius:0 0 22px 22px}
+.topbar .ttl{font-size:16.5px}
+.topbar .ttl a{color:var(--vio);background:var(--blue-l);border-radius:999px;padding:2px 10px;font-weight:400}
+.topbar .stn{color:var(--vio)}
+/* פס ההתקדמות כשביל עם תחנות */
+.dots{position:relative;gap:0;margin:8px 4px 2px;align-items:center;height:18px}
+.dots::before{content:"";position:absolute;left:6px;right:6px;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:repeating-linear-gradient(90deg,#D5DCE8 0 8px,transparent 8px 13px)}
+.dots button{position:relative;flex:1;height:18px;background:transparent;border-radius:0}
+.dots button::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #D5DCE8;transition:all .2s}
+.dots button.done{background:transparent}
+.dots button.done::after{background:var(--grn);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--grn)}
+.dots button.cur{background:transparent}
+.dots button.cur::after{width:18px;height:18px;margin:-9px 0 0 -9px;background:var(--vio);box-shadow:0 0 0 3px #fff,0 2px 8px rgba(108,99,255,.5)}
+.screen{border:0;border-radius:26px;box-shadow:0 10px 30px rgba(40,60,90,.09);padding:22px 24px}
+.badge{border-radius:999px;padding:2px 12px;font-weight:500}
+.def{background:#F1F0FF;border-right:0;border-radius:18px;box-shadow:inset 4px 0 0 0 var(--vio)}
+.def .t{color:var(--blue)}
+.note{background:#FFF6E2;border-right:0;border-radius:18px;box-shadow:inset 4px 0 0 0 #FFB547}
+.disc{border-right:0;border-radius:18px;box-shadow:inset 4px 0 0 0 var(--vec2)}
+.plan div{border-radius:18px}
+.widget{border:0;border-radius:20px;box-shadow:0 4px 16px rgba(40,60,90,.08);background:#fff}
+.widget .wt{background:#F1F0FF;color:var(--blue);border-bottom:0}
+button.b{border-radius:999px;padding:7px 15px;border-color:#CFCBFF;color:var(--blue)}
+button.b.pri,.endbox a.b{background:var(--cor);border-color:var(--cor);color:#fff;box-shadow:0 5px 12px rgba(255,107,107,.3)}
+button.b.on{background:var(--vio);border-color:var(--vio)}
+.navbtns button.b{font-size:16px;padding:9px 20px}
+.card{border-radius:16px;border-color:#E2E7F0}
+.card .opts button{border-radius:999px}
+.card .opts button.sel{background:var(--vio);border-color:var(--vio)}
+.check{border:0;border-radius:20px;background:#F6F5FF;box-shadow:inset 0 0 0 2px #E3E0FF}
+.check.done{background:#EFF9F2;box-shadow:inset 0 0 0 2px #BFE5CC}
+.check .opts button,.q .opts button{border-radius:14px}
+.more{border-radius:16px}
+.q{border:0;border-radius:20px;box-shadow:0 3px 14px rgba(40,60,90,.07)}
+.q .hint,.q .sol{border-radius:14px}
+.scorebar{background:#F1F0FF;border-radius:999px;padding:6px 18px}
+.endbox{border:0;border-radius:22px;background:linear-gradient(135deg,#EFF9F2,#FFF6E2);box-shadow:0 8px 24px rgba(76,183,130,.18)}
+.endbox .big{font-size:22px}
+footer a.home{color:var(--vio)}
+@media (max-width:600px){.screen{border-radius:20px;padding:16px 14px}.topbar{border-radius:0 0 18px 18px}.topbar .row1{flex-wrap:wrap;row-gap:0}.topbar .ttl{flex:1 1 100%}.topbar .cnt{font-size:12.5px}}
 </style>
 </head>
 <body>
 <div class="credit">פותח על ידי אמתי צוברי · © כל הזכויות שמורות</div>
 <div class="topbar"><div class="wrap">
-  <div class="row1"><span class="ttl"><a href="index.html">🏠 הדף שלי</a> · שיעור 1: מהו וקטור?</span><span class="cnt" id="cnt"></span></div>
+  <div class="row1"><span class="ttl"><a href="index.html">⛰ השביל שלי</a> · <span class="stn">תחנה 1</span> מהו וקטור?</span><span class="cnt" id="cnt"></span></div>
   <div class="dots" id="dots"></div>
   <div id="who" style="text-align:left;line-height:1.4;margin-top:3px"></div>
 </div></div>
@@ -303,7 +350,7 @@ a.home{color:var(--blue)}
   <button class="b pri" id="next">הבא ←</button>
 </div>
 </main>
-<footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות · <a class="home" href="index.html">לדף האישי</a></footer>
+<footer>פותח על ידי אמתי צוברי · © כל הזכויות שמורות · <a class="home" href="index.html">חזרה לשביל</a></footer>
 <script src="course-api.js"></script>
 <script>
 /* ================= helpers ================= */
@@ -612,10 +659,10 @@ const screens=[...document.querySelectorAll('.screen')],N=screens.length;
 // ההתקדמות נשמרת בנפרד לכל תלמיד (חשוב במכשיר משותף)
 const keyFor=()=>'vec-l1-progress-'+(CourseAPI.preview?'preview':((CourseAPI.student&&CourseAPI.student.code)||'guest'));
 let KEY=keyFor();
-let cur=0,maxSeen=0,passed=new Set(),hadLocal=false,localT=0;
-function loadLocal(){cur=0;maxSeen=0;passed=new Set();hadLocal=false;localT=0;
-  try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){hadLocal=true;localT=s.t||0;cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[])}}catch(e){}}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed],t:Date.now()}))}catch(e){}};
+let cur=0,maxSeen=0,passed=new Set(),hadLocal=false,localT=0,doneL=false;
+function loadLocal(){cur=0;maxSeen=0;passed=new Set();hadLocal=false;localT=0;doneL=false;
+  try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){hadLocal=true;localT=s.t||0;cur=Math.min(s.cur||0,N-1);maxSeen=Math.min(s.max||0,N-1);passed=new Set(s.passed||[]);doneL=!!s.done}}catch(e){}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({cur,max:maxSeen,passed:[...passed],done:doneL,t:Date.now()}))}catch(e){}};
 const gated=i=>!CourseAPI.preview&&(CHECKS[i]||screens[i].dataset.gate);
 function markPassed(i){passed.add(i);save();if(i===cur)updNav()}
 const SOLVERS={};
@@ -775,7 +822,7 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
     let tries=0,solved=false;
     const fb=document.createElement('div');fb.className='fb';
     const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd()}tries++;
-      CourseAPI.log({ev:'q',sec,q:i+1,ok,attempt:tries,score:fmt(score,1),done,tot});if(ok&&done===tot&&sec==='adv')CourseAPI.log({ev:'done'})};
+      CourseAPI.log({ev:'q',sec,q:i+1,ok,attempt:tries,score:fmt(score,1),done,tot});if(ok&&done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
     if(q.t==='mc'||q.t==='tf'){
       const opts=q.t==='tf'?['נכון','לא נכון']:q.opts;const ans=q.t==='tf'?(q.a?0:1):q.a;
       const o=document.createElement('div');o.className='opts';o.innerHTML=opts.map((t,j)=>`<button data-j="${j}">${t}</button>`).join('');d.appendChild(o);
@@ -806,7 +853,7 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
 }
 
 mountPractice(BASIC,document.getElementById('basicQ'),'scB','totB','doneB',`<button class="b pri" onclick="show(10)">לתרגול המתקדם ←</button>`,'basic');
-mountPractice(ADV,document.getElementById('advQ'),'scA','totA','doneA',`<div style="margin-top:6px">סיימתם את שיעור 1! 🙌</div><a class="b pri" style="display:inline-block;text-decoration:none;margin-top:10px" href="index.html">חזרה לדף האישי</a>`,'adv');
+mountPractice(ADV,document.getElementById('advQ'),'scA','totA','doneA',`<div style="margin-top:6px">כבשתם את תחנה 1! 🚩 הדמות שלכם כבר מחכה לצאת לתחנה הבאה.</div><a class="b pri" style="display:inline-block;text-decoration:none;margin-top:10px" href="index.html">חזרה לשביל ←</a>`,'adv');
 CourseAPI.start(1,(prog,resetAt)=>{
   KEY=keyFor();loadLocal();
   // המורה איפס/ה את ההתקדמות — מוחקים גם את מה שנשמר במכשיר

@@ -114,10 +114,35 @@
     login(student.code).then(j => { if (j && j.ok === false) { try { localStorage.removeItem(SKEY); } catch (e) {} location.reload(); return; } fin(j && j.prog, j && j.resetAt); }).catch(() => fin(null));
     send();
   }
+  // ---- הדמות של התלמיד: נשמרת בדפדפן, ובשרת (אם השרת כבר עודכן לגרסה שתומכת בזה) ----
+  let serverV = 0;
+  const avKey = () => 'vec-avatar-' + ((student && student.code) || 'OPEN');
+  function getAvatar() { try { return JSON.parse(localStorage.getItem(avKey()) || 'null'); } catch (e) { return null; } }
+  async function pushAvatar() {
+    let a = null; try { a = localStorage.getItem(avKey()); } catch (e) {}
+    if (!LIVE || !student || !a || serverV < 2) return;
+    try {
+      const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'avatar', code: student.code, avatar: a }) });
+      const j = await r.json(); if (j.ok) { try { localStorage.removeItem(avKey() + '-pending'); } catch (e) {} }
+    } catch (e) { /* ננסה שוב בכניסה הבאה */ }
+  }
+  function saveAvatar(av) {
+    try { localStorage.setItem(avKey(), JSON.stringify(av)); localStorage.setItem(avKey() + '-pending', '1'); } catch (e) {}
+    return pushAvatar();
+  }
   async function loginFull(code) {
-    const r = await fetch(`${API_URL}?action=login&code=${encodeURIComponent(code)}`); return r.json();
+    const r = await fetch(`${API_URL}?action=login&code=${encodeURIComponent(code)}`); const j = await r.json();
+    if (j && j.ok) {
+      serverV = j.v || 1;
+      // דמות מהשרת (למשל אחרי מעבר מכשיר) — אלא אם יש שינוי מקומי שעוד לא נשלח
+      let pending = false; try { pending = !!localStorage.getItem('vec-avatar-' + j.code + '-pending'); } catch (e) {}
+      if (j.avatar && !pending) { try { localStorage.setItem('vec-avatar-' + j.code, j.avatar); } catch (e) {} }
+      if (pending && student && student.code === j.code) pushAvatar();
+    }
+    return j;
   }
   function setStudent(s) { student = s; try { localStorage.setItem(SKEY, JSON.stringify(s)); } catch (e) {} }
   function logout() { if (queue.length) send(); student = null; try { localStorage.removeItem(SKEY); } catch (e) {} }
-  window.CourseAPI = { start, log, url: API_URL, preview: PREVIEW, guest: GUEST, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send };
+  window.CourseAPI = { start, log, url: API_URL, preview: PREVIEW, guest: GUEST, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send, getAvatar, saveAvatar, get serverVersion() { return serverV; } };
 })();

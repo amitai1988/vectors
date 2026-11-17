@@ -19,8 +19,9 @@ const PROG_HEAD = ['קוד', 'שם', 'שיעור', 'מסך אחרון', 'מסך 
 function setup() {
   const ss = SpreadsheetApp.getActive();
   let st = ss.getSheetByName(SH_STUDENTS);
-  if (!st) { st = ss.insertSheet(SH_STUDENTS); st.appendRow(['כיתה', 'שם', 'קוד']); st.setRightToLeft(true); }
+  if (!st) { st = ss.insertSheet(SH_STUDENTS); st.appendRow(['כיתה', 'שם', 'קוד', 'דמות']); st.setRightToLeft(true); }
   else if (String(st.getRange(1, 1).getValue()) === 'קוד') { st.getRange(1, 1, 1, 3).setValues([['כיתה', 'שם', 'קוד']]); }
+  if (!String(st.getRange(1, 4).getValue())) st.getRange(1, 4).setValue('דמות');
   [[SH_LOG, LOG_HEAD], [SH_PROG, PROG_HEAD]].forEach(([name, head]) => {
     let sh = ss.getSheetByName(name);
     if (!sh) {
@@ -44,7 +45,8 @@ function findStudent_(code) {
   if (!sh) return null;
   const vals = sh.getDataRange().getValues();
   for (let i = 1; i < vals.length; i++) {
-    if (vals[i][1] && String(vals[i][2]).trim().toUpperCase() === code) return { code: code, name: String(vals[i][1]).trim() };
+    if (vals[i][1] && String(vals[i][2]).trim().toUpperCase() === code)
+      return { code: code, name: String(vals[i][1]).trim(), row: i + 1, avatar: String(vals[i][3] || '') };
   }
   return null;
 }
@@ -101,7 +103,7 @@ function doGet(e) {
       .map(r => ({ lesson: Number(r[2]), max: Number(r[4]) || 0, passed: String(r[5] || '').split(',').filter(String).length,
         basic: r[6], basicDone: r[7], adv: r[8], advDone: r[9], done: r[10] === 'כן',
         last: r[11] instanceof Date ? r[11].toISOString() : r[11] }));
-    return out_({ ok: true, name: st.name, code: st.code, prog: prog, all: all });
+    return out_({ ok: true, v: 2, name: st.name, code: st.code, prog: prog, all: all, avatar: st.avatar });
   }
   return out_({ ok: false, error: 'unknown action' });
 }
@@ -113,6 +115,13 @@ function doPost(e) {
   const events = Array.isArray(d.events) ? d.events : [d];
   const st = findStudent_(d.code);
   if (!st) return out_({ ok: false, error: 'bad code' });
+  // שמירת הדמות שהתלמיד עיצב (עמודה ד׳ בלשונית "תלמידים")
+  if (d.action === 'avatar') {
+    const a = String(d.avatar || '');
+    if (a.length > 600) return out_({ ok: false, error: 'too long' });
+    SpreadsheetApp.getActive().getSheetByName(SH_STUDENTS).getRange(st.row, 4).setValue(a);
+    return out_({ ok: true });
+  }
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
@@ -158,6 +167,6 @@ function teacher_(p) {
   const ss = SpreadsheetApp.getActive();
   const conv = r => r.map(x => x instanceof Date ? x.toISOString() : x);
   const rows = name => { const sh = ss.getSheetByName(name); return sh ? sh.getDataRange().getValues().slice(1).map(conv) : []; };
-  const students = rows(SH_STUDENTS).filter(r => r[1] && r[2]).map(r => ({ cls: String(r[0]), name: String(r[1]), code: String(r[2]).trim().toUpperCase() }));
+  const students = rows(SH_STUDENTS).filter(r => r[1] && r[2]).map(r => ({ cls: String(r[0]), name: String(r[1]), code: String(r[2]).trim().toUpperCase(), avatar: String(r[3] || '') }));
   return out_({ ok: true, students: students, prog: rows(SH_PROG), log: rows(SH_LOG), now: new Date().toISOString() });
 }

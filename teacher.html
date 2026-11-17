@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>וקטורים · דף מורה</title>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Varela+Round&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#172230;--blue:#2B44A0;--blue-l:#EEF2F8;--gray:#8A96A5;--bg:#F4F6FA;--eq:#16935a;--bad:#c92a2a;--warn:#e8590c}
 *{box-sizing:border-box}
@@ -44,6 +44,24 @@ tr.click{cursor:pointer}tr.click:hover{background:#F7F9FC}
 .tl div{padding:4px 0;border-bottom:1px dashed #e6eaf1}
 .demo{background:#FFF6DC;color:#8a6400;text-align:center;padding:5px;font-size:14px}
 footer{text-align:center;color:var(--gray);font-size:13px;padding:16px}
+
+/* ===== עיצוב "שביל הפסגה" ===== */
+:root{--blue:#5149D6;--blue-l:#F1F0FF;--navy:#26324A;--bg:#EEF6FF}
+body{background:linear-gradient(180deg,#DDF0FF 0,#EEF6FF 240px,#F4F8FD 100%) fixed}
+.credit{background:transparent;color:#7D8BA6;font-size:12px;padding:4px}
+header{background:rgba(255,255,255,.92);border-bottom:0;border-radius:0 0 24px 24px;box-shadow:0 4px 18px rgba(40,60,90,.08)}
+header h1,h2{font-family:'Varela Round',Rubik,sans-serif;font-weight:400}
+h2{color:var(--navy)}
+button{border-radius:999px;background:#FF6B6B;border-color:#FF6B6B}
+button.g{background:#fff;color:var(--blue);border-color:#CFCBFF}
+input,select{border-radius:12px;border-color:#D5DCE8}
+section{border:0;border-radius:24px;box-shadow:0 8px 26px rgba(40,60,90,.08)}
+.kpi{border-radius:18px}
+.kpi .n{font-family:'Varela Round',Rubik,sans-serif;font-weight:400;color:var(--blue)}
+.prog .b i{background:#4CB782}
+.pill{border-radius:999px;font-weight:500}
+.hard .it{border-radius:16px}
+.av{width:30px;height:30px;vertical-align:middle;margin-left:6px;border-radius:50%;background:#E6F4FF}
 </style>
 </head>
 <body>
@@ -67,6 +85,16 @@ const LESSONS={1:{title:'מהו וקטור?',screens:11,checks:7,basic:10,adv:7}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let DATA=null;
+// סמל קטן של הדמות שהתלמיד עיצב (ראש, שיער/כובע וחולצה)
+const AVC={skin:['#FFE0C4','#F2C39B','#D9A077','#A8714A','#6E4A2E'],hairColor:['#2B2B2B','#6B4226','#C98B3F','#E8C46A','#B5452E','#7B61FF','#FF8CC6'],
+  hatColor:['#FF6B6B','#3D8BFD','#4CB782','#FFB547','#26324A','#F5F5F5'],shirt:['#6C63FF','#FF6B6B','#3D8BFD','#4CB782','#FFB547','#FF8CC6','#26324A','#F5F5F5']};
+function avIcon(str){let a=null;try{a=JSON.parse(str||'null')}catch(e){}
+  if(!a)return '<svg class="av" viewBox="0 0 30 30"><circle cx="15" cy="12" r="6" fill="#D5DCE8"/><path d="M5 30c0-7 4-10 10-10s10 3 10 10z" fill="#D5DCE8"/></svg>';
+  const g=(k,i)=>(AVC[k]||[])[i||0]||AVC[k][0];
+  const hat=a.hat||0,hair=a.hair||0,top=hat===4?'#FFC93C':hat>0&&hat!==5?g('hatColor',a.hatColor):(hair===5?null:g('hairColor',a.hairColor));
+  return `<svg class="av" viewBox="0 0 30 30"><path d="M5 30c0-7 4-10 10-10s10 3 10 10z" fill="${g('shirt',a.shirt)}"/><circle cx="15" cy="13" r="7" fill="${g('skin',a.skin)}"/>`+
+    (top?`<path d="M7.6 12.5a7.4 7.4 0 0 1 14.8 0z" fill="${top}"/>`:'')+`<circle cx="12.4" cy="14" r=".9" fill="#26324A"/><circle cx="17.6" cy="14" r=".9" fill="#26324A"/></svg>`}
+
 $('#lesson').innerHTML=Object.entries(LESSONS).map(([k,v])=>`<option value="${k}">${k} · ${v.title}</option>`).join('');
 try{$('#key').value=localStorage.getItem('vec-tkey')||''}catch(e){}
 
@@ -109,9 +137,9 @@ function render(){
   h+=`<section><h2>התקדמות התלמידים</h2><div class="muted">לחיצה על שורה מציגה את כל הפעולות של התלמיד.</div><div class="tw"><table><thead><tr>
     <th>שם</th><th>קוד</th><th>התקדמות במסכים</th><th>מסך אחרון</th><th>בדיקות הבנה</th><th>תרגול בסיסי</th><th>תרגול מתקדם</th><th>סיים</th><th>פעילות אחרונה</th></tr></thead><tbody>`;
   studs.forEach(s=>{const p=prog[s.code];
-    if(!p){h+=`<tr><td><b>${esc(s.name)}</b></td><td>${esc(s.code)}</td><td colspan="7"><span class="pill none">עוד לא נכנס לשיעור</span></td></tr>`;return}
+    if(!p){h+=`<tr><td>${avIcon(s.avatar)}<b>${esc(s.name)}</b></td><td>${esc(s.code)}</td><td colspan="7"><span class="pill none">עוד לא נכנס לשיעור</span></td></tr>`;return}
     const mx=Number(p[4])||0,chk=String(p[5]||'').split(',').filter(String).length;
-    h+=`<tr class="click" data-c="${esc(s.code)}"><td><b>${esc(s.name)}</b></td><td>${esc(s.code)}</td>
+    h+=`<tr class="click" data-c="${esc(s.code)}"><td>${avIcon(s.avatar)}<b>${esc(s.name)}</b></td><td>${esc(s.code)}</td>
       <td><div class="prog"><div class="b"><i style="width:${Math.round(mx/meta.screens*100)}%"></i></div><span dir="ltr">${mx} / ${meta.screens}</span></div></td>
       <td>${esc(p[3])}</td><td>${pill(chk,meta.checks)}</td><td>${pill(p[6],meta.basic)} <span class="muted">${esc(p[7])}</span></td>
       <td>${pill(p[8],meta.adv)} <span class="muted">${esc(p[9])}</span></td><td>${p[10]==='כן'?'✅':''}</td><td>${ago(p[11])}</td></tr>`});
@@ -142,7 +170,7 @@ function detail(code,log){
 }
 function demo(){
   const now=Date.now(),t=m=>new Date(now-m*60000).toISOString();
-  const students=[{cls:'יב5',name:'נועה',code:'K7PM'},{cls:'יב5',name:'איתי',code:'R3XT'},{cls:'יב5',name:'מאיה',code:'H9QD'},{cls:'יב5',name:'יונתן',code:'W4ZB'},{cls:'יב5',name:'שירה',code:'A6NV'}];
+  const students=[{cls:'יב5',name:'נועה',code:'K7PM',avatar:'{"skin":1,"hair":1,"hairColor":3,"hat":0,"shirt":5}'},{cls:'יב5',name:'איתי',code:'R3XT',avatar:'{"skin":3,"hat":1,"hatColor":1,"shirt":2}'},{cls:'יב5',name:'מאיה',code:'H9QD'},{cls:'יב5',name:'יונתן',code:'W4ZB'},{cls:'יב5',name:'שירה',code:'A6NV'}];
   const prog=[['K7PM','נועה',1,'תרגול מתקדם',11,'2,3,4,5,6,7,8',9,'10 מתוך 10',6,'7 מתוך 7','כן',t(30)],
     ['R3XT','איתי',1,'תרגול בסיסי',10,'2,3,4,5,6,7,8',6.5,'8 מתוך 10','','','',t(5)],
     ['H9QD','מאיה',1,'וקטורים במקבילית',7,'2,3,4,5,6','','','','','',t(200)],
