@@ -182,6 +182,28 @@ footer a.home{color:var(--vio)}
 .steps{display:flex;flex-direction:column;align-items:flex-start;gap:4px;background:#F7F8FC;border-radius:14px;padding:10px 16px;margin:8px 0}
 .steps .m{direction:ltr}
 
+/* ===== reading in small steps ===== */
+.screen .step{display:none}
+.screen .step.shown{display:block;animation:stepIn .35s ease}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.screen.chunked:not(.allshown) .check{display:none}
+.screen.chunked:not(.allshown) .navbtns #next{opacity:.35;pointer-events:none}
+.stepmore{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 4px;background:#6C63FF;color:#fff;border:0;border-radius:999px;padding:10px 26px;font:inherit;font-size:16px;cursor:pointer;box-shadow:0 5px 14px rgba(108,99,255,.3)}
+.stepmore small{opacity:.75;font-size:12.5px}
+.say{display:flex;gap:10px;align-items:flex-end;margin:10px 0}
+.say .who{flex:none;width:46px;height:46px}
+.say .who svg{width:46px;height:46px;border-radius:50%;background:#E6F4FF;display:block}
+.say .bub{position:relative;background:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;box-shadow:0 3px 12px rgba(40,60,90,.1);font-size:16.5px;line-height:1.7}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:10px 0}
+.tiles>div{background:#fff;border-radius:18px;padding:12px;text-align:center;box-shadow:0 2px 10px rgba(40,60,90,.07)}
+.tiles>div>i{display:block;font-style:normal;font-size:28px;line-height:1.2;margin-bottom:4px}
+.tiles>div>b{display:block;font-weight:500;color:#26324A}
+.tiles>div>span{display:block;font-size:13.5px;color:#5B6680;line-height:1.5;margin-top:2px}
+.ill{display:block;width:100%;max-width:420px;margin:8px auto}
+.big1{font-family:'Varela Round',Rubik,sans-serif;font-size:21px;line-height:1.5;margin:6px 0;color:#26324A}
+.keypt{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:16px;padding:10px 14px;margin:8px 0;box-shadow:0 2px 10px rgba(40,60,90,.07)}
+.keypt>b{flex:none;width:28px;height:28px;border-radius:50%;background:#6C63FF;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:500}
+
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.82em;margin:0 .12em}
 .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .18em}
 .fr>span:last-child{padding:0 .18em}
@@ -212,34 +234,49 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <!-- 0 -->
 <div class="screen" data-t="פתיחה">
   <h2>שיעור 5 · יחסי קטעים והוכחות</h2>
-  <p>עד עכשיו בנינו כלים: צירוף לינארי, השוואת מקדמים ותלות לינארית. בשיעור הזה נשתמש בהם כדי <b>למצוא יחסים</b> שבהם קטעים חותכים זה את זה, וכדי <b>להוכיח</b> משפטים מוכרים מהגאומטריה — בדרך חדשה.</p>
-  <ul class="goals">
-    <li>נקודה שמחלקת קטע ביחס נתון.</li>
-    <li>שיטת "שתי הדרכים" למציאת נקודת חיתוך.</li>
-    <li>חיתוך התיכונים, האלכסונים במקבילית ובטרפז, קטע אמצעים.</li>
-    <li>מתכון קבוע לפתרון — צעד אחר צעד.</li>
-  </ul>
-  <div class="plan">
-    <div class="cls"><b>בכיתה, יחד</b>מסכים 1–3: חלוקת קטע, שיטת שתי הדרכים, חיתוך התיכונים.</div>
-    <div class="self"><b>לבד (בכיתה ובבית)</b>מסכים 4–8, הסיכום והתרגול.</div>
+  <div class="step">
+    <div class="say"><div class="bub">יש לנו כבר ארגז כלים: צירוף לינארי, השוואת מקדמים ותלות. <b>היום נשתמש בהם!</b></div></div>
+  </div>
+  <div class="step">
+    <h3>מה נלמד היום</h3>
+    <div class="tiles">
+      <div><i>✂️</i><b>חלוקת קטע</b><span>ביחס נתון</span></div>
+      <div><i>🔀</i><b>שיטת שתי הדרכים</b><span>מציאת נקודת חיתוך</span></div>
+      <div><i>🔺</i><b>משפטים מוכרים</b><span>תיכונים, אלכסונים, קטע אמצעים</span></div>
+      <div><i>📋</i><b>מתכון</b><span>פתרון צעד אחר צעד</span></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="plan">
+      <div class="cls"><b>בכיתה, יחד</b>מסכים 1–3</div>
+      <div class="self"><b>לבד</b>מסכים 4–8, הסיכום והתרגול</div>
+    </div>
   </div>
 </div>
 
 <!-- 1 -->
 <div class="screen" data-t="חלוקת קטע ביחס" data-w="w1">
   <span class="badge cls">בכיתה</span>
-  <h2>נקודה שמחלקת קטע ביחס נתון</h2>
-  <div class="widget" id="w1">
-    <div class="wt">בחרו את היחס <span class="ratio">AP : PB</span></div>
-    <div class="slot"></div>
-    <div class="ctl" id="w1r"></div>
-    <div class="status"></div>
+  <h2>חלוקת קטע ביחס נתון</h2>
+  <div class="step">
+    <div class="say"><div class="bub">הנקודה <span class="m">P</span> על הקטע <span class="m">AB</span>. בחרו יחס, וראו איפה היא.</div></div>
+    <div class="widget" id="w1">
+      <div class="wt">בחרו את היחס <span class="ratio">AP : PB</span></div>
+      <div class="slot"></div>
+      <div class="ctl" id="w1r"></div>
+      <div class="status"></div>
+    </div>
   </div>
-  <div class="def"><span class="t">חלוקת קטע</span>
-    אם <span class="m">P</span> על הקטע <span class="m">AB</span> ו־ <span class="ratio">AP : PB = m : n</span>, אז
-    <div class="ex"><span class="m"><span class="v">AP</span> = <span class="fr"><span>m</span><span>m + n</span></span><span class="v">AB</span></span>
-    &nbsp;·&nbsp; ולכל נקודה <span class="m">O</span>: <span class="m"><span class="v">OP</span> = <span class="fr"><span>n</span><span>m + n</span></span><span class="v">OA</span> + <span class="fr"><span>m</span><span>m + n</span></span><span class="v">OB</span></span></div></div>
-  <div class="note"><b>שימו לב להצלבה:</b> המקדם של <span class="v">OA</span> הוא החלק של <span class="m">n</span> — הצלע ה<b>רחוקה</b> מ־ <span class="m">A</span>. ככה <span class="m">P</span> "נמשכת" חזק יותר לנקודה הקרובה אליה.</div>
+  <div class="step">
+    <div class="def"><span class="t">חלוקת קטע</span>
+      <span class="ratio">AP : PB = m : n</span> ←
+      <div class="ex" style="font-size:17px"><span class="m"><span class="v">AP</span> = <span class="fr"><span>m</span><span>m + n</span></span><span class="v">AB</span></span></div></div>
+  </div>
+  <div class="step">
+    <p>ולכל נקודה <span class="m">O</span>:</p>
+    <div class="steps" style="font-size:17px"><span class="m"><span class="v">OP</span> = <span class="fr"><span>n</span><span>m + n</span></span><span class="v">OA</span> + <span class="fr"><span>m</span><span>m + n</span></span><span class="v">OB</span></span></div>
+    <div class="say"><div class="bub">שימו לב ל<b>הצלבה</b>: <span class="m">n</span> הולך ל־ <span class="v">OA</span>. ככה <span class="m">P</span> "נמשכת" לנקודה הקרובה אליה.</div></div>
+  </div>
   <div class="more">איך מגיעים לנוסחה? <span class="m"><span class="v">OP</span> = <span class="v">OA</span> + <span class="v">AP</span> = <span class="v">OA</span> + <span class="fr"><span>m</span><span>m + n</span></span>(<span class="v">OB</span> − <span class="v">OA</span>)</span>, ומכנסים את המקדמים של <span class="v">OA</span>. זה בדיוק "סכום המקדמים 1" משיעור 4.</div>
 </div>
 
@@ -247,13 +284,23 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="שיטת שתי הדרכים" data-w="w2">
   <span class="badge cls">בכיתה</span>
   <h2>שיטת שתי הדרכים</h2>
-  <p>במקבילית <span class="m">ABCD</span> הנקודה <span class="m">E</span> היא אמצע <span class="m">BC</span>. הקטעים <span class="m">AE</span> ו־ <span class="m">BD</span> נחתכים בנקודה <span class="m">K</span>. <b>באיזה יחס <span class="m">K</span> מחלקת כל אחד מהם?</b></p>
-  <p>הרעיון: מגיעים אל <span class="m">K</span> <b>בשתי דרכים שונות</b> — פעם לאורך <span class="m">AE</span> ופעם לאורך <span class="m">BD</span>. מקבלים שני ביטויים לאותו וקטור, ומשווים מקדמים.</p>
-  <div class="widget" id="w2">
-    <div class="wt">פתרון צעד אחר צעד</div>
-    <div class="slot"></div>
-    <div class="ctl"><button class="b" data-a="prev">→ הקודם</button><button class="b pri" data-a="next">השלב הבא ←</button><button class="b" data-a="reset">מההתחלה</button><span class="status"></span></div>
-    <div class="steplist"></div>
+  <div class="step">
+    <p>מקבילית <span class="m">ABCD</span>, <span class="m">E</span> אמצע <span class="m">BC</span>. <span class="m">AE</span> ו־ <span class="m">BD</span> נחתכים ב־ <span class="m">K</span>.</p>
+    <div class="say"><div class="bub"><b>באיזה יחס <span class="m">K</span> מחלקת כל קטע?</b></div></div>
+  </div>
+  <div class="step">
+    <p class="big1">הרעיון: מגיעים אל <span class="m">K</span> <b>בשתי דרכים</b>.</p>
+    <div class="keypt"><b>1</b><div>פעם לאורך <span class="m">AE</span></div></div>
+    <div class="keypt"><b>2</b><div>פעם לאורך <span class="m">BD</span></div></div>
+    <div class="keypt"><b>=</b><div>אותו וקטור ← משווים מקדמים</div></div>
+  </div>
+  <div class="step">
+    <div class="widget" id="w2">
+      <div class="wt">פתרון צעד אחר צעד</div>
+      <div class="slot"></div>
+      <div class="ctl"><button class="b" data-a="prev">→ הקודם</button><button class="b pri" data-a="next">השלב הבא ←</button><button class="b" data-a="reset">מההתחלה</button><span class="status"></span></div>
+      <div class="steplist"></div>
+    </div>
   </div>
   <div class="more">למה מותר להשוות מקדמים? כי <span class="v">a</span> ו־ <span class="v">b</span> בלתי תלויים (אינם מקבילים). בלי זה, אותו וקטור היה יכול להיכתב בכמה דרכים.</div>
 </div>
@@ -261,84 +308,111 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <!-- 3 -->
 <div class="screen" data-t="חיתוך התיכונים" data-w="w3">
   <span class="badge cls">בכיתה</span>
-  <h2>חיתוך התיכונים במשולש</h2>
-  <p>במשולש <span class="m">ABC</span>: <span class="m">M</span> אמצע <span class="m">BC</span> ו־ <span class="m">N</span> אמצע <span class="m">AC</span>. התיכונים <span class="m">AM</span> ו־ <span class="m">BN</span> נחתכים ב־ <span class="m">G</span>. נוכיח את המשפט המוכר: <b>נקודת החיתוך מחלקת כל תיכון ביחס <span class="ratio">2 : 1</span> מהקודקוד.</b></p>
-  <div class="widget" id="w3">
-    <div class="wt">הוכחה צעד אחר צעד</div>
-    <div class="slot"></div>
-    <div class="ctl"><button class="b" data-a="prev">→ הקודם</button><button class="b pri" data-a="next">השלב הבא ←</button><button class="b" data-a="reset">מההתחלה</button><span class="status"></span></div>
-    <div class="steplist"></div>
+  <h2>חיתוך התיכונים</h2>
+  <div class="step">
+    <p>במשולש <span class="m">ABC</span>: <span class="m">M</span> אמצע <span class="m">BC</span>, <span class="m">N</span> אמצע <span class="m">AC</span>. התיכונים נחתכים ב־ <span class="m">G</span>.</p>
+    <div class="def"><span class="t">נוכיח</span>
+      <span class="m">G</span> מחלקת כל תיכון ביחס <span class="ratio">2 : 1</span> מהקודקוד.</div>
   </div>
-  <div class="disc"><span class="t">לדיון בכיתה</span><br>
-    הוכחנו ש־ <span class="m">G</span> מחלקת את <span class="m">AM</span> ואת <span class="m">BN</span> ביחס <span class="ratio">2 : 1</span>. למה מכאן נובע שגם התיכון השלישי עובר דרך <span class="m">G</span>?</div>
+  <div class="step">
+    <div class="widget" id="w3">
+      <div class="wt">הוכחה צעד אחר צעד</div>
+      <div class="slot"></div>
+      <div class="ctl"><button class="b" data-a="prev">→ הקודם</button><button class="b pri" data-a="next">השלב הבא ←</button><button class="b" data-a="reset">מההתחלה</button><span class="status"></span></div>
+      <div class="steplist"></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="disc"><span class="t">לדיון בכיתה</span><br>למה מכאן נובע שגם התיכון <b>השלישי</b> עובר דרך <span class="m">G</span>?</div>
+  </div>
 </div>
 
 <!-- 4 -->
 <div class="screen" data-t="המתכון">
   <span class="badge self">לבד</span>
-  <h2>המתכון: איך פותרים שאלת יחסים</h2>
-  <div class="steps" style="gap:10px">
-    <span><b>1. בוחרים בסיס.</b> שני וקטורים בלתי תלויים שיוצאים מאותה נקודה, למשל <span class="m"><span class="v">AB</span> = <span class="v">a</span></span>, <span class="m"><span class="v">AD</span> = <span class="v">b</span></span>. (במרחב — שלושה.)</span>
-    <span><b>2. מסמנים פרמטרים.</b> נקודת החיתוך על קטע אחד: <span class="m">λ</span>. על הקטע השני: <span class="m">μ</span>.</span>
-    <span><b>3. דרך ראשונה.</b> מביעים את הווקטור אל נקודת החיתוך לאורך הקטע הראשון, בעזרת <span class="m">λ</span>, <span class="v">a</span>, <span class="v">b</span>.</span>
-    <span><b>4. דרך שנייה.</b> מביעים את <b>אותו וקטור</b> לאורך הקטע השני, בעזרת <span class="m">μ</span>.</span>
-    <span><b>5. משווים מקדמים.</b> המקדם של <span class="v">a</span> בדרך הראשונה = המקדם של <span class="v">a</span> בדרך השנייה. אותו דבר עם <span class="v">b</span>.</span>
-    <span><b>6. פותרים</b> את מערכת המשוואות, ו<b>מתרגמים</b> את <span class="m">λ</span> ו־ <span class="m">μ</span> ליחסים.</span>
+  <h2>📋 המתכון לשאלת יחסים</h2>
+  <div class="step">
+    <div class="keypt"><b>1</b><div><b>בסיס:</b> שני וקטורים בלתי תלויים מאותה נקודה (<span class="v">a</span>, <span class="v">b</span>).</div></div>
+    <div class="keypt"><b>2</b><div><b>פרמטרים:</b> <span class="m">λ</span> על קטע אחד, <span class="m">μ</span> על השני.</div></div>
   </div>
-  <div class="note"><b>תרגום לפרמטר ליחס:</b> אם <span class="m"><span class="v">AK</span> = λ<span class="v">AE</span></span>, אז <span class="ratio">AK : KE = λ : (1 − λ)</span>. למשל <span class="m">λ = ⅔</span> נותן <span class="ratio">2 : 1</span>.</div>
+  <div class="step">
+    <div class="keypt"><b>3</b><div><b>דרך ראשונה:</b> הווקטור אל נקודת החיתוך, עם <span class="m">λ</span>.</div></div>
+    <div class="keypt"><b>4</b><div><b>דרך שנייה:</b> <b>אותו</b> וקטור, עם <span class="m">μ</span>.</div></div>
+  </div>
+  <div class="step">
+    <div class="keypt"><b>5</b><div><b>משווים מקדמים</b> של <span class="v">a</span> ושל <span class="v">b</span>.</div></div>
+    <div class="keypt"><b>6</b><div><b>פותרים</b> ומתרגמים ליחסים.</div></div>
+  </div>
+  <div class="step">
+    <div class="note"><b>תרגום:</b> <span class="m"><span class="v">AK</span> = λ<span class="v">AE</span></span> ← <span class="ratio">AK : KE = λ : (1 − λ)</span><br>למשל <span class="m">λ = ⅔</span> ← <span class="ratio">2 : 1</span></div>
+  </div>
   <div class="more">טעות נפוצה: לשכוח לאן הפרמטר "מודד". <span class="m"><span class="v">BK</span> = μ<span class="v">BD</span></span> מודד מ־ <span class="m">B</span>. אם כתבתם <span class="m"><span class="v">DK</span> = μ<span class="v">DB</span></span>, היחס יוצא הפוך.</div>
 </div>
 
 <!-- 5 -->
 <div class="screen" data-t="אלכסוני מקבילית">
   <span class="badge self">לבד</span>
-  <h2>האלכסונים של מקבילית חוצים זה את זה</h2>
-  <figure id="l5par" style="margin:8px 0"></figure>
-  <p>במקבילית <span class="m">ABCD</span>, האלכסונים נחתכים ב־ <span class="m">K</span>. נוכיח לפי המתכון.</p>
-  <div class="steps">
-    <span>בסיס: <span class="m"><span class="v">AB</span> = <span class="v">a</span></span>, <span class="m"><span class="v">AD</span> = <span class="v">b</span></span></span>
-    <span>דרך ראשונה (לאורך <span class="m">AC</span>):</span>
-    <span class="m"><span class="v">AK</span> = λ<span class="v">AC</span> = λ<span class="v">a</span> + λ<span class="v">b</span></span>
-    <span>דרך שנייה (לאורך <span class="m">BD</span>):</span>
-    <span class="m"><span class="v">AK</span> = <span class="v">AB</span> + μ<span class="v">BD</span> = <span class="v">a</span> + μ(<span class="v">b</span> − <span class="v">a</span>)</span>
-    <span class="m"><span class="v">AK</span> = (1 − μ)<span class="v">a</span> + μ<span class="v">b</span></span>
-    <span>השוואת מקדמים: <span class="m">λ = 1 − μ</span> וגם <span class="m">λ = μ</span></span>
-    <span class="m">λ = μ = ½</span>
+  <h2>אלכסוני מקבילית</h2>
+  <div class="step">
+    <figure id="l5par" style="margin:8px 0"></figure>
+    <div class="say"><div class="bub">נוכיח לפי המתכון: האלכסונים <b>חוצים זה את זה</b>.</div></div>
   </div>
-  <p>לכן <span class="m">K</span> היא אמצע שני האלכסונים. ∎</p>
+  <div class="step">
+    <div class="keypt"><b>1</b><div>בסיס: <span class="m"><span class="v">AB</span> = <span class="v">a</span></span>, <span class="m"><span class="v">AD</span> = <span class="v">b</span></span></div></div>
+    <div class="keypt"><b>2</b><div>לאורך <span class="m">AC</span>: <span class="m"><span class="v">AK</span> = λ<span class="v">a</span> + λ<span class="v">b</span></span></div></div>
+    <div class="keypt"><b>3</b><div>לאורך <span class="m">BD</span>: <span class="m"><span class="v">AK</span> = (1 − μ)<span class="v">a</span> + μ<span class="v">b</span></span></div></div>
+  </div>
+  <div class="step">
+    <div class="steps"><span class="m">λ = 1 − μ</span><span class="m">λ = μ</span><span class="m">λ = μ = ½</span></div>
+    <p class="big1"><span class="m">K</span> — אמצע שני האלכסונים. ∎</p>
+  </div>
+  <div class="more">הדרך השנייה בפירוט: <span class="m"><span class="v">AK</span> = <span class="v">AB</span> + μ<span class="v">BD</span> = <span class="v">a</span> + μ(<span class="v">b</span> − <span class="v">a</span>) = (1 − μ)<span class="v">a</span> + μ<span class="v">b</span></span>.</div>
 </div>
 
 <!-- 6 -->
 <div class="screen" data-t="קטע אמצעים">
   <span class="badge self">לבד</span>
   <h2>קטע אמצעים במשולש</h2>
-  <p>לפעמים אין צורך בשתי דרכים — מספיק להביע וקטור אחד. במשולש <span class="m">ABC</span>: <span class="m">M</span> אמצע <span class="m">AB</span>, <span class="m">N</span> אמצע <span class="m">AC</span>.</p>
-  <figure id="l5mid" style="margin:8px 0"></figure>
-  <div class="steps">
-    <span class="m"><span class="v">MN</span> = <span class="v">AN</span> − <span class="v">AM</span></span>
-    <span class="m"><span class="v">MN</span> = ½<span class="v">AC</span> − ½<span class="v">AB</span></span>
-    <span class="m"><span class="v">MN</span> = ½(<span class="v">AC</span> − <span class="v">AB</span>) = ½<span class="v">BC</span></span>
+  <div class="step">
+    <p><span class="m">M</span> אמצע <span class="m">AB</span>, <span class="m">N</span> אמצע <span class="m">AC</span>.</p>
+    <figure id="l5mid" style="margin:8px 0"></figure>
   </div>
-  <p>משוויון וקטורי אחד קיבלנו <b>שני</b> דברים:</p>
-  <ul class="summary"><li><span class="m">MN ∥ BC</span> — כי הווקטורים תלויים.</li><li><span class="m">MN = ½BC</span> — מהמקדם.</li></ul>
-  <div class="note">זה כוחו של וקטור: הוא נושא גם <b>כיוון</b> (מקבילות) וגם <b>אורך</b> (יחס).</div>
+  <div class="step">
+    <div class="steps">
+      <span class="m"><span class="v">MN</span> = <span class="v">AN</span> − <span class="v">AM</span></span>
+      <span class="m"><span class="v">MN</span> = ½<span class="v">AC</span> − ½<span class="v">AB</span></span>
+      <span class="m"><span class="v">MN</span> = ½<span class="v">BC</span></span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="say"><div class="bub">משוויון <b>אחד</b> — <b>שתי</b> מסקנות:</div></div>
+    <div class="tiles" style="grid-template-columns:1fr 1fr">
+      <div><i>∥</i><b>כיוון</b><span class="m">MN ∥ BC</span></div>
+      <div><i>📏</i><b>אורך</b><span class="m">MN = ½BC</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- 7 -->
 <div class="screen" data-t="אלכסוני טרפז">
   <span class="badge self">לבד</span>
-  <h2>האלכסונים של טרפז</h2>
-  <p>בטרפז <span class="m">ABCD</span> (<span class="m">AB ∥ DC</span>) נתון <span class="m"><span class="v">DC</span> = ½<span class="v">AB</span></span>. האלכסונים נחתכים ב־ <span class="m">K</span>. נמצא את <span class="ratio">AK : KC</span>.</p>
-  <figure id="l5trap" style="margin:8px 0"></figure>
-  <div class="steps">
-    <span>בסיס: <span class="m"><span class="v">AB</span> = <span class="v">a</span></span>, <span class="m"><span class="v">AD</span> = <span class="v">b</span></span>. אז <span class="m"><span class="v">AC</span> = <span class="v">b</span> + ½<span class="v">a</span></span></span>
-    <span class="m"><span class="v">AK</span> = λ<span class="v">AC</span> = ½λ<span class="v">a</span> + λ<span class="v">b</span></span>
-    <span class="m"><span class="v">AK</span> = <span class="v">a</span> + μ<span class="v">BD</span> = (1 − μ)<span class="v">a</span> + μ<span class="v">b</span></span>
-    <span>השוואת מקדמים: <span class="m">½λ = 1 − μ</span> וגם <span class="m">λ = μ</span></span>
-    <span class="m">½λ = 1 − λ</span><span class="m">λ = ⅔</span>
+  <h2>אלכסוני טרפז</h2>
+  <div class="step">
+    <p>טרפז <span class="m">ABCD</span>, <span class="m">AB ∥ DC</span>, <span class="m"><span class="v">DC</span> = ½<span class="v">AB</span></span>. האלכסונים נחתכים ב־ <span class="m">K</span>.</p>
+    <figure id="l5trap" style="margin:8px 0"></figure>
+    <div class="say"><div class="bub">מה <span class="ratio">AK : KC</span>?</div></div>
   </div>
-  <p>לכן <span class="ratio">AK : KC = 2 : 1</span> — בדיוק היחס בין הבסיסים <span class="ratio">AB : DC</span>.</p>
-  <div class="note"><b>באופן כללי:</b> בטרפז, נקודת החיתוך של האלכסונים מחלקת כל אלכסון ביחס שבין הבסיסים.</div>
+  <div class="step">
+    <div class="keypt"><b>1</b><div><span class="m"><span class="v">AC</span> = <span class="v">b</span> + ½<span class="v">a</span></span> ← <span class="m"><span class="v">AK</span> = ½λ<span class="v">a</span> + λ<span class="v">b</span></span></div></div>
+    <div class="keypt"><b>2</b><div><span class="m"><span class="v">AK</span> = <span class="v">a</span> + μ<span class="v">BD</span> = (1 − μ)<span class="v">a</span> + μ<span class="v">b</span></span></div></div>
+  </div>
+  <div class="step">
+    <div class="steps"><span class="m">½λ = 1 − μ</span><span class="m">λ = μ</span><span class="m">½λ = 1 − λ</span><span class="m">λ = ⅔</span></div>
+    <p class="big1"><span class="ratio">AK : KC = 2 : 1</span> — כמו היחס בין הבסיסים!</p>
+  </div>
+  <div class="step">
+    <div class="note"><b>באופן כללי:</b> בטרפז, האלכסונים מתחלקים ביחס שבין הבסיסים.</div>
+  </div>
 </div>
 
 <!-- 8 -->
@@ -694,9 +768,30 @@ function updNav(){
 document.getElementById('dots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;show(+b.dataset.i)});
 const builtW={};
 function buildWidget(i){const ids=screens[i].dataset.w;if(!ids)return;ids.split(',').forEach(id=>{const slot=document.querySelector('#'+id+' .slot');const w=slot.clientWidth;if(builtW[id]===w)return;builtW[id]=w;WIDGETS[id].build(slot)})}
+// ---- screens that are read in small steps ----
+function revealAll(sc){sc.querySelectorAll('.step').forEach(x=>x.classList.add('shown'));sc.classList.add('allshown');const b=sc.querySelector('.stepmore');if(b)b.remove()}
+function setupSteps(sc,i){const st=[...sc.querySelectorAll(':scope > .step')];if(!st.length)return;sc.classList.add('chunked');
+  if(sc.classList.contains('allshown'))return;
+  if(passed.has(i)||i<maxSeen){revealAll(sc);return}
+  let k=st.findIndex(x=>!x.classList.contains('shown'));if(k<0){revealAll(sc);return}if(k===0){st[0].classList.add('shown');k=1}
+  let btn=sc.querySelector('.stepmore');
+  const place=()=>{const n=st.findIndex(x=>!x.classList.contains('shown'));if(n<0){revealAll(sc);return}
+    if(!btn){btn=document.createElement('button');btn.className='stepmore';btn.onclick=()=>{const m=st.findIndex(x=>!x.classList.contains('shown'));st[m].classList.add('shown');buildWidget(i);place();
+      setTimeout(()=>st[m].scrollIntoView({behavior:'smooth',block:'nearest'}),30)}}
+    btn.innerHTML=`המשך ↓ <small>${n} / ${st.length}</small>`;st[n-1].after(btn)};
+  place()}
+// the student's own hiker next to the guide bubbles
+function sayAvatars(){let a=null;try{a=CourseAPI.getAvatar&&CourseAPI.getAvatar()}catch(e){}
+  const C={skin:['#FFE0C4','#F2C39B','#D9A077','#A8714A','#6E4A2E'],hairColor:['#2B2B2B','#6B4226','#C98B3F','#E8C46A','#B5452E','#7B61FF','#FF8CC6'],hatColor:['#FF6B6B','#3D8BFD','#4CB782','#FFB547','#26324A','#F5F5F5'],shirt:['#6C63FF','#FF6B6B','#3D8BFD','#4CB782','#FFB547','#FF8CC6','#26324A','#F5F5F5']};
+  a=a||{skin:1,hat:1,hatColor:0,shirt:0};const g=(k,i)=>C[k][i||0]||C[k][0];const hat=a.hat||0,hair=a.hair||0;
+  const top=hat===4?'#FFC93C':hat>0&&hat!==5?g('hatColor',a.hatColor):(hair===5?null:g('hairColor',a.hairColor));
+  const svg=`<svg viewBox="0 0 30 30"><path d="M5 30c0-7 4-10 10-10s10 3 10 10z" fill="${g('shirt',a.shirt)}"/><circle cx="15" cy="13" r="7" fill="${g('skin',a.skin)}"/>`+
+    (top?`<path d="M7.6 12.5a7.4 7.4 0 0 1 14.8 0z" fill="${top}"/>`:'')+`<circle cx="12.4" cy="14" r=".9" fill="#26324A"/><circle cx="17.6" cy="14" r=".9" fill="#26324A"/><path d="M12.6 16.6q2.4 1.8 4.8 0" stroke="#26324A" stroke-width=".8" fill="none" stroke-linecap="round"/></svg>`;
+  document.querySelectorAll('.say').forEach(el=>{if(el.querySelector('.who'))return;const w=document.createElement('div');w.className='who';w.innerHTML=svg;el.prepend(w)})}
+sayAvatars();
 function show(i){
   screens[cur].classList.remove('on');cur=i;screens[cur].classList.add('on');
-  screens[cur].appendChild(nav);
+  screens[cur].appendChild(nav);setupSteps(screens[cur],cur);
   if(cur>maxSeen)maxSeen=cur;save();updNav();buildWidget(cur);
   CourseAPI.log({ev:'screen',screen:cur+1,title:screens[cur].dataset.t});
   window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});

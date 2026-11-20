@@ -182,6 +182,28 @@ footer a.home{color:var(--vio)}
 .steps{display:flex;flex-direction:column;align-items:flex-start;gap:4px;background:#F7F8FC;border-radius:14px;padding:10px 16px;margin:8px 0}
 .steps .m{direction:ltr}
 
+/* ===== reading in small steps ===== */
+.screen .step{display:none}
+.screen .step.shown{display:block;animation:stepIn .35s ease}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.screen.chunked:not(.allshown) .check{display:none}
+.screen.chunked:not(.allshown) .navbtns #next{opacity:.35;pointer-events:none}
+.stepmore{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 4px;background:#6C63FF;color:#fff;border:0;border-radius:999px;padding:10px 26px;font:inherit;font-size:16px;cursor:pointer;box-shadow:0 5px 14px rgba(108,99,255,.3)}
+.stepmore small{opacity:.75;font-size:12.5px}
+.say{display:flex;gap:10px;align-items:flex-end;margin:10px 0}
+.say .who{flex:none;width:46px;height:46px}
+.say .who svg{width:46px;height:46px;border-radius:50%;background:#E6F4FF;display:block}
+.say .bub{position:relative;background:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;box-shadow:0 3px 12px rgba(40,60,90,.1);font-size:16.5px;line-height:1.7}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:10px 0}
+.tiles>div{background:#fff;border-radius:18px;padding:12px;text-align:center;box-shadow:0 2px 10px rgba(40,60,90,.07)}
+.tiles>div>i{display:block;font-style:normal;font-size:28px;line-height:1.2;margin-bottom:4px}
+.tiles>div>b{display:block;font-weight:500;color:#26324A}
+.tiles>div>span{display:block;font-size:13.5px;color:#5B6680;line-height:1.5;margin-top:2px}
+.ill{display:block;width:100%;max-width:420px;margin:8px auto}
+.big1{font-family:'Varela Round',Rubik,sans-serif;font-size:21px;line-height:1.5;margin:6px 0;color:#26324A}
+.keypt{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:16px;padding:10px 14px;margin:8px 0;box-shadow:0 2px 10px rgba(40,60,90,.07)}
+.keypt>b{flex:none;width:28px;height:28px;border-radius:50%;background:#6C63FF;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:500}
+
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.82em;margin:0 .12em}
 .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .18em}
 .fr>span:last-child{padding:0 .18em}
@@ -212,16 +234,23 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <!-- 0 -->
 <div class="screen" data-t="פתיחה">
   <h2>שיעור 3 · צירוף לינארי</h2>
-  <p>בשיעור הקודם הבענו וקטורים בתוך מקבילית בעזרת שני וקטורים בלבד, <span class="v">a</span> ו־ <span class="v">b</span>. בשיעור הזה נבין <b>למה זה תמיד אפשרי</b>, ונלמד להשתמש בזה.</p>
-  <ul class="goals">
-    <li>מהו צירוף לינארי של וקטורים.</li>
-    <li>כל וקטור במישור הוא צירוף של שני וקטורים לא מקבילים — בדרך אחת בלבד.</li>
-    <li>השוואת מקדמים.</li>
-    <li>הבעת וקטורים במשולש, במקבילית ובתיבה, כולל נקודות שמחלקות צלע ביחס נתון.</li>
-  </ul>
-  <div class="plan">
-    <div class="cls"><b>בכיתה, יחד</b>מסכים 1–3: צירוף לינארי, "רשת" של שני וקטורים, השוואת מקדמים.</div>
-    <div class="self"><b>לבד (בכיתה ובבית)</b>מסכים 4–8, הסיכום והתרגול.</div>
+  <div class="step">
+    <div class="say"><div class="bub">בשיעור הקודם בנינו וקטורים במקבילית בעזרת <b>שני וקטורים בלבד</b>, <span class="v">a</span> ו־ <span class="v">b</span>. היום נבין <b>למה זה תמיד עובד</b>.</div></div>
+  </div>
+  <div class="step">
+    <h3>מה נלמד היום</h3>
+    <div class="tiles">
+      <div><i>🧩</i><b>צירוף לינארי</b><span>"מתכון" לבניית וקטור</span></div>
+      <div><i>🕸️</i><b>רשת של שני וקטורים</b><span>כל וקטור — בדרך אחת בלבד</span></div>
+      <div><i>⚖️</i><b>השוואת מקדמים</b><span>כלי חזק לפתרון</span></div>
+      <div><i>📦</i><b>במשולש ובתיבה</b><span>נקודות שמחלקות צלע</span></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="plan">
+      <div class="cls"><b>בכיתה, יחד</b>מסכים 1–3</div>
+      <div class="self"><b>לבד</b>מסכים 4–8, הסיכום והתרגול</div>
+    </div>
   </div>
 </div>
 
@@ -229,17 +258,28 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="מהו צירוף לינארי" data-w="w1">
   <span class="badge cls">בכיתה</span>
   <h2>מהו צירוף לינארי?</h2>
-  <p>נתונים שני וקטורים, <span class="v c-vec">a</span> ו־ <span class="v c-vec2">b</span>. אפשר לכפול כל אחד מהם במספר, ולחבר:</p>
-  <div class="def"><span class="t">צירוף לינארי</span>
-    וקטור מהצורה <span class="m">k<span class="v">a</span> + t<span class="v">b</span></span>, כאשר <span class="m">k</span> ו־ <span class="m">t</span> מספרים, נקרא <b>צירוף לינארי</b> של <span class="v">a</span> ו־ <span class="v">b</span>. המספרים <span class="m">k</span> ו־ <span class="m">t</span> נקראים <b>מקדמים</b>.
-    <div class="ex">דוגמאות: <span class="m">2<span class="v">a</span> + 3<span class="v">b</span></span>, <span class="m"><span class="v">a</span> − <span class="v">b</span></span>, <span class="m">½<span class="v">b</span></span> (כאן <span class="m">k = 0</span>).</div></div>
-  <div class="widget" id="w1">
-    <div class="wt">בנו צירוף לינארי — ונסו לפגוע במטרה</div>
-    <div class="slot"></div>
-    <div class="ctl"><span class="m">k =</span><input type="range" dir="ltr" id="w1k" min="-2" max="2" step="0.5" value="1" style="flex:1;min-width:110px;accent-color:#2f5bea"><b class="m" id="w1kv">1</b></div>
-    <div class="ctl"><span class="m">t =</span><input type="range" dir="ltr" id="w1t" min="-2" max="2" step="0.5" value="1" style="flex:1;min-width:110px;accent-color:#d6336c"><b class="m" id="w1tv">1</b></div>
-    <div class="ctl"><button class="b pri" data-a="target">🎯 מטרה חדשה</button><button class="b" data-a="free">בלי מטרה</button></div>
-    <div class="status"></div>
+  <div class="step">
+    <div class="say"><div class="bub">יש לנו שני וקטורים, <span class="v c-vec">a</span> ו־ <span class="v c-vec2">b</span>. כופלים כל אחד במספר — ומחברים.</div></div>
+    <div class="def"><span class="t">צירוף לינארי</span>
+      <span class="m" style="font-size:20px">k<span class="v">a</span> + t<span class="v">b</span></span>
+      <div class="ex">המספרים <span class="m">k</span>, <span class="m">t</span> נקראים <b>מקדמים</b>.</div></div>
+  </div>
+  <div class="step">
+    <div class="tiles">
+      <div><span class="m" style="font-size:18px">2<span class="v">a</span> + 3<span class="v">b</span></span></div>
+      <div><span class="m" style="font-size:18px"><span class="v">a</span> − <span class="v">b</span></span></div>
+      <div><span class="m" style="font-size:18px">½<span class="v">b</span></span><span>(כאן <span class="m">k = 0</span>)</span></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="widget" id="w1">
+      <div class="wt">בנו צירוף — ונסו לפגוע במטרה 🎯</div>
+      <div class="slot"></div>
+      <div class="ctl"><span class="m">k =</span><input type="range" dir="ltr" id="w1k" min="-2" max="2" step="0.5" value="1" style="flex:1;min-width:110px;accent-color:#2f5bea"><b class="m" id="w1kv">1</b></div>
+      <div class="ctl"><span class="m">t =</span><input type="range" dir="ltr" id="w1t" min="-2" max="2" step="0.5" value="1" style="flex:1;min-width:110px;accent-color:#d6336c"><b class="m" id="w1tv">1</b></div>
+      <div class="ctl"><button class="b pri" data-a="target">🎯 מטרה חדשה</button><button class="b" data-a="free">בלי מטרה</button></div>
+      <div class="status"></div>
+    </div>
   </div>
   <div class="more">איך חושבים על זה? <span class="m">k<span class="v">a</span> + t<span class="v">b</span></span> הוא מסלול: הולכים <span class="m">k</span> "צעדים" בכיוון של <span class="v">a</span>, ואז <span class="m">t</span> צעדים בכיוון של <span class="v">b</span>. מקדם שלילי פירושו ללכת אחורה. הווקטור הירוק הוא התזוזה הכוללת.</div>
 </div>
@@ -247,18 +287,23 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <!-- 2 -->
 <div class="screen" data-t="רשת של שני וקטורים" data-w="w2">
   <span class="badge cls">בכיתה</span>
-  <h2>כל וקטור במישור — צירוף של <span class="v">a</span> ו־ <span class="v">b</span></h2>
-  <p>הקווים בשרטוט מקבילים ל־ <span class="v c-vec">a</span> ול־ <span class="v c-vec2">b</span>. הם יוצרים "רשת משופעת", כמו דף משבצות שהוטה. גררו את הנקודה <span class="m">P</span> לכל מקום — ותמיד יימצאו מקדמים מתאימים.</p>
-  <div class="widget" id="w2">
-    <div class="wt">הרשת של <span class="v">a</span> ו־ <span class="v">b</span></div>
-    <div class="slot"></div>
-    <div class="status"></div>
-    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span></div>
+  <h2>כל וקטור — צירוף של <span class="v">a</span> ו־ <span class="v">b</span></h2>
+  <div class="step">
+    <div class="say"><div class="bub">הקווים מקבילים ל־ <span class="v c-vec">a</span> ול־ <span class="v c-vec2">b</span> — כמו דף משבצות שהוטה. גררו את <span class="m">P</span> לכל מקום!</div></div>
+    <div class="widget" id="w2">
+      <div class="wt">הרשת של <span class="v">a</span> ו־ <span class="v">b</span></div>
+      <div class="slot"></div>
+      <div class="status"></div>
+    </div>
   </div>
-  <div class="def"><span class="t">משפט</span>
-    אם <span class="v">a</span> ו־ <span class="v">b</span> <b>אינם מקבילים</b> (ואף אחד מהם אינו וקטור האפס), אז כל וקטור <span class="v">w</span> במישור אפשר לכתוב כצירוף לינארי
-    <span class="m"><span class="v">w</span> = k<span class="v">a</span> + t<span class="v">b</span></span>, <b>ובדרך אחת בלבד</b>.</div>
-  <div class="note"><b>ומה אם <span class="v">a</span> ו־ <span class="v">b</span> מקבילים?</b> אז כל צירוף שלהם מקביל גם הוא לאותו ישר. וקטור בכיוון אחר — אי אפשר לקבל.</div>
+  <div class="step">
+    <div class="def"><span class="t">משפט</span>
+      אם <span class="v">a</span> ו־ <span class="v">b</span> <b>אינם מקבילים</b>, כל וקטור במישור הוא צירוף שלהם —
+      <div class="ex"><b>ובדרך אחת בלבד.</b></div></div>
+  </div>
+  <div class="step">
+    <div class="note"><b>ואם הם מקבילים?</b> כל הצירופים נשארים על ישר אחד. וקטור בכיוון אחר — אי אפשר לקבל.</div>
+  </div>
   <div class="more">למה בדרך אחת בלבד? דרך הקצה של <span class="v">w</span> עובר קו אחד בדיוק שמקביל ל־ <span class="v">b</span>. הוא חותך את הישר של <span class="v">a</span> בנקודה אחת — וזו קובעת את <span class="m">k</span>. באותו אופן נקבע <span class="m">t</span>.</div>
 </div>
 
@@ -266,36 +311,46 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="השוואת מקדמים">
   <span class="badge cls">בכיתה</span>
   <h2>השוואת מקדמים</h2>
-  <p>מכיוון שההצגה יחידה, אם אותו וקטור נכתב בשתי דרכים — המקדמים חייבים להיות שווים:</p>
-  <div class="def"><span class="t">השוואת מקדמים</span>
-    אם <span class="v">a</span> ו־ <span class="v">b</span> אינם מקבילים, ו־ <span class="m">k₁<span class="v">a</span> + t₁<span class="v">b</span> = k₂<span class="v">a</span> + t₂<span class="v">b</span></span>, אז
-    <div class="ex"><span class="m">k₁ = k₂</span> וגם <span class="m">t₁ = t₂</span></div></div>
-  <h3>דוגמה</h3>
-  <p><span class="v">a</span> ו־ <span class="v">b</span> אינם מקבילים, ונתון:</p>
-  <div class="steps"><span class="m">(x + 1)<span class="v">a</span> + 3<span class="v">b</span> = 4<span class="v">a</span> + (y − 2)<span class="v">b</span></span></div>
-  <p>משווים את המקדמים של <span class="v">a</span>, ואחר כך את המקדמים של <span class="v">b</span>:</p>
-  <div class="steps">
-    <span class="m">x + 1 = 4</span><span class="m">x = 3</span>
-    <span class="m">3 = y − 2</span><span class="m">y = 5</span>
+  <div class="step">
+    <div class="say"><div class="bub">ההצגה <b>יחידה</b>. אז אם אותו וקטור נכתב בשתי דרכים — המקדמים חייבים להיות שווים!</div></div>
+    <div class="def"><span class="t">השוואת מקדמים</span>
+      <span class="v">a</span>, <span class="v">b</span> לא מקבילים, ו־ <span class="m">k₁<span class="v">a</span> + t₁<span class="v">b</span> = k₂<span class="v">a</span> + t₂<span class="v">b</span></span>
+      <div class="ex">← <span class="m">k₁ = k₂</span> וגם <span class="m">t₁ = t₂</span></div></div>
   </div>
-  <div class="note"><b>זהירות:</b> מותר להשוות מקדמים <b>רק</b> כש־ <span class="v">a</span> ו־ <span class="v">b</span> אינם מקבילים. למשל, אם <span class="m"><span class="v">b</span> = 2<span class="v">a</span></span>, אז <span class="m">2<span class="v">a</span> + 0<span class="v">b</span> = 0<span class="v">a</span> + 1<span class="v">b</span></span> — אבל המקדמים שונים!</div>
-  <div class="disc"><span class="t">לדיון בכיתה</span><br>
-    למה השוואת מקדמים היא כלי כל כך חזק? מה היא מאפשרת לנו לעשות עם משוואה <b>אחת</b> בין וקטורים?</div>
+  <div class="step">
+    <h3>דוגמה</h3>
+    <div class="steps"><span class="m">(x + 1)<span class="v">a</span> + 3<span class="v">b</span> = 4<span class="v">a</span> + (y − 2)<span class="v">b</span></span></div>
+    <div class="keypt"><b><span class="v" style="color:#fff">a</span></b><div><span class="m">x + 1 = 4</span> ← <span class="m">x = 3</span></div></div>
+    <div class="keypt"><b><span class="v" style="color:#fff">b</span></b><div><span class="m">3 = y − 2</span> ← <span class="m">y = 5</span></div></div>
+  </div>
+  <div class="step">
+    <div class="note"><b>זהירות:</b> משווים מקדמים <b>רק</b> כש־ <span class="v">a</span>, <span class="v">b</span> לא מקבילים.</div>
+    <div class="disc"><span class="t">לדיון בכיתה</span><br>ממשוואה <b>אחת</b> בין וקטורים קיבלנו <b>שתי</b> משוואות במספרים. למה זה כל כך שימושי?</div>
+  </div>
+  <div class="more">למה רק כשהם לא מקבילים? אם למשל <span class="m"><span class="v">b</span> = 2<span class="v">a</span></span>, אז <span class="m">2<span class="v">a</span> + 0<span class="v">b</span> = 0<span class="v">a</span> + 1<span class="v">b</span></span> — אותו וקטור, אבל המקדמים שונים.</div>
 </div>
 
 <!-- 4 -->
 <div class="screen" data-t="נקודה על צלע" data-w="w4">
   <span class="badge self">לבד</span>
-  <h2>נקודה שמחלקת צלע ביחס נתון</h2>
-  <p>במשולש <span class="m">ABC</span> מסמנים <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">a</span></span> ו־ <span class="m"><span class="v c-vec2">AC</span> = <span class="v c-vec2">b</span></span>. הנקודה <span class="m">D</span> נמצאת על הצלע <span class="m">BC</span>. איך מביעים את <span class="v c-eq">AD</span>?</p>
-  <div class="widget" id="w4">
-    <div class="wt">בחרו את היחס <span class="ratio">BD : DC</span></div>
-    <div class="slot"></div>
-    <div class="ctl" id="w4r"></div>
-    <div class="status"></div>
+  <h2>נקודה על צלע, ביחס נתון</h2>
+  <div class="step">
+    <p>במשולש <span class="m">ABC</span>: <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">a</span></span>, <span class="m"><span class="v c-vec2">AC</span> = <span class="v c-vec2">b</span></span>. הנקודה <span class="m">D</span> על <span class="m">BC</span>.</p>
+    <div class="say"><div class="bub">איך מביעים את <span class="v c-eq">AD</span>? בחרו יחס וראו!</div></div>
   </div>
-  <p>הדרך תמיד זהה: <span class="m"><span class="v">AD</span> = <span class="v">AB</span> + <span class="v">BD</span></span>, ו־ <span class="v">BD</span> הוא חלק מ־ <span class="m"><span class="v">BC</span> = <span class="v">b</span> − <span class="v">a</span></span>.</p>
-  <div class="note"><b>שימו לב:</b> אם <span class="ratio">BD : DC = m : n</span>, אז <span class="v">BD</span> הוא <span class="m"><span class="fr"><span>m</span><span>m + n</span></span></span> מתוך <span class="v">BC</span>. למשל ביחס <span class="ratio">1 : 2</span> — שליש מהצלע.</div>
+  <div class="step">
+    <div class="widget" id="w4">
+      <div class="wt">בחרו את היחס <span class="ratio">BD : DC</span></div>
+      <div class="slot"></div>
+      <div class="ctl" id="w4r"></div>
+      <div class="status"></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="keypt"><b>1</b><div><span class="m"><span class="v">AD</span> = <span class="v">AB</span> + <span class="v">BD</span></span></div></div>
+    <div class="keypt"><b>2</b><div><span class="v">BD</span> הוא חלק מ־ <span class="m"><span class="v">BC</span> = <span class="v">b</span> − <span class="v">a</span></span></div></div>
+    <div class="keypt"><b>3</b><div>יחס <span class="ratio">m : n</span> ← החלק הוא <span class="fr"><span>m</span><span>m + n</span></span></div></div>
+  </div>
   <div class="more">בכל המקרים יצא <span class="m"><span class="v">AD</span> = (1 − λ)<span class="v">a</span> + λ<span class="v">b</span></span>, כאשר λ הוא החלק של <span class="v">BC</span> שהלכנו. שימו לב שסכום המקדמים תמיד 1 — נחזור לזה בשיעור הבא.</div>
 </div>
 
@@ -303,50 +358,72 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="בתוך מקבילית" data-w="w5">
   <span class="badge self">לבד</span>
   <h2>יחסים בתוך מקבילית</h2>
-  <p>במקבילית <span class="m">ABCD</span>: <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">a</span></span>, <span class="m"><span class="v c-vec2">AD</span> = <span class="v c-vec2">b</span></span>. הנקודה <span class="m">E</span> על <span class="m">DC</span> כך ש־ <span class="ratio">DE : EC = 1 : 2</span>, והנקודה <span class="m">F</span> על <span class="m">BC</span> כך ש־ <span class="ratio">BF : FC = 3 : 1</span>.</p>
-  <div class="widget" id="w5">
-    <div class="wt">בחרו וקטור — ונבנה אותו מ־ <span class="v">a</span> ו־ <span class="v">b</span></div>
-    <div class="slot"></div>
-    <div class="ctl targets"></div>
-    <div class="status"></div>
+  <div class="step">
+    <p>מקבילית <span class="m">ABCD</span>, <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">a</span></span>, <span class="m"><span class="v c-vec2">AD</span> = <span class="v c-vec2">b</span></span>.</p>
+    <div class="keypt"><b>E</b><div>על <span class="m">DC</span>, <span class="ratio">DE : EC = 1 : 2</span></div></div>
+    <div class="keypt"><b>F</b><div>על <span class="m">BC</span>, <span class="ratio">BF : FC = 3 : 1</span></div></div>
   </div>
-  <div class="note"><b>טריק שימושי:</b> וקטור בין שתי נקודות שכבר הבענו — מחסירים: <span class="m"><span class="v">EF</span> = <span class="v">AF</span> − <span class="v">AE</span></span>.</div>
+  <div class="step">
+    <div class="widget" id="w5">
+      <div class="wt">בחרו וקטור — ונבנה אותו</div>
+      <div class="slot"></div>
+      <div class="ctl targets"></div>
+      <div class="status"></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="say"><div class="bub">טריק: וקטור בין שתי נקודות שכבר הבענו? <b>מחסרים!</b> <span class="m"><span class="v">EF</span> = <span class="v">AF</span> − <span class="v">AE</span></span></div></div>
+  </div>
 </div>
 
 <!-- 6 -->
 <div class="screen" data-t="צירוף במרחב">
   <span class="badge self">לבד</span>
   <h2>צירוף לינארי במרחב</h2>
-  <p>במרחב שני וקטורים לא מספיקים: כל הצירופים של <span class="v">a</span> ו־ <span class="v">b</span> נמצאים <b>במישור אחד</b>. צריך וקטור שלישי, שיוצא מהמישור.</p>
-  <div class="def"><span class="t">משפט</span>
-    אם <span class="v">a</span>, <span class="v">b</span>, <span class="v">c</span> אינם נמצאים במישור אחד, אז כל וקטור במרחב אפשר לכתוב, בדרך אחת בלבד, כ־
-    <span class="m">k<span class="v">a</span> + t<span class="v">b</span> + s<span class="v">c</span></span></div>
-  <figure id="l3box" style="margin:8px 0"></figure>
-  <p>בתיבה <span class="m">ABCDA'B'C'D'</span> מסמנים <span class="m"><span class="v">AB</span> = <span class="v">a</span></span>, <span class="m"><span class="v">AD</span> = <span class="v">b</span></span>, <span class="m"><span class="v">AA'</span> = <span class="v">c</span></span>. אז למשל:</p>
-  <div class="steps">
-    <span class="m"><span class="v">AC'</span> = <span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CC'</span> = <span class="v">a</span> + <span class="v">b</span> + <span class="v">c</span></span>
-    <span class="m"><span class="v">BD'</span> = <span class="v">BA</span> + <span class="v">AD</span> + <span class="v">DD'</span> = −<span class="v">a</span> + <span class="v">b</span> + <span class="v">c</span></span>
+  <div class="step">
+    <div class="say"><div class="bub">במרחב, שני וקטורים לא מספיקים — כל הצירופים שלהם נמצאים <b>במישור אחד</b>. צריך וקטור שלישי!</div></div>
+    <div class="def"><span class="t">משפט</span>
+      <span class="v">a</span>, <span class="v">b</span>, <span class="v">c</span> לא במישור אחד ← כל וקטור במרחב הוא <span class="m">k<span class="v">a</span> + t<span class="v">b</span> + s<span class="v">c</span></span>, בדרך אחת בלבד.</div>
   </div>
-  <p>גם השוואת מקדמים עובדת במרחב — עם שלושה מקדמים.</p>
-  <div class="more">איך בוחרים מסלול? הולכים לאורך מקצועות התיבה בלבד: כל מקצוע שווה ל־ <span class="v">a</span>, ל־ <span class="v">b</span> או ל־ <span class="v">c</span>, או לנגדי שלהם. לאמצע של מקצוע מגיעים עם חצי וקטור.</div>
+  <div class="step">
+    <figure id="l3box" style="margin:8px 0"></figure>
+    <p><span class="m"><span class="v">AB</span> = <span class="v">a</span></span>, <span class="m"><span class="v">AD</span> = <span class="v">b</span></span>, <span class="m"><span class="v">AA'</span> = <span class="v">c</span></span></p>
+  </div>
+  <div class="step">
+    <div class="steps">
+      <span class="m"><span class="v">AC'</span> = <span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CC'</span></span>
+      <span class="m"><span class="v">AC'</span> = <span class="v">a</span> + <span class="v">b</span> + <span class="v">c</span></span>
+    </div>
+    <div class="steps">
+      <span class="m"><span class="v">BD'</span> = <span class="v">BA</span> + <span class="v">AD</span> + <span class="v">DD'</span></span>
+      <span class="m"><span class="v">BD'</span> = −<span class="v">a</span> + <span class="v">b</span> + <span class="v">c</span></span>
+    </div>
+    <div class="say"><div class="bub">הולכים רק לאורך <b>מקצועות</b> התיבה. כל מקצוע הוא <span class="v">a</span>, <span class="v">b</span> או <span class="v">c</span> (או הנגדי).</div></div>
+  </div>
 </div>
 
 <!-- 7 -->
 <div class="screen" data-t="נוסחת האמצע">
   <span class="badge self">לבד</span>
   <h2>נוסחת האמצע</h2>
-  <p>הנקודה <span class="m">M</span> היא אמצע הקטע <span class="m">AB</span>, ו־ <span class="m">O</span> היא <b>נקודה כלשהי</b> (במישור או במרחב). אז:</p>
-  <div class="def"><span class="t">נוסחת האמצע</span>
-    <span class="m"><span class="v">OM</span> = ½<span class="v">OA</span> + ½<span class="v">OB</span></span></div>
-  <h3>הוכחה</h3>
-  <div class="steps">
-    <span class="m"><span class="v">OM</span> = <span class="v">OA</span> + <span class="v">AM</span></span>
-    <span class="m"><span class="v">AM</span> = ½<span class="v">AB</span> = ½(<span class="v">OB</span> − <span class="v">OA</span>)</span>
-    <span class="m"><span class="v">OM</span> = <span class="v">OA</span> + ½<span class="v">OB</span> − ½<span class="v">OA</span></span>
-    <span class="m"><span class="v">OM</span> = ½<span class="v">OA</span> + ½<span class="v">OB</span></span>
+  <div class="step">
+    <p><span class="m">M</span> אמצע <span class="m">AB</span>, ו־ <span class="m">O</span> — <b>כל נקודה שהיא</b>.</p>
+    <figure id="l3mid" style="margin:8px 0"></figure>
+    <div class="def"><span class="t">נוסחת האמצע</span>
+      <span class="m" style="font-size:20px"><span class="v">OM</span> = ½<span class="v">OA</span> + ½<span class="v">OB</span></span></div>
   </div>
-  <figure id="l3mid" style="margin:8px 0"></figure>
-  <div class="note"><b>למה זה שימושי?</b> במשולש <span class="m">ABC</span> שבו <span class="m">M</span> אמצע <span class="m">BC</span>, אפשר לבחור <span class="m">O = A</span> ולקבל מיד את התיכון: <span class="m"><span class="v">AM</span> = ½<span class="v">AB</span> + ½<span class="v">AC</span></span>.</div>
+  <div class="step">
+    <h3>הוכחה</h3>
+    <div class="steps">
+      <span class="m"><span class="v">OM</span> = <span class="v">OA</span> + <span class="v">AM</span></span>
+      <span class="m"><span class="v">AM</span> = ½<span class="v">AB</span> = ½(<span class="v">OB</span> − <span class="v">OA</span>)</span>
+      <span class="m"><span class="v">OM</span> = <span class="v">OA</span> + ½<span class="v">OB</span> − ½<span class="v">OA</span></span>
+      <span class="m"><span class="v">OM</span> = ½<span class="v">OA</span> + ½<span class="v">OB</span></span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="say"><div class="bub">שימושי! במשולש <span class="m">ABC</span> עם <span class="m">M</span> אמצע <span class="m">BC</span>, בוחרים <span class="m">O = A</span>: <span class="m"><span class="v">AM</span> = ½<span class="v">AB</span> + ½<span class="v">AC</span></span></div></div>
+  </div>
 </div>
 
 <!-- 8 -->
@@ -728,9 +805,30 @@ function updNav(){
 document.getElementById('dots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;show(+b.dataset.i)});
 const builtW={};
 function buildWidget(i){const ids=screens[i].dataset.w;if(!ids)return;ids.split(',').forEach(id=>{const slot=document.querySelector('#'+id+' .slot');const w=slot.clientWidth;if(builtW[id]===w)return;builtW[id]=w;WIDGETS[id].build(slot)})}
+// ---- screens that are read in small steps ----
+function revealAll(sc){sc.querySelectorAll('.step').forEach(x=>x.classList.add('shown'));sc.classList.add('allshown');const b=sc.querySelector('.stepmore');if(b)b.remove()}
+function setupSteps(sc,i){const st=[...sc.querySelectorAll(':scope > .step')];if(!st.length)return;sc.classList.add('chunked');
+  if(sc.classList.contains('allshown'))return;
+  if(passed.has(i)||i<maxSeen){revealAll(sc);return}
+  let k=st.findIndex(x=>!x.classList.contains('shown'));if(k<0){revealAll(sc);return}if(k===0){st[0].classList.add('shown');k=1}
+  let btn=sc.querySelector('.stepmore');
+  const place=()=>{const n=st.findIndex(x=>!x.classList.contains('shown'));if(n<0){revealAll(sc);return}
+    if(!btn){btn=document.createElement('button');btn.className='stepmore';btn.onclick=()=>{const m=st.findIndex(x=>!x.classList.contains('shown'));st[m].classList.add('shown');buildWidget(i);place();
+      setTimeout(()=>st[m].scrollIntoView({behavior:'smooth',block:'nearest'}),30)}}
+    btn.innerHTML=`המשך ↓ <small>${n} / ${st.length}</small>`;st[n-1].after(btn)};
+  place()}
+// the student's own hiker next to the guide bubbles
+function sayAvatars(){let a=null;try{a=CourseAPI.getAvatar&&CourseAPI.getAvatar()}catch(e){}
+  const C={skin:['#FFE0C4','#F2C39B','#D9A077','#A8714A','#6E4A2E'],hairColor:['#2B2B2B','#6B4226','#C98B3F','#E8C46A','#B5452E','#7B61FF','#FF8CC6'],hatColor:['#FF6B6B','#3D8BFD','#4CB782','#FFB547','#26324A','#F5F5F5'],shirt:['#6C63FF','#FF6B6B','#3D8BFD','#4CB782','#FFB547','#FF8CC6','#26324A','#F5F5F5']};
+  a=a||{skin:1,hat:1,hatColor:0,shirt:0};const g=(k,i)=>C[k][i||0]||C[k][0];const hat=a.hat||0,hair=a.hair||0;
+  const top=hat===4?'#FFC93C':hat>0&&hat!==5?g('hatColor',a.hatColor):(hair===5?null:g('hairColor',a.hairColor));
+  const svg=`<svg viewBox="0 0 30 30"><path d="M5 30c0-7 4-10 10-10s10 3 10 10z" fill="${g('shirt',a.shirt)}"/><circle cx="15" cy="13" r="7" fill="${g('skin',a.skin)}"/>`+
+    (top?`<path d="M7.6 12.5a7.4 7.4 0 0 1 14.8 0z" fill="${top}"/>`:'')+`<circle cx="12.4" cy="14" r=".9" fill="#26324A"/><circle cx="17.6" cy="14" r=".9" fill="#26324A"/><path d="M12.6 16.6q2.4 1.8 4.8 0" stroke="#26324A" stroke-width=".8" fill="none" stroke-linecap="round"/></svg>`;
+  document.querySelectorAll('.say').forEach(el=>{if(el.querySelector('.who'))return;const w=document.createElement('div');w.className='who';w.innerHTML=svg;el.prepend(w)})}
+sayAvatars();
 function show(i){
   screens[cur].classList.remove('on');cur=i;screens[cur].classList.add('on');
-  screens[cur].appendChild(nav);
+  screens[cur].appendChild(nav);setupSteps(screens[cur],cur);
   if(cur>maxSeen)maxSeen=cur;save();updNav();buildWidget(cur);
   CourseAPI.log({ev:'screen',screen:cur+1,title:screens[cur].dataset.t});
   window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});

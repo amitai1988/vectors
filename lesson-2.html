@@ -196,9 +196,9 @@ footer a.home{color:var(--vio)}
 .say .bub{position:relative;background:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;box-shadow:0 3px 12px rgba(40,60,90,.1);font-size:16.5px;line-height:1.7}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:10px 0}
 .tiles>div{background:#fff;border-radius:18px;padding:12px;text-align:center;box-shadow:0 2px 10px rgba(40,60,90,.07)}
-.tiles i{display:block;font-style:normal;font-size:28px;line-height:1.2;margin-bottom:4px}
-.tiles b{display:block;font-weight:500;color:#26324A}
-.tiles span{display:block;font-size:13.5px;color:#5B6680;line-height:1.5;margin-top:2px}
+.tiles>div>i{display:block;font-style:normal;font-size:28px;line-height:1.2;margin-bottom:4px}
+.tiles>div>b{display:block;font-weight:500;color:#26324A}
+.tiles>div>span{display:block;font-size:13.5px;color:#5B6680;line-height:1.5;margin-top:2px}
 .ill{display:block;width:100%;max-width:420px;margin:8px auto}
 .big1{font-family:'Varela Round',Rubik,sans-serif;font-size:21px;line-height:1.5;margin:6px 0;color:#26324A}
 .keypt{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:16px;padding:10px 14px;margin:8px 0;box-shadow:0 2px 10px rgba(40,60,90,.07)}
@@ -302,21 +302,31 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="כלל המקבילית" data-w="w2">
   <span class="badge cls">בכיתה</span>
   <h2>ומה אם הווקטורים לא "מתחברים"?</h2>
-  <p>שימו לב: ההגדרה של חיבור עובדת <b>רק</b> כאשר תחילת הווקטור השני נמצאת בסוף הווקטור הראשון. אבל מה עושים אם שני הווקטורים <b>יוצאים מאותה נקודה</b>, כמו בשרטוט?</p>
-  <p>הפתרון — משיעור 1: וקטור לא משתנה כשמזיזים אותו בהזזה מקבילה (וקטורים שווים). אז <b>מזיזים</b> את הווקטור השני כך שיתחיל בסוף הראשון — ומחברים לפי ההגדרה.</p>
-  <div class="widget" id="w2">
-    <div class="wt">עברו על השלבים לפי הסדר</div>
-    <div class="slot"></div>
-    <div class="ctl"><button class="b on" data-a="raw">1. מאותה נקודה</button><button class="b" data-a="tri1">2. מזיזים את <span class="v">v</span></button><button class="b" data-a="par">3. כלל המקבילית</button><button class="b" data-a="tri2">4. ואם קודם <span class="v">v</span>?</button></div>
-    <div class="status"></div>
-    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  <div class="step">
+    <div class="say"><div class="bub">ההגדרה עובדת <b>רק</b> כשתחילת השני בסוף הראשון. אבל מה אם שני הווקטורים <b>יוצאים מאותה נקודה</b>?</div></div>
   </div>
-  <div class="def"><span class="t">כלל המקבילית</span>
-    אם שני וקטורים יוצאים מאותה נקודה, הסכום שלהם הוא <b>האלכסון</b> של המקבילית שהם יוצרים — האלכסון שיוצא מאותה נקודה.
-    <div class="ex">במקבילית <span class="m">ABCD</span>: <span class="m"><span class="v c-vec">AB</span> + <span class="v c-vec2">AD</span> = <span class="v c-eq">AC</span></span></div></div>
-  <div class="def"><span class="t">חוק החילוף</span>
-    <span class="m"><span class="v c-vec">u</span> + <span class="v c-vec2">v</span> = <span class="v c-vec2">v</span> + <span class="v c-vec">u</span></span>
-    <div class="ex">שני המסלולים — "קודם <span class="v">u</span>" ו"קודם <span class="v">v</span>" — הם שתי הצלעות של המקבילית, ושניהם מגיעים לאותו קודקוד.</div></div>
+  <div class="step">
+    <p class="big1">הפתרון: <b>מזיזים</b> את אחד הווקטורים.</p>
+    <p>משיעור 1: הזזה מקבילה לא משנה וקטור. אז מזיזים את השני — ומחברים לפי ההגדרה.</p>
+  </div>
+  <div class="step">
+    <div class="widget" id="w2">
+      <div class="wt">עברו על השלבים לפי הסדר</div>
+      <div class="slot"></div>
+      <div class="ctl"><button class="b on" data-a="raw">1. מאותה נקודה</button><button class="b" data-a="tri1">2. מזיזים את <span class="v">v</span></button><button class="b" data-a="par">3. כלל המקבילית</button><button class="b" data-a="tri2">4. ואם קודם <span class="v">v</span>?</button></div>
+      <div class="status"></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="def"><span class="t">כלל המקבילית</span>
+      שני וקטורים מאותה נקודה ← הסכום הוא <b>האלכסון</b> שיוצא מאותה נקודה.
+      <div class="ex"><span class="m"><span class="v c-vec">AB</span> + <span class="v c-vec2">AD</span> = <span class="v c-eq">AC</span></span> (במקבילית <span class="m">ABCD</span>)</div></div>
+  </div>
+  <div class="step">
+    <div class="def"><span class="t">חוק החילוף</span>
+      <span class="m"><span class="v c-vec">u</span> + <span class="v c-vec2">v</span> = <span class="v c-vec2">v</span> + <span class="v c-vec">u</span></span></div>
+    <div class="say"><div class="bub">"קודם <span class="v">u</span>" או "קודם <span class="v">v</span>" — שתי הצלעות של המקבילית מגיעות לאותו קודקוד.</div></div>
+  </div>
   <div class="more">למה זה נכון? במקבילית <span class="m">ABCD</span> מתקיים <span class="m"><span class="v">AD</span> = <span class="v">BC</span></span>. לכן <span class="m"><span class="v">AB</span> + <span class="v">AD</span> = <span class="v">AB</span> + <span class="v">BC</span> = <span class="v">AC</span></span> — חזרנו להגדרה (כלל המשולש).</div>
 </div>
 
@@ -324,50 +334,69 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="שרשרת ווקטור האפס" data-w="w3,w3z">
   <span class="badge cls">בכיתה</span>
   <h2>חיבור של כמה וקטורים</h2>
-  <p>אפשר לחבר כמה וקטורים ברצף: כל וקטור מתחיל בסוף של הקודם. מה יהיה הסכום? חשבו — ורק אז לחצו על הכפתור.</p>
-  <div class="widget" id="w3">
-    <div class="wt">שרשרת של ארבעה וקטורים</div>
-    <div class="slot"></div>
-    <div class="ctl"><button class="b pri" data-a="sum">הצגת הסכום</button><button class="b" data-a="rnd">מסלול חדש</button></div>
-    <div class="status"></div>
-    <div class="legend"><span><span class="hd"></span>נקודה שאפשר לגרור</span><span>כל משבצת = 1</span></div>
+  <div class="step">
+    <div class="say"><div class="bub">אפשר לחבר כמה וקטורים <b>ברצף</b> — כל אחד מתחיל בסוף של הקודם. מה יהיה הסכום? חשבו, ורק אז לחצו.</div></div>
+    <div class="widget" id="w3">
+      <div class="wt">שרשרת של ארבעה וקטורים</div>
+      <div class="slot"></div>
+      <div class="ctl"><button class="b pri" data-a="sum">הצגת הסכום</button><button class="b" data-a="rnd">מסלול חדש</button></div>
+      <div class="status"></div>
+    </div>
   </div>
-  <div class="def"><span class="t">כלל המצולע</span>
-    הסכום הוא הווקטור מ<b>תחילת השרשרת</b> אל <b>סוף השרשרת</b>:
-    <div class="ex"><span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CD</span> + <span class="v">DE</span> = <span class="v c-eq">AE</span></span></div></div>
-  <h3>ומה אם חוזרים לנקודת ההתחלה?</h3>
-  <div class="widget" id="w3z">
-    <div class="wt">מוסיפים וקטור אחרי וקטור</div>
-    <div class="slot"></div>
-    <div class="ctl"><button class="b pri" data-a="add">+ הווקטור הבא</button><button class="b" data-a="reset">מההתחלה</button></div>
-    <div class="status"></div>
+  <div class="step">
+    <div class="def"><span class="t">כלל המצולע</span>
+      הסכום: מ<b>תחילת השרשרת</b> אל <b>סוף השרשרת</b>.
+      <div class="ex"><span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CD</span> + <span class="v">DE</span> = <span class="v c-eq">AE</span></span></div></div>
   </div>
-  <div class="def"><span class="t">וקטור האפס</span>
-    וקטור שתחילתו וסופו <b>באותה נקודה</b> נקרא <b>וקטור האפס</b>, ומסמנים אותו <span class="v">0</span>. האורך שלו 0, ואין לו כיוון מוגדר.
-    <div class="ex">לדוגמה: <span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">AA</span> = <span class="v">0</span></span>, ולכל וקטור מתקיים <span class="m"><span class="v">u</span> + <span class="v">0</span> = <span class="v">u</span></span> — בדיוק כמו המספר 0.</div></div>
-  <div class="disc"><span class="t">לדיון בכיתה</span><br>
-    מה הסכום של ארבע הצלעות של מרובע <span class="m">ABCD</span>, אם מחברים אותן ברצף? ומה הסכום <span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CA</span></span> בכל משולש?</div>
+  <div class="step">
+    <h3>ומה אם חוזרים להתחלה?</h3>
+    <div class="widget" id="w3z">
+      <div class="wt">מוסיפים וקטור אחרי וקטור</div>
+      <div class="slot"></div>
+      <div class="ctl"><button class="b pri" data-a="add">+ הווקטור הבא</button><button class="b" data-a="reset">מההתחלה</button></div>
+      <div class="status"></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="def"><span class="t">וקטור האפס <span class="v">0</span></span>
+      וקטור שתחילתו וסופו <b>באותה נקודה</b>. האורך שלו 0, ואין לו כיוון.
+      <div class="ex"><span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">0</span></span> &nbsp;·&nbsp; <span class="m"><span class="v">u</span> + <span class="v">0</span> = <span class="v">u</span></span></div></div>
+    <div class="disc"><span class="t">לדיון בכיתה</span><br>מה הסכום של ארבע הצלעות של מרובע, אם מחברים אותן ברצף?</div>
+  </div>
 </div>
 
 <!-- 4 -->
 <div class="screen" data-t="וקטור נגדי וחיסור" data-w="w4">
   <span class="badge self">לבד</span>
-  <h2>וקטור נגדי וחיסור וקטורים</h2>
-  <p>במספרים, הנגדי של 5 הוא <span class="m">−5</span>, כי <span class="m">5 + (−5) = 0</span>. נרצה משהו דומה בווקטורים: <b>וקטור שכשמחברים אותו ל־ <span class="v">u</span>, מקבלים את וקטור האפס.</b></p>
-  <p>אם <span class="m"><span class="v">u</span> = <span class="v">AB</span></span>, איזה וקטור צריך להוסיף כדי לחזור ל־ <span class="m">A</span>? בדיוק <span class="v">BA</span>: <span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">AA</span> = <span class="v">0</span></span>.</p>
-  <div class="def"><span class="t">וקטור נגדי</span>
-    הווקטור הנגדי ל־ <span class="v">u</span> הוא הווקטור שמקיים <span class="m"><span class="v">u</span> + (−<span class="v">u</span>) = <span class="v">0</span></span>. מסמנים אותו <span class="m">−<span class="v">u</span></span>.
-    <div class="ex">בשרטוט: <b class="c-len">אותו אורך</b> ו<b class="c-dir">כיוון מנוגד</b>. למשל <span class="m">−<span class="v">AB</span> = <span class="v">BA</span></span>.</div></div>
-  <div class="def"><span class="t">חיסור וקטורים</span>
-    כמו במספרים — לחסר = להוסיף את הנגדי:
-    <div class="ex"><span class="m"><span class="v c-vec">u</span> − <span class="v c-vec2">v</span> = <span class="v c-vec">u</span> + (−<span class="v c-vec2">v</span>)</span></div></div>
-  <div class="widget" id="w4">
-    <div class="wt">איך מחסרים — שלב אחר שלב</div>
-    <div class="slot"></div>
-    <div class="ctl"><button class="b" data-a="prev">→ הקודם</button><button class="b pri" data-a="next">השלב הבא ←</button><button class="b" data-a="reset">מההתחלה</button><span class="status"></span></div>
-    <div class="steplist"></div>
+  <h2>וקטור נגדי וחיסור</h2>
+  <div class="step">
+    <div class="tiles" style="grid-template-columns:1fr 1fr">
+      <div><i>🔢</i><b>במספרים</b><span class="m" style="font-size:17px">5 + (−5) = 0</span><span>הנגדי מחזיר לאפס</span></div>
+      <div><i>❓</i><b>בווקטורים</b><span class="m" style="font-size:17px"><span class="v">u</span> + ? = <span class="v">0</span></span><span>מה צריך להוסיף?</span></div>
+    </div>
   </div>
-  <div class="note"><b>כלל שימושי:</b> <span class="m"><span class="v">AB</span> − <span class="v">AC</span> = <span class="v">CB</span></span> — כששני וקטורים יוצאים מאותה נקודה, ההפרש הולך מהסוף של המחוסר (<span class="m">C</span>) אל הסוף של הראשון (<span class="m">B</span>).</div>
+  <div class="step">
+    <div class="say"><div class="bub">אם <span class="m"><span class="v">u</span> = <span class="v">AB</span></span>, איך חוזרים ל־ <span class="m">A</span>? הולכים <span class="v">BA</span>!</div></div>
+    <div class="def"><span class="t">וקטור נגדי</span>
+      <span class="m">−<span class="v">u</span></span> הוא הווקטור שמקיים <span class="m"><span class="v">u</span> + (−<span class="v">u</span>) = <span class="v">0</span></span>.
+      <div class="ex">בשרטוט: <b class="c-len">אותו אורך</b>, <b class="c-dir">כיוון הפוך</b>. למשל <span class="m">−<span class="v">AB</span> = <span class="v">BA</span></span>.</div></div>
+  </div>
+  <div class="step">
+    <div class="def"><span class="t">חיסור</span>
+      כמו במספרים: לחסר = להוסיף את הנגדי.
+      <div class="ex"><span class="m"><span class="v c-vec">u</span> − <span class="v c-vec2">v</span> = <span class="v c-vec">u</span> + (−<span class="v c-vec2">v</span>)</span></div></div>
+  </div>
+  <div class="step">
+    <div class="widget" id="w4">
+      <div class="wt">איך מחסרים — שלב אחר שלב</div>
+      <div class="slot"></div>
+      <div class="ctl"><button class="b" data-a="prev">→ הקודם</button><button class="b pri" data-a="next">השלב הבא ←</button><button class="b" data-a="reset">מההתחלה</button><span class="status"></span></div>
+      <div class="steplist"></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="note"><b>כלל שימושי:</b> <span class="m"><span class="v">AB</span> − <span class="v">AC</span> = <span class="v">CB</span></span><br>מסוף המחוסר (<span class="m">C</span>) אל סוף הראשון (<span class="m">B</span>).</div>
+  </div>
   <div class="more">בדיקה בעזרת חיבור: אם <span class="m"><span class="v">u</span> − <span class="v">v</span> = <span class="v">w</span></span>, אז <span class="m"><span class="v">v</span> + <span class="v">w</span> = <span class="v">u</span></span>. בשרטוט: הולכים לאורך <span class="v">v</span> עד הסוף שלו, ומשם <span class="v">w</span> מוביל לסוף של <span class="v">u</span>. בדיוק כמו בכלל המשולש: <span class="m"><span class="v">AC</span> + <span class="v">CB</span> = <span class="v">AB</span></span>.</div>
 </div>
 
@@ -375,19 +404,27 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="כפל בסקלר" data-w="w5">
   <span class="badge self">לבד</span>
   <h2>כפל וקטור במספר</h2>
-  <p>מה המשמעות של <span class="m"><span class="v">u</span> + <span class="v">u</span> + <span class="v">u</span></span>? שלוש פעמים אותה תזוזה — וקטור באותו כיוון, ארוך פי 3. מסמנים אותו <span class="m">3<span class="v">u</span></span>.</p>
-  <div class="def"><span class="t">כפל בסקלר</span>
-    לכל מספר <span class="m">k</span> ולכל וקטור <span class="v">u</span>, הווקטור <span class="m">k<span class="v">u</span></span> הוא:
-    <div class="ex">• באורך <span class="m">|k| · |<span class="v">u</span>|</span><br>
-    • באותו כיוון כמו <span class="v">u</span> כאשר <span class="m">k &gt; 0</span>, ובכיוון מנוגד כאשר <span class="m">k &lt; 0</span><br>
-    • וקטור האפס כאשר <span class="m">k = 0</span></div></div>
-  <div class="widget" id="w5">
-    <div class="wt">הזיזו את <span class="m">k</span> וראו מה קורה</div>
-    <div class="slot"></div>
-    <div class="ctl"><span class="m">k =</span> <input type="range" dir="ltr" id="kRange" min="-3" max="3" step="0.5" value="2" style="flex:1;min-width:140px;accent-color:#6C63FF"> <b class="m" id="kVal">2</b><button class="b" data-a="other">וקטור אחר</button></div>
-    <div class="status"></div>
+  <div class="step">
+    <div class="say"><div class="bub">מה זה <span class="m"><span class="v">u</span> + <span class="v">u</span> + <span class="v">u</span></span>? שלוש פעמים אותה תזוזה!</div></div>
+    <p class="big1">מסמנים: <span class="m">3<span class="v">u</span></span> — אותו כיוון, ארוך פי 3.</p>
   </div>
-  <div class="note"><b>שימו לב:</b> <span class="m">(−1)<span class="v">u</span> = −<span class="v">u</span></span> — הנגדי של <span class="v">u</span>. ו־ <span class="m">½<span class="v">u</span></span> הוא חצי וקטור: אותו כיוון, חצי אורך.</div>
+  <div class="step">
+    <div class="widget" id="w5">
+      <div class="wt">הזיזו את <span class="m">k</span> וראו מה קורה</div>
+      <div class="slot"></div>
+      <div class="ctl"><span class="m">k =</span> <input type="range" dir="ltr" id="kRange" min="-3" max="3" step="0.5" value="2" style="flex:1;min-width:140px;accent-color:#6C63FF"> <b class="m" id="kVal">2</b><button class="b" data-a="other">וקטור אחר</button></div>
+      <div class="status"></div>
+    </div>
+  </div>
+  <div class="step">
+    <h3>כפל בסקלר — שלושה כללים</h3>
+    <div class="keypt"><b>1</b><div><b>אורך:</b> <span class="m">|k<span class="v">u</span>| = |k| · |<span class="v">u</span>|</span></div></div>
+    <div class="keypt"><b>2</b><div><b>כיוון:</b> <span class="m">k &gt; 0</span> — אותו כיוון. <span class="m">k &lt; 0</span> — כיוון הפוך.</div></div>
+    <div class="keypt"><b>3</b><div><span class="m">k = 0</span> — וקטור האפס.</div></div>
+  </div>
+  <div class="step">
+    <div class="say"><div class="bub">שימו לב: <span class="m">(−1)<span class="v">u</span> = −<span class="v">u</span></span> — זה בדיוק הנגדי!</div></div>
+  </div>
   <div class="more">חשבו על <span class="m">k</span> כעל "מתיחה". אם <span class="m">k = 2</span> מותחים פי 2. אם <span class="m">k = ½</span> מכווצים לחצי. סימן המינוס "מסובב" את הווקטור בחצי סיבוב — הפוך לכיוון השני. למשל, הווקטור <span class="m">−3<span class="v">u</span></span> ארוך פי 3 מ־ <span class="v">u</span> ומצביע לכיוון ההפוך.</div>
 </div>
 
@@ -395,16 +432,25 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="וקטורים מקבילים">
   <span class="badge self">לבד</span>
   <h2>וקטורים מקבילים</h2>
-  <p>הווקטור <span class="m">k<span class="v">u</span></span> תמיד מקביל ל־ <span class="v">u</span> (או מונח על אותו ישר). גם להפך:</p>
-  <div class="def"><span class="t">וקטורים מקבילים</span>
-    אם <span class="v">u</span> ו־ <span class="v">v</span> אינם וקטור האפס, הם מקבילים (או על אותו ישר) <b>אם ורק אם</b> יש מספר <span class="m">k</span> כך ש־ <span class="m"><span class="v">v</span> = k<span class="v">u</span></span>.</div>
-  <h3>מה אפשר ללמוד מ־ <span class="m"><span class="v">AB</span> = k<span class="v">CD</span></span>?</h3>
-  <ul class="summary">
-    <li><b>מקבילות:</b> <span class="m">AB ∥ CD</span> (או שהם על אותו ישר).</li>
-    <li><b>יחס אורכים:</b> <span class="m">AB = |k| · CD</span>.</li>
-    <li><b>כיוון:</b> אם <span class="m">k &gt; 0</span> — באותו כיוון; אם <span class="m">k &lt; 0</span> — בכיוונים מנוגדים.</li>
-  </ul>
-  <div class="note"><b>דוגמה:</b> אם <span class="m"><span class="v">AB</span> = −3<span class="v">CD</span></span>, אז <span class="m">AB ∥ CD</span>, הקטע <span class="m">AB</span> ארוך פי 3 מ־ <span class="m">CD</span>, והווקטורים מצביעים לצדדים מנוגדים.</div>
+  <div class="step">
+    <p class="big1"><span class="m">k<span class="v">u</span></span> תמיד מקביל ל־ <span class="v">u</span>.</p>
+    <div class="say"><div class="bub">וגם להפך: אם שני וקטורים מקבילים — אחד מהם הוא <b>כפולה</b> של השני.</div></div>
+  </div>
+  <div class="step">
+    <div class="def"><span class="t">משפט</span>
+      <span class="v">u</span>, <span class="v">v</span> (שונים מ־ <span class="v">0</span>) מקבילים ⇔ <span class="m"><span class="v">v</span> = k<span class="v">u</span></span> עבור מספר <span class="m">k</span>.</div>
+  </div>
+  <div class="step">
+    <h3>מה לומדים מ־ <span class="m"><span class="v">AB</span> = k<span class="v">CD</span></span>?</h3>
+    <div class="tiles">
+      <div><i>∥</i><b>מקבילות</b><span class="m">AB ∥ CD</span></div>
+      <div><i>📏</i><b>יחס אורכים</b><span class="m">AB = |k| · CD</span></div>
+      <div><i>↔️</i><b>כיוון</b><span>לפי הסימן של <span class="m">k</span></span></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="note"><b>דוגמה:</b> <span class="m"><span class="v">AB</span> = −3<span class="v">CD</span></span><br>← <span class="m">AB ∥ CD</span>, <span class="m">AB</span> ארוך פי 3, וכיוונים מנוגדים.</div>
+  </div>
   <div class="more">איך מוצאים את <span class="m">k</span>? משווים אורכים וכיוונים. אם <span class="m">AB = 6</span> ו־ <span class="m">CD = 3</span>, והווקטורים באותו כיוון — אז <span class="m">k = 2</span>. אם הם בכיוונים מנוגדים — <span class="m">k = −2</span>.</div>
 </div>
 
@@ -412,36 +458,44 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="חוקי הפעולות">
   <span class="badge self">לבד</span>
   <h2>חוקי הפעולות</h2>
-  <p>החדשות הטובות: עם וקטורים מחשבים כמעט כמו עם אותיות באלגברה. לכל הווקטורים <span class="v">u</span>, <span class="v">v</span>, <span class="v">w</span> ולכל המספרים <span class="m">k</span>, <span class="m">t</span>:</p>
-  <div class="tbl">
-    <div><b>חילוף</b><span class="m"><span class="v">u</span> + <span class="v">v</span> = <span class="v">v</span> + <span class="v">u</span></span></div>
-    <div><b>קיבוץ</b><span class="m">(<span class="v">u</span> + <span class="v">v</span>) + <span class="v">w</span> = <span class="v">u</span> + (<span class="v">v</span> + <span class="v">w</span>)</span></div>
-    <div><b>פילוג (1)</b><span class="m">k(<span class="v">u</span> + <span class="v">v</span>) = k<span class="v">u</span> + k<span class="v">v</span></span></div>
-    <div><b>פילוג (2)</b><span class="m">(k + t)<span class="v">u</span> = k<span class="v">u</span> + t<span class="v">u</span></span></div>
-    <div><b>קיבוץ מקדמים</b><span class="m">k(t<span class="v">u</span>) = (kt)<span class="v">u</span></span></div>
+  <div class="step">
+    <div class="say"><div class="bub">חדשות טובות: עם וקטורים מחשבים <b>כמעט כמו באלגברה</b>.</div></div>
+    <div class="tbl">
+      <div><b>חילוף</b><span class="m"><span class="v">u</span> + <span class="v">v</span> = <span class="v">v</span> + <span class="v">u</span></span></div>
+      <div><b>קיבוץ</b><span class="m">(<span class="v">u</span> + <span class="v">v</span>) + <span class="v">w</span> = <span class="v">u</span> + (<span class="v">v</span> + <span class="v">w</span>)</span></div>
+      <div><b>פילוג</b><span class="m">k(<span class="v">u</span> + <span class="v">v</span>) = k<span class="v">u</span> + k<span class="v">v</span></span></div>
+      <div><b>פילוג</b><span class="m">(k + t)<span class="v">u</span> = k<span class="v">u</span> + t<span class="v">u</span></span></div>
+      <div><b>מקדמים</b><span class="m">k(t<span class="v">u</span>) = (kt)<span class="v">u</span></span></div>
+    </div>
   </div>
-  <h3>דוגמה: פישוט ביטוי</h3>
-  <div class="steps">
-    <span class="m">2(<span class="v">a</span> + 3<span class="v">b</span>) − 3(<span class="v">a</span> − <span class="v">b</span>)</span>
-    <span class="m">= 2<span class="v">a</span> + 6<span class="v">b</span> − 3<span class="v">a</span> + 3<span class="v">b</span></span>
-    <span class="m">= −<span class="v">a</span> + 9<span class="v">b</span></span>
+  <div class="step">
+    <h3>דוגמה: פישוט ביטוי</h3>
+    <div class="steps">
+      <span class="m">2(<span class="v">a</span> + 3<span class="v">b</span>) − 3(<span class="v">a</span> − <span class="v">b</span>)</span>
+      <span class="m">= 2<span class="v">a</span> + 6<span class="v">b</span> − 3<span class="v">a</span> + 3<span class="v">b</span></span>
+      <span class="m">= −<span class="v">a</span> + 9<span class="v">b</span></span>
+    </div>
+    <div class="say"><div class="bub">פותחים סוגריים, ואז מכנסים: <span class="v">a</span> עם <span class="v">a</span>, <span class="v">b</span> עם <span class="v">b</span>.</div></div>
   </div>
-  <p>פותחים סוגריים, ואז מכנסים "איברים דומים": מקדמים של <span class="v">a</span> לחוד ומקדמים של <span class="v">b</span> לחוד.</p>
-  <div class="note"><b>מה אסור:</b> לחבר וקטור למספר. ביטוי כמו <span class="m"><span class="v">a</span> + 3</span> הוא חסר משמעות.</div>
+  <div class="step">
+    <div class="note"><b>אסור:</b> לחבר וקטור למספר. <span class="m"><span class="v">a</span> + 3</span> — חסר משמעות!</div>
+  </div>
+  <div class="step">
   <details class="enrich"><summary>העשרה: למה החוקים האלה נכונים?</summary>
     <p>החוקים לא "ברורים מאליהם" — וקטור הוא לא מספר, והפעולות הוגדרו בעזרת שרטוט. לכן צריך להוכיח אותם גאומטרית.</p>
     <h4>חילוף</h4>
-    <p>בכלל המקבילית ראינו: "קודם <span class="v">u</span> ואז <span class="v">v</span>" ו"קודם <span class="v">v</span> ואז <span class="v">u</span>" הן שתי דרכים לאורך צלעות המקבילית, ושתיהן מגיעות לאותו קודקוד.</p>
+    <p>בכלל המקבילית ראינו: "קודם <span class="v">u</span>" ו"קודם <span class="v">v</span>" — שתי דרכים לאורך צלעות המקבילית, ושתיהן מגיעות לאותו קודקוד.</p>
     <h4>קיבוץ</h4>
-    <p>שימו את שלושת הווקטורים ברצף: <span class="m"><span class="v">u</span> = <span class="v">AB</span></span>, <span class="m"><span class="v">v</span> = <span class="v">BC</span></span>, <span class="m"><span class="v">w</span> = <span class="v">CD</span></span>. אז</p>
+    <p>שימו את שלושת הווקטורים ברצף: <span class="m"><span class="v">u</span> = <span class="v">AB</span></span>, <span class="m"><span class="v">v</span> = <span class="v">BC</span></span>, <span class="m"><span class="v">w</span> = <span class="v">CD</span></span>.</p>
     <div class="steps"><span class="m">(<span class="v">u</span> + <span class="v">v</span>) + <span class="v">w</span> = <span class="v">AC</span> + <span class="v">CD</span> = <span class="v">AD</span></span><span class="m"><span class="v">u</span> + (<span class="v">v</span> + <span class="v">w</span>) = <span class="v">AB</span> + <span class="v">BD</span> = <span class="v">AD</span></span></div>
     <p>בשני המקרים — מתחילת השרשרת לסופה.</p>
     <h4>פילוג (1): <span class="m">k(<span class="v">u</span> + <span class="v">v</span>) = k<span class="v">u</span> + k<span class="v">v</span></span></h4>
-    <p>המשולש שצלעותיו <span class="v">u</span>, <span class="v">v</span>, <span class="m"><span class="v">u</span> + <span class="v">v</span></span>, והמשולש שצלעותיו <span class="m">k<span class="v">u</span></span>, <span class="m">k<span class="v">v</span></span> — <b>דומים</b> (זווית שווה בין שתי צלעות, ויחס הצלעות שסביבה <span class="ratio">k : 1</span>). לכן גם הצלע השלישית גדלה פי <span class="m">k</span>, ובאותו כיוון.</p>
+    <p>המשולש שצלעותיו <span class="v">u</span>, <span class="v">v</span>, <span class="m"><span class="v">u</span> + <span class="v">v</span></span>, והמשולש שצלעותיו <span class="m">k<span class="v">u</span></span>, <span class="m">k<span class="v">v</span></span> — <b>דומים</b> (זווית שווה, ויחס הצלעות שסביבה <span class="ratio">k : 1</span>). לכן גם הצלע השלישית גדלה פי <span class="m">k</span>, ובאותו כיוון.</p>
     <figure id="l2dist" style="margin:6px 0"></figure>
     <h4>פילוג (2): <span class="m">(k + t)<span class="v">u</span> = k<span class="v">u</span> + t<span class="v">u</span></span></h4>
-    <p>כל הווקטורים כאן על אותו ישר. אם <span class="m">k, t &gt; 0</span>: הולכים <span class="m">k</span> "צעדים" של <span class="v">u</span> ואז עוד <span class="m">t</span> צעדים — בסך הכול <span class="m">k + t</span> צעדים. (עם מספרים שליליים — חלק מהצעדים אחורה, והחשבון זהה.)</p>
+    <p>כל הווקטורים על אותו ישר: הולכים <span class="m">k</span> "צעדים" של <span class="v">u</span>, ואז עוד <span class="m">t</span> — בסך הכול <span class="m">k + t</span> צעדים.</p>
   </details>
+  </div>
   <div class="more">עוד דוגמה, צעד אחר צעד:<div class="steps">
     <span class="m">4<span class="v">u</span> − (<span class="v">u</span> − 2<span class="v">v</span>) + ½(2<span class="v">u</span> − 4<span class="v">v</span>)</span>
     <span class="m">= 4<span class="v">u</span> − <span class="v">u</span> + 2<span class="v">v</span> + <span class="v">u</span> − 2<span class="v">v</span></span>
@@ -452,15 +506,24 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <!-- 8 -->
 <div class="screen" data-t="וקטורים בתוך צורות" data-w="w8">
   <span class="badge self">לבד</span>
-  <h2>הבעת וקטורים בתוך מקבילית</h2>
-  <p>במקבילית <span class="m">ABCD</span> מסמנים <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">a</span></span> ו־ <span class="m"><span class="v c-vec2">AD</span> = <span class="v c-vec2">b</span></span>. בעזרת שני הווקטורים האלה אפשר להביע <b>כל</b> וקטור בשרטוט. הנקודה <span class="m">M</span> היא אמצע הצלע <span class="m">BC</span>.</p>
-  <div class="widget" id="w8">
-    <div class="wt">בחרו וקטור — ונבנה אותו מ־ <span class="v">a</span> ו־ <span class="v">b</span></div>
-    <div class="slot"></div>
-    <div class="ctl" id="w8targets"></div>
-    <div class="status"></div>
+  <h2>וקטורים בתוך מקבילית</h2>
+  <div class="step">
+    <p>במקבילית <span class="m">ABCD</span>: <span class="m"><span class="v c-vec">AB</span> = <span class="v c-vec">a</span></span>, <span class="m"><span class="v c-vec2">AD</span> = <span class="v c-vec2">b</span></span>. הנקודה <span class="m">M</span> — אמצע <span class="m">BC</span>.</p>
+    <div class="say"><div class="bub">עם <span class="v">a</span> ו־ <span class="v">b</span> בלבד אפשר לבנות <b>כל</b> וקטור בשרטוט!</div></div>
   </div>
-  <p>השיטה: הולכים מהזנב אל הראש <b>לאורך צלעות</b> שאנחנו כבר יודעים להביע, ומחברים את הווקטורים לאורך הדרך.</p>
+  <div class="step">
+    <div class="widget" id="w8">
+      <div class="wt">בחרו וקטור — ונבנה אותו מ־ <span class="v">a</span> ו־ <span class="v">b</span></div>
+      <div class="slot"></div>
+      <div class="ctl" id="w8targets"></div>
+      <div class="status"></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="keypt"><b>1</b><div>הולכים מההתחלה אל הסוף <b>לאורך צלעות</b>.</div></div>
+    <div class="keypt"><b>2</b><div>כל צלע = <span class="v">a</span> או <span class="v">b</span> (או חלק מהם).</div></div>
+    <div class="keypt"><b>3</b><div>נגד הכיוון של <span class="v">a</span>? מקבלים <span class="m">−<span class="v">a</span></span>.</div></div>
+  </div>
   <div class="more">טיפ: כשהולכים לאורך צלע "נגד הכיוון" של <span class="v">a</span> או של <span class="v">b</span>, מקבלים מינוס. למשל <span class="m"><span class="v">CD</span> = −<span class="v">a</span></span>, כי <span class="v">CD</span> מקביל ל־ <span class="v">AB</span>, באותו אורך, ומצביע לצד ההפוך.</div>
 </div>
 
