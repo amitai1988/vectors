@@ -191,6 +191,13 @@ footer a.home{color:var(--vio)}
 .stp>b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--vio);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500}
 .widget .ctl .status{border:0;padding:0 6px;font-size:13px;color:var(--mut)}
 .ratio{direction:ltr;unicode-bidi:isolate;display:inline-block}
+ul.sumcards{list-style:none;padding:0;margin:12px 0;display:flex;flex-direction:column;gap:12px}
+ul.sumcards li{background:#fff;border-radius:18px;padding:12px 16px;box-shadow:0 2px 10px rgba(40,60,90,.08),inset 4px 0 0 0 #6C63FF;line-height:1.9}
+details.enrich{margin:12px 0;background:#FFF9EC;border-radius:18px;padding:4px 16px;box-shadow:inset 4px 0 0 0 #FFB547}
+details.enrich>summary{cursor:pointer;padding:8px 0;font-weight:500;color:#8A5A00;list-style:none}
+details.enrich>summary::before{content:"✦ "}
+details.enrich[open]>summary{border-bottom:1px dashed #F2D9A8;margin-bottom:6px}
+details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:500}
 </style>
 </head>
 <body>
@@ -345,7 +352,7 @@ footer a.home{color:var(--vio)}
 <!-- 8 -->
 <div class="screen" data-t="סיכום">
   <h2>סיכום השיעור</h2>
-  <ul class="summary">
+  <ul class="sumcards">
     <li><b>צירוף לינארי</b> של <span class="v">a</span> ו־ <span class="v">b</span>: וקטור מהצורה <span class="m">k<span class="v">a</span> + t<span class="v">b</span></span>.</li>
     <li>אם <span class="v">a</span> ו־ <span class="v">b</span> <b>אינם מקבילים</b>, כל וקטור במישור הוא צירוף שלהם — בדרך אחת בלבד.</li>
     <li><b>השוואת מקדמים:</b> אם <span class="m">k₁<span class="v">a</span> + t₁<span class="v">b</span> = k₂<span class="v">a</span> + t₂<span class="v">b</span></span> (ו־ <span class="v">a</span>, <span class="v">b</span> לא מקבילים), אז <span class="m">k₁ = k₂</span> ו־ <span class="m">t₁ = t₂</span>.</li>
@@ -720,7 +727,7 @@ function updNav(){
 }
 document.getElementById('dots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;show(+b.dataset.i)});
 const builtW={};
-function buildWidget(i){const id=screens[i].dataset.w;if(!id)return;const slot=document.querySelector('#'+id+' .slot');const w=slot.clientWidth;if(builtW[id]===w)return;builtW[id]=w;WIDGETS[id].build(slot)}
+function buildWidget(i){const ids=screens[i].dataset.w;if(!ids)return;ids.split(',').forEach(id=>{const slot=document.querySelector('#'+id+' .slot');const w=slot.clientWidth;if(builtW[id]===w)return;builtW[id]=w;WIDGETS[id].build(slot)})}
 function show(i){
   screens[cur].classList.remove('on');cur=i;screens[cur].classList.add('on');
   screens[cur].appendChild(nav);

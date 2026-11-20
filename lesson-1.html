@@ -175,6 +175,8 @@ button.b.on{background:var(--vio);border-color:var(--vio)}
 .endbox .big{font-size:22px}
 footer a.home{color:var(--vio)}
 @media (max-width:600px){.screen{border-radius:20px;padding:16px 14px}.topbar{border-radius:0 0 18px 18px}.topbar .row1{flex-wrap:wrap;row-gap:0}.topbar .ttl{flex:1 1 100%}.topbar .cnt{font-size:12.5px}}
+ul.sumcards{list-style:none;padding:0;margin:12px 0;display:flex;flex-direction:column;gap:12px}
+ul.sumcards li{background:#fff;border-radius:18px;padding:12px 16px;box-shadow:0 2px 10px rgba(40,60,90,.08),inset 4px 0 0 0 #6C63FF;line-height:1.9}
 </style>
 </head>
 <body>
@@ -314,7 +316,7 @@ footer a.home{color:var(--vio)}
 <!-- 8 -->
 <div class="screen" data-t="סיכום">
   <h2>סיכום השיעור</h2>
-  <ul class="summary">
+  <ul class="sumcards">
     <li><b>גודל סקלרי</b> נקבע על ידי מספר בלבד. <b>גודל וקטורי</b> נקבע על ידי <b class="c-len">גודל</b> ו<b class="c-dir">כיוון</b>.</li>
     <li><b class="c-vec">וקטור</b> הוא קטע מכוון. בסימון <span class="v c-vec">AB</span> הנקודה <span class="m">A</span> היא הזנב והנקודה <span class="m">B</span> היא הראש.</li>
     <li><b class="c-len">האורך</b> של הווקטור, <span class="m c-len">|<span class="v">AB</span>|</span>, הוא אורך הקטע <span class="m">AB</span>.</li>
