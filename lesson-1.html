@@ -248,9 +248,9 @@ ul.sumcards li{background:#fff;border-radius:18px;padding:12px 16px;box-shadow:0
   <span class="badge self">לבד</span>
   <h2>הווקטור הגאומטרי — קטע מכוון</h2>
   <div class="def"><span class="t">וקטור</span>
-    <b class="c-vec">וקטור</b> הוא קטע מכוון: קטע שבו קבענו נקודת התחלה ונקודת סיום. נקודת ההתחלה נקראת <b>זנב</b> הווקטור, ונקודת הסיום נקראת <b>ראש</b> הווקטור.
-    <div class="ex">דוגמה: הווקטור <span class="v c-vec">AB</span> מתחיל בנקודה <span class="m">A</span> (הזנב) ומסתיים בנקודה <span class="m">B</span> (הראש).</div></div>
+    <b class="c-vec">וקטור</b> הוא קטע מכוון: קטע שבו קבענו נקודת התחלה ונקודת סיום. נקודת ההתחלה נקראת <b>זנב</b> הווקטור, ונקודת הסיום נקראת <b>ראש</b> הווקטור.</div>
   <p><b>סימון:</b> כותבים את שתי האותיות לפי הסדר — קודם הזנב ואחר כך הראש — ומעליהן חץ: <span class="v c-vec">AB</span>. אפשר גם לסמן וקטור באות אחת קטנה עם חץ: <span class="v c-vec">u</span>.</p>
+  <div class="note"><b>דוגמה:</b> הווקטור <span class="v c-vec">AB</span> מתחיל בנקודה <span class="m">A</span> (הזנב) ומסתיים בנקודה <span class="m">B</span> (הראש).</div>
   <div class="def"><span class="t">אורך של וקטור</span>
     <b class="c-len">האורך</b> של הווקטור <span class="v c-vec">AB</span> הוא אורך הקטע <span class="m">AB</span>. מסמנים אותו כך: <span class="m c-len">|<span class="v">AB</span>|</span>.</div>
   <div class="widget" id="w2">
@@ -271,7 +271,9 @@ ul.sumcards li{background:#fff;border-radius:18px;padding:12px 16px;box-shadow:0
   <p>לשני וקטורים יש <b class="c-dir">אותו כיוון</b> אם הם מקבילים (או נמצאים על אותו ישר) ו"מצביעים" לאותו צד. אם הם מקבילים אבל מצביעים לצדדים הפוכים, יש להם <b class="c-dir">כיוונים מנוגדים</b>.</p>
   <div class="def"><span class="t">שוויון וקטורים</span>
     שני וקטורים <b class="c-eq">שווים</b> אם יש להם <b class="c-len">אותו אורך</b> ו<b class="c-dir">אותו כיוון</b>.</div>
-  <p>המיקום של הווקטור לא משנה! אם מזיזים וקטור בהזזה מקבילה (בלי לסובב ובלי למתוח), מקבלים וקטור ששווה לו.</p>
+  <div class="def" style="background:#FFF6E2;box-shadow:inset 4px 0 0 0 #FFB547"><span class="t" style="color:#8A5A00">חשוב מאוד: המיקום לא משנה!</span>
+    וקטור נקבע רק על ידי <b class="c-len">האורך</b> ו<b class="c-dir">הכיוון</b> שלו — לא על ידי המקום שבו הוא מצויר. אם מזיזים וקטור בהזזה מקבילה (בלי לסובב ובלי למתוח), מקבלים <b>אותו וקטור</b>.
+    <div class="ex"><b>דוגמה:</b> תזוזה של 5 ק״מ צפונה יכולה להתחיל מהבית, מבית הספר או מכל מקום אחר בעולם — בכל מקרה זו <b>אותה תזוזה</b>: 5 ק״מ צפונה.</div></div>
   <div class="widget" id="w3">
     <div class="wt">האם <span class="v c-vec">u</span> ו־ <span class="v c-vec2">v</span> שווים?</div>
     <div class="slot"></div>
@@ -419,7 +421,7 @@ const lab=(B,p,n,center,dist=20,size=19)=>{const [x,y]=B.P(p),[cx,cy]=B.P(center
 
 /* ================= W1 hiker ================= */
 const W1=(()=>{
-  const w=document.getElementById('w1'),st=w.querySelector('.status');let B,h=null,mode=0,ang=50;const R=7;
+  const w=document.getElementById('w1'),st=w.querySelector('.status');let B,h=null,mode=0,ang=50,moved=false;const R=7;
   const pos=()=>[R*Math.cos(ang*Math.PI/180),R*Math.sin(ang*Math.PI/180)];
   function dirTxt(a){a=((a%360)+360)%360;const n=['מזרח','צפון-מזרח','צפון','צפון-מערב','מערב','דרום-מערב','דרום','דרום-מזרח'];return n[Math.round(a/45)%8]}
   function upd(){st.innerHTML=`<b class="c-len">גודל:</b> 7 ק״מ · <b class="c-dir">כיוון:</b> בערך ${dirTxt(ang)}. עם גודל וכיוון — המקום נקבע באופן יחיד. גררו את המטיילת כדי לשנות כיוון.`}
@@ -427,7 +429,9 @@ const W1=(()=>{
     B.clear();
     if(mode>=1){el('circle',{cx:B.X(0),cy:B.Y(0),r:R*B.s,fill:'rgba(232,89,12,.06)',stroke:COL.len,'stroke-width':2.5,'stroke-dasharray':'7 6'},B.dl);
       if(mode===1)for(let k=0;k<12;k++){const a=k*30*Math.PI/180;B.dot([R*Math.cos(a),R*Math.sin(a)],COL.len,4)}}
-    if(mode===2){const p=pos();B.arrow([0,0],p,COL.vec,4.5);B.midLabel([0,0],p,'7 ק״מ',{col:COL.len,size:16},16)}
+    if(mode===2){const p=pos();B.arrow([0,0],p,COL.vec,4.5);B.midLabel([0,0],p,'7 ק״מ',{col:COL.len,size:16},16);
+      if(!moved){const a=ang*Math.PI/180,q=[(R+1.9)*Math.cos(a),(R+1.9)*Math.sin(a)];const x=Math.max(B.X(-9.2),Math.min(B.X(9.2),B.X(q[0])));
+        const t=el('text',{x,y:B.Y(q[1]),'text-anchor':'middle','dominant-baseline':'middle','font-size':16,'font-weight':700,fill:'#c25e00','font-family':'Rubik',stroke:'#fff','stroke-width':4,'paint-order':'stroke'},B.dl);t.textContent='הזיזו אותי'}}
     B.dot([0,0],COL.navy,6);B.text(B.X(0),B.Y(0)+22,'המחנה',{size:15,w:600});
     if(h)h.place();
   }
@@ -436,10 +440,10 @@ const W1=(()=>{
     [['צפון',0,8.4],['דרום',0,-8.5],['מזרח',9.6,0],['מערב',-9.6,0]].forEach(([t,x,y])=>{const tx=el('text',{x:B.X(x),y:B.Y(y),'text-anchor':'middle','dominant-baseline':'middle','font-size':14,fill:'#8A96A5','font-family':'Rubik'},B.gl);tx.textContent=t});
     el('line',{x1:B.X(0),y1:B.Y(-7.7),x2:B.X(0),y2:B.Y(7.7),stroke:COL.grid,'stroke-width':1.2},B.gl);
     el('line',{x1:B.X(-8.6),y1:B.Y(0),x2:B.X(8.6),y2:B.Y(0),stroke:COL.grid,'stroke-width':1.2},B.gl);
-    h=mode===2?B.handle(pos,p=>{ang=Math.atan2(p[1],p[0])*180/Math.PI;draw();upd()}):null;draw();
+    h=mode===2?B.handle(pos,p=>{ang=Math.atan2(p[1],p[0])*180/Math.PI;moved=true;draw();upd()}):null;draw();
   }
   w.querySelector('[data-a=all]').onclick=()=>{mode=1;if(h){h.el.remove();h=null}draw();st.innerHTML='כל נקודה על המעגל נמצאת במרחק <b class="c-len">7 ק״מ</b> מהמחנה — יש <b>אינסוף</b> מקומות אפשריים!'};
-  w.querySelector('[data-a=dir]').onclick=()=>{mode=2;if(!h)h=B.handle(pos,p=>{ang=Math.atan2(p[1],p[0])*180/Math.PI;draw();upd()});draw();upd()};
+  w.querySelector('[data-a=dir]').onclick=()=>{mode=2;if(!h)h=B.handle(pos,p=>{ang=Math.atan2(p[1],p[0])*180/Math.PI;moved=true;draw();upd()});draw();upd()};
   w.querySelector('[data-a=reset]').onclick=()=>{mode=0;if(h){h.el.remove();h=null}draw();st.textContent='לחצו על "איפה היא יכולה להיות?"'};
   return {build};
 })();
@@ -795,8 +799,8 @@ const ADV=[
          `במרובע ${M('ABCD')} יש זוג צלעות נגדיות שוות ומקבילות, ולכן הוא מקבילית.`,
          `הערה: הכיוון המשותף מבטיח ש־ ${M('AB')} ו־ ${M('DC')} הן צלעות נגדיות במרובע, ולא אלכסונים.`]},
   {t:'mc',given:`נתונות ארבע נקודות ${M('A, B, C, D')} שלא נמצאות על ישר אחד, ונתון ש־ ${EQ(V('AB'),V('CD'))}.`,ask:'איזה מהמרובעים הבאים הוא בהכרח מקבילית?',opts:[M('ABCD'),M('ABDC'),M('ACDB'),M('ADBC')],a:1,
-    hint:`במקבילית ${M('PQRS')} מתקיים ${EQ(V('PQ'),V('SR'))}. נסו להתאים את השוויון ${EQ(V('AB'),V('CD'))} לתבנית הזו.`,
-    exp:`במרובע ${M('ABDC')} השוויון ${EQ(V('AB'),V('CD'))} מתאים בדיוק לתבנית ${EQ(V('PQ'),V('SR'))}, כאשר ${M('P = A, Q = B, R = D, S = C')}. לעומת זאת, במרובע ${M('ABCD')} הווקטורים ${V('AB')} ו־ ${V('CD')} היו צריכים להיות בכיוונים מנוגדים.`},
+    hint:`שמות של מרובע נכתבים לפי סדר הקודקודים מסביב. ${V('AB')} ו־ ${V('CD')} שווים — אז הם צריכים להיות שתי צלעות <b>נגדיות</b> שמצביעות <b>לאותו כיוון</b>. נסו לסרטט.`,
+    exp:`במרובע ${M('ABDC')} הקודקודים לפי הסדר הם ${M('A, B, D, C')}, ולכן ${M('AB')} ו־ ${M('CD')} הן צלעות נגדיות.<br>נתון ${EQ(V('AB'),V('CD'))}: הצלעות הנגדיות שוות ומקבילות.<br>לכן ${M('ABDC')} מקבילית.<br>במרובע ${M('ABCD')} לעומת זאת, במקבילית מתקיים ${EQ(V('AB'),V('DC'))} — כלומר ${V('AB')} ו־ ${V('CD')} מצביעים לכיוונים מנוגדים. זה לא מתאים לנתון.`},
   {t:'mc',given:`במרובע ${M('ABCD')} מתקיים ${EQ(V('AB'),V('DC'))}, וגם ${M('|'+V('AB')+'| = |'+V('BC')+'|')}.`,ask:`מהו המרובע ${M('ABCD')} בהכרח?`,opts:['מלבן','מעוין','ריבוע','טרפז שאינו מקבילית'],a:1,
     hint:'מהשוויון הראשון כבר יודעים שזו מקבילית (ראו את השאלה הקודמת). מה אומר השוויון של האורכים?',
     exp:'מהשוויון של הווקטורים: המרובע הוא מקבילית. מהשוויון של האורכים: יש בו שתי צלעות סמוכות שוות. מקבילית עם צלעות סמוכות שוות היא מעוין. אין סיבה שהזוויות יהיו ישרות, ולכן הוא לא בהכרח ריבוע.'},
