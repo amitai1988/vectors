@@ -203,6 +203,9 @@ footer a.home{color:var(--vio)}
 .big1{font-family:'Varela Round',Rubik,sans-serif;font-size:21px;line-height:1.5;margin:6px 0;color:#26324A}
 .keypt{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:16px;padding:10px 14px;margin:8px 0;box-shadow:0 2px 10px rgba(40,60,90,.07)}
 .keypt>b{flex:none;width:28px;height:28px;border-radius:50%;background:#6C63FF;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:500}
+.keynote{margin-top:10px;background:#FFF6E2;border-radius:14px;padding:10px 14px;box-shadow:inset 4px 0 0 0 #FFB547;font-weight:500}
+.q.gaveup{opacity:.92}
+.tools button.warn{background:#FFF0F0;border-color:#FF6B6B;color:#c92a2a}
 
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.82em;margin:0 .12em}
 .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .18em}
@@ -235,7 +238,7 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
 <div class="screen" data-t="פתיחה">
   <h2>שיעור 2 · חיבור, חיסור וכפל בסקלר</h2>
   <div class="step">
-    <div class="say"><div class="bub">בשיעור הקודם הכרנו את הווקטור. <b>היום נלמד לחשב איתו!</b></div></div>
+    <div class="say"><div class="bub">בשיעור הקודם הכרנו מהו וקטור — את ההגדרה שלו. <b>היום נלמד על פעולות חשבון עם וקטורים.</b></div></div>
   </div>
   <div class="step">
     <svg class="ill" viewBox="0 0 360 132" aria-hidden="true">
@@ -249,7 +252,7 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
       <text x="86" y="124" text-anchor="middle" font-size="14" fill="#5B6680">מספרים</text><text x="274" y="124" text-anchor="middle" font-size="14" fill="#5B6680">וקטורים</text>
     </svg>
     <p class="big1">וקטור <b>אינו מספר</b>.</p>
-    <p>מה זה בכלל "לחבר" שני חצים? לכן את פעולות החשבון צריך <b>להגדיר מחדש</b> — ולבדוק אילו חוקים ממשיכים לעבוד.</p>
+    <p>מה זה בכלל "לחבר" שני חצים? לכן את פעולות החשבון צריך <b>להגדיר מחדש</b> — ולבדוק אילו חוקים ממשיכים לעבוד כמו עם מספרים רגילים.</p>
   </div>
   <div class="step">
     <h3>מה נלמד היום</h3>
@@ -288,7 +291,8 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
     <p class="big1">התזוזה הכוללת היא <span class="v c-eq">AC</span>.</p>
     <p>זו בדיוק ההגדרה של חיבור וקטורים. שני דברים חשובים בה:</p>
     <div class="keypt"><b>1</b><div>התוצאה של חיבור וקטורים היא <b>וקטור</b> — לא מספר.</div></div>
-    <div class="keypt"><b>2</b><div>כשתחילת השני בסוף הראשון — הסכום יוצא <b>מתחילת הראשון</b> ומגיע <b>לסוף השני</b>.</div></div>
+    <div class="keypt"><b>2</b><div>חיבור וקטורים מוגדר כאשר <b>תחילת הווקטור השני נמצאת על סוף הווקטור הראשון</b> ("ראש־זנב": הזנב של השני על הראש של הראשון).</div></div>
+    <div class="keypt"><b>3</b><div>הסכום הוא הווקטור שיוצא <b>מתחילת הראשון</b> ומגיע <b>לסוף השני</b>.</div></div>
   </div>
   <div class="step">
     <div class="def"><span class="t">כלל המשולש</span>
@@ -303,7 +307,7 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
   <span class="badge cls">בכיתה</span>
   <h2>ומה אם הווקטורים לא "מתחברים"?</h2>
   <div class="step">
-    <div class="say"><div class="bub">ההגדרה עובדת <b>רק</b> כשתחילת השני בסוף הראשון. אבל מה אם שני הווקטורים <b>יוצאים מאותה נקודה</b>?</div></div>
+    <div class="say"><div class="bub">חיבור מוגדר <b>רק</b> כאשר תחילת הווקטור השני נמצאת על סוף הראשון. אבל מה אם זה לא המצב? למשל, מה קורה כאשר שני הווקטורים <b>יוצאים מאותה נקודה</b>?</div></div>
   </div>
   <div class="step">
     <p class="big1">הפתרון: <b>מזיזים</b> את אחד הווקטורים.</p>
@@ -313,7 +317,7 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
     <div class="widget" id="w2">
       <div class="wt">עברו על השלבים לפי הסדר</div>
       <div class="slot"></div>
-      <div class="ctl"><button class="b on" data-a="raw">1. מאותה נקודה</button><button class="b" data-a="tri1">2. מזיזים את <span class="v">v</span></button><button class="b" data-a="par">3. כלל המקבילית</button><button class="b" data-a="tri2">4. ואם קודם <span class="v">v</span>?</button></div>
+      <div class="ctl"><button class="b on" data-a="raw">1. מאותה נקודה</button><button class="b" data-a="tri1">2. מזיזים את <span class="v">v</span></button><button class="b" data-a="sum">3. הסכום</button><button class="b" data-a="par">4. המקבילית</button></div>
       <div class="status"></div>
     </div>
   </div>
@@ -323,9 +327,14 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
       <div class="ex"><span class="m"><span class="v c-vec">AB</span> + <span class="v c-vec2">AD</span> = <span class="v c-eq">AC</span></span> (במקבילית <span class="m">ABCD</span>)</div></div>
   </div>
   <div class="step">
+    <div class="say"><div class="bub">שאלה: ומה אם קודם הולכים לאורך <span class="v c-vec2">v</span>, ורק אחר כך לאורך <span class="v c-vec">u</span>? לאן נגיע?</div></div>
+  </div>
+  <div class="step">
+    <figure id="l2comm" style="margin:6px 0"></figure>
+    <p>מגיעים <b>לאותה נקודה</b> — הקודקוד הרביעי של המקבילית.</p>
     <div class="def"><span class="t">חוק החילוף</span>
-      <span class="m"><span class="v c-vec">u</span> + <span class="v c-vec2">v</span> = <span class="v c-vec2">v</span> + <span class="v c-vec">u</span></span></div>
-    <div class="say"><div class="bub">"קודם <span class="v">u</span>" או "קודם <span class="v">v</span>" — שתי הצלעות של המקבילית מגיעות לאותו קודקוד.</div></div>
+      מכיוון שבשני הסדרים מגיעים לאותה נקודה, חוק החילוף עובד גם בווקטורים:
+      <div class="ex"><span class="m" style="font-size:18px"><span class="v c-vec">u</span> + <span class="v c-vec2">v</span> = <span class="v c-vec2">v</span> + <span class="v c-vec">u</span></span></div></div>
   </div>
   <div class="more">למה זה נכון? במקבילית <span class="m">ABCD</span> מתקיים <span class="m"><span class="v">AD</span> = <span class="v">BC</span></span>. לכן <span class="m"><span class="v">AB</span> + <span class="v">AD</span> = <span class="v">AB</span> + <span class="v">BC</span> = <span class="v">AC</span></span> — חזרנו להגדרה (כלל המשולש).</div>
 </div>
@@ -350,18 +359,18 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
   </div>
   <div class="step">
     <h3>ומה אם חוזרים להתחלה?</h3>
+    <div class="say"><div class="bub">כמה זה <span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CA</span></span>? חשבו — ואז נלך לאורך המסלול ונראה לאן מגיעים.</div></div>
     <div class="widget" id="w3z">
-      <div class="wt">מוסיפים וקטור אחרי וקטור</div>
+      <div class="wt">הולכים לאורך המסלול</div>
       <div class="slot"></div>
-      <div class="ctl"><button class="b pri" data-a="add">+ הווקטור הבא</button><button class="b" data-a="reset">מההתחלה</button></div>
+      <div class="ctl"><button class="b pri" data-a="go">🚶 יוצאים לדרך</button><button class="b" data-a="reset">מההתחלה</button></div>
       <div class="status"></div>
     </div>
   </div>
   <div class="step">
     <div class="def"><span class="t">וקטור האפס <span class="v">0</span></span>
       וקטור שתחילתו וסופו <b>באותה נקודה</b>. האורך שלו 0, ואין לו כיוון.
-      <div class="ex"><span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">0</span></span> &nbsp;·&nbsp; <span class="m"><span class="v">u</span> + <span class="v">0</span> = <span class="v">u</span></span></div></div>
-    <div class="disc"><span class="t">לדיון בכיתה</span><br>מה הסכום של ארבע הצלעות של מרובע, אם מחברים אותן ברצף?</div>
+      <div class="ex"><span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CA</span> = <span class="v">0</span></span> &nbsp;·&nbsp; <span class="m"><span class="v">u</span> + <span class="v">0</span> = <span class="v">u</span></span></div></div>
   </div>
 </div>
 
@@ -418,12 +427,9 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
   </div>
   <div class="step">
     <h3>כפל בסקלר — שלושה כללים</h3>
-    <div class="keypt"><b>1</b><div><b>אורך:</b> <span class="m">|k<span class="v">u</span>| = |k| · |<span class="v">u</span>|</span></div></div>
-    <div class="keypt"><b>2</b><div><b>כיוון:</b> <span class="m">k &gt; 0</span> — אותו כיוון. <span class="m">k &lt; 0</span> — כיוון הפוך.</div></div>
-    <div class="keypt"><b>3</b><div><span class="m">k = 0</span> — וקטור האפס.</div></div>
-  </div>
-  <div class="step">
-    <div class="say"><div class="bub">שימו לב: <span class="m">(−1)<span class="v">u</span> = −<span class="v">u</span></span> — זה בדיוק הנגדי!</div></div>
+    <div class="keypt"><b>1</b><div><b>אורך:</b> <span class="m">|k<span class="v">u</span>| = |k| · |<span class="v">u</span>|</span><br>האורך של הווקטור <span class="m">k<span class="v">u</span></span> שווה לאורך של <span class="v">u</span>, כפול הערך המוחלט של <span class="m">k</span>.</div></div>
+    <div class="keypt"><b>2</b><div><b>כיוון:</b> אם <span class="m">k</span> חיובי, הווקטור <span class="m">k<span class="v">u</span></span> באותו כיוון כמו <span class="v">u</span>. אם <span class="m">k</span> שלילי, הוא בכיוון ההפוך.</div></div>
+    <div class="keypt"><b>3</b><div>אם <span class="m">k = 0</span>, מקבלים את וקטור האפס: <span class="m">0 · <span class="v">u</span> = <span class="v">0</span></span>.</div></div>
   </div>
   <div class="more">חשבו על <span class="m">k</span> כעל "מתיחה". אם <span class="m">k = 2</span> מותחים פי 2. אם <span class="m">k = ½</span> מכווצים לחצי. סימן המינוס "מסובב" את הווקטור בחצי סיבוב — הפוך לכיוון השני. למשל, הווקטור <span class="m">−3<span class="v">u</span></span> ארוך פי 3 מ־ <span class="v">u</span> ומצביע לכיוון ההפוך.</div>
 </div>
@@ -433,23 +439,24 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
   <span class="badge self">לבד</span>
   <h2>וקטורים מקבילים</h2>
   <div class="step">
-    <p class="big1"><span class="m">k<span class="v">u</span></span> תמיד מקביל ל־ <span class="v">u</span>.</p>
-    <div class="say"><div class="bub">וגם להפך: אם שני וקטורים מקבילים — אחד מהם הוא <b>כפולה</b> של השני.</div></div>
-  </div>
-  <div class="step">
+    <div class="say"><div class="bub">כופלים וקטור במספר — והכיוון "נשאר על אותו קו". מה אפשר להסיק מזה?</div></div>
     <div class="def"><span class="t">משפט</span>
-      <span class="v">u</span>, <span class="v">v</span> (שונים מ־ <span class="v">0</span>) מקבילים ⇔ <span class="m"><span class="v">v</span> = k<span class="v">u</span></span> עבור מספר <span class="m">k</span>.</div>
+      <b>אם</b> <span class="m"><span class="v">v</span> = k<span class="v">u</span></span>,
+      <b>אז</b> <span class="v">u</span> ו־ <span class="v">v</span> מקבילים, או שהם נמצאים על אותו ישר.</div>
   </div>
   <div class="step">
-    <h3>מה לומדים מ־ <span class="m"><span class="v">AB</span> = k<span class="v">CD</span></span>?</h3>
-    <div class="tiles">
-      <div><i>∥</i><b>מקבילות</b><span class="m">AB ∥ CD</span></div>
-      <div><i>📏</i><b>יחס אורכים</b><span class="m">AB = |k| · CD</span></div>
-      <div><i>↔️</i><b>כיוון</b><span>לפי הסימן של <span class="m">k</span></span></div>
-    </div>
+    <div class="def"><span class="t">וגם להפך</span>
+      <b>אם</b> <span class="v">u</span> ו־ <span class="v">v</span> (שאינם וקטור האפס) מקבילים או נמצאים על אותו ישר,
+      <b>אז</b> יש מספר <span class="m">k</span> כך ש־ <span class="m"><span class="v">v</span> = k<span class="v">u</span></span>.</div>
   </div>
   <div class="step">
-    <div class="note"><b>דוגמה:</b> <span class="m"><span class="v">AB</span> = −3<span class="v">CD</span></span><br>← <span class="m">AB ∥ CD</span>, <span class="m">AB</span> ארוך פי 3, וכיוונים מנוגדים.</div>
+    <h3>אם <span class="m"><span class="v">AB</span> = k<span class="v">CD</span></span>, אז:</h3>
+    <div class="keypt"><b>1</b><div>הקטעים <span class="m">AB</span> ו־ <span class="m">CD</span> מקבילים, או שהם על אותו ישר.</div></div>
+    <div class="keypt"><b>2</b><div>האורך של <span class="m">AB</span> הוא <span class="m">|k|</span> פעמים האורך של <span class="m">CD</span>.</div></div>
+    <div class="keypt"><b>3</b><div>אם <span class="m">k</span> חיובי — הווקטורים באותו כיוון. אם <span class="m">k</span> שלילי — בכיוונים מנוגדים.</div></div>
+  </div>
+  <div class="step">
+    <div class="note"><b>דוגמה:</b> אם <span class="m"><span class="v">AB</span> = −3<span class="v">CD</span></span>, אז <span class="m">AB</span> ו־ <span class="m">CD</span> מקבילים (או על אותו ישר), <span class="m">AB</span> ארוך פי 3 מ־ <span class="m">CD</span>, והווקטורים בכיוונים מנוגדים.</div>
   </div>
   <div class="more">איך מוצאים את <span class="m">k</span>? משווים אורכים וכיוונים. אם <span class="m">AB = 6</span> ו־ <span class="m">CD = 3</span>, והווקטורים באותו כיוון — אז <span class="m">k = 2</span>. אם הם בכיוונים מנוגדים — <span class="m">k = −2</span>.</div>
 </div>
@@ -532,14 +539,14 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
   <h2>סיכום השיעור</h2>
   <ul class="sumcards">
     <li><b>וקטור אינו מספר</b> — לכן הגדרנו מחדש חיבור, חיסור וכפל במספר.</li>
-    <li><b>חיבור (כלל המשולש):</b> כאשר תחילת השני בסוף הראשון, הסכום הוא וקטור מתחילת הראשון לסוף השני: <span class="m"><span class="v">AB</span> + <span class="v">BC</span> = <span class="v">AC</span></span>.</li>
+    <li><b>חיבור (כלל המשולש):</b> מוגדר כאשר תחילת הווקטור השני נמצאת על סוף הראשון; הסכום יוצא מתחילת הראשון ומגיע לסוף השני: <span class="m"><span class="v">AB</span> + <span class="v">BC</span> = <span class="v">AC</span></span>.</li>
     <li><b>כלל המקבילית:</b> וקטורים שיוצאים מאותה נקודה — הסכום הוא האלכסון. במקבילית <span class="m">ABCD</span>: <span class="m"><span class="v">AB</span> + <span class="v">AD</span> = <span class="v">AC</span></span>.</li>
     <li><b>כלל המצולע:</b> <span class="m"><span class="v">AB</span> + <span class="v">BC</span> + <span class="v">CD</span> = <span class="v">AD</span></span>.</li>
     <li><b>וקטור האפס</b> <span class="v">0</span>: תחילתו וסופו באותה נקודה. <span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">0</span></span>.</li>
     <li><b>וקטור נגדי:</b> <span class="m"><span class="v">u</span> + (−<span class="v">u</span>) = <span class="v">0</span></span>, ולכן <span class="m">−<span class="v">AB</span> = <span class="v">BA</span></span>.</li>
     <li><b>חיסור:</b> <span class="m"><span class="v">u</span> − <span class="v">v</span> = <span class="v">u</span> + (−<span class="v">v</span>)</span>, ובפרט <span class="m"><span class="v">AB</span> − <span class="v">AC</span> = <span class="v">CB</span></span>.</li>
     <li><b>כפל בסקלר:</b> האורך של <span class="m">k<span class="v">u</span></span> הוא <span class="m">|k| · |<span class="v">u</span>|</span>. הכיוון זהה ל־ <span class="v">u</span> כאשר <span class="m">k &gt; 0</span> והפוך כאשר <span class="m">k &lt; 0</span>.</li>
-    <li><b>מקבילות:</b> <span class="m"><span class="v">v</span> = k<span class="v">u</span></span> אם ורק אם הווקטורים מקבילים (או על אותו ישר).</li>
+    <li><b>מקבילות:</b> אם <span class="m"><span class="v">v</span> = k<span class="v">u</span></span>, אז הווקטורים מקבילים או על אותו ישר — וגם להפך.</li>
     <li><b>חוקי הפעולות:</b> חילוף, קיבוץ ופילוג — מחשבים כמו באלגברה.</li>
   </ul>
   <p>עכשיו — לתרגול!</p>
@@ -727,30 +734,35 @@ const W1=(()=>{
 
 /* ---------- W2: parallelogram rule ---------- */
 const W2=(()=>{
-  const w=document.getElementById('w2'),st=w.querySelector('.status');let B,box,O,U,Vv,mode='raw',hs=[];
+  const w=document.getElementById('w2'),st=w.querySelector('.status');let B,box,O,U,Vv,mode='raw',hs=[],anim=1,raf=0;
   function draw(){
-    B.clear();const u=vdif(U,O),v=vdif(Vv,O),S=vsum(U,v);
+    B.clear();const v=vdif(Vv,O),S=vsum(U,v);
     if(mode==='par'){const poly=[O,U,S,Vv].map(p=>B.P(p).join(',')).join(' ');el('polygon',{points:poly,fill:'rgba(108,99,255,.06)',stroke:'none'},B.dl)}
-    if(mode==='tri1'||mode==='par'){B.arrow(U,S,COL.vec2,3.5,{dash:'8 6',op:mode==='par'?.75:1});B.midLabel(U,S,'v',{col:COL.vec2,size:18,vec:true},-18)}
-    if(mode==='tri2'||mode==='par'){B.arrow(Vv,S,COL.vec,3.5,{dash:'8 6',op:mode==='par'?.75:1});B.midLabel(Vv,S,'u',{col:COL.vec,size:18,vec:true},18)}
-    B.arrow(O,U,COL.vec,4.5);B.arrow(O,Vv,COL.vec2,4.5);
+    if(mode==='tri1'){ // the copy of v slides from O to the head of u
+      const t=anim,T0=lerp(O,U,t),T1=vsum(T0,v);
+      if(t<1)B.arrow(O,Vv,COL.vec2,4.5,{op:.25});
+      B.arrow(T0,T1,COL.vec2,4,{dash:'8 6'});if(t>=1)B.midLabel(T0,T1,'v',{col:COL.vec2,size:18,vec:true},-18)}
+    if(mode==='sum'||mode==='par'){B.arrow(U,S,COL.vec2,3.5,{dash:'8 6',op:mode==='par'?.75:1});B.midLabel(U,S,'v',{col:COL.vec2,size:18,vec:true},-18)}
+    if(mode==='par'){B.arrow(Vv,S,COL.vec,3.5,{dash:'8 6',op:.75});B.midLabel(Vv,S,'u',{col:COL.vec,size:18,vec:true},18)}
+    B.arrow(O,U,COL.vec,4.5);if(!(mode==='tri1'&&anim<1))B.arrow(O,Vv,COL.vec2,4.5);
     B.midLabel(O,U,'u',{col:COL.vec,size:19,vec:true},-18);B.midLabel(O,Vv,'v',{col:COL.vec2,size:19,vec:true},18);
-    if(mode!=='raw'&&!same(S,O)){B.arrow(O,S,COL.eq,5);B.midLabel(O,S,'u + v',{col:COL.eq,size:18,vec:false},-24)}
+    if((mode==='sum'||mode==='par')&&!same(S,O)){B.arrow(O,S,COL.eq,5);B.midLabel(O,S,'u + v',{col:COL.eq,size:18,vec:false},-24)}
     hs.forEach(h=>h.place());
-    st.innerHTML=mode==='raw'?`שני הווקטורים יוצאים מאותה נקודה. התחלת ${V('v','c-vec2')} <b>אינה</b> בסוף של ${V('u','c-vec')} — ולכן אי אפשר לחבר אותם ישירות לפי ההגדרה. מה עושים? לחצו על שלב 2.`
-      :mode==='tri1'?`מזיזים את ${V('v','c-vec2')} בהזזה מקבילה (מקבלים וקטור שווה), כך שיתחיל בסוף של ${V('u','c-vec')}. עכשיו מחברים לפי ההגדרה: מתחילת ${V('u')} עד סוף ההעתק של ${V('v')} — זה <span class="m c-eq">${V('u')} + ${V('v')}</span>.`
-      :mode==='par'?`במקום להזיז, משלימים <b>מקבילית</b>. הסכום <span class="m c-eq">${V('u')} + ${V('v')}</span> הוא האלכסון שיוצא מהנקודה המשותפת. הקווים המקווקווים הם העתקים (וקטורים שווים) של ${V('u')} ושל ${V('v')}.`
-      :`ואם קודם הולכים לאורך ${V('v','c-vec2')} ואז לאורך העתק של ${V('u','c-vec')}? מגיעים <b>לאותה נקודה</b>! לכן <span class="m">${V('v')} + ${V('u')} = ${V('u')} + ${V('v')}</span>.`;
+    st.innerHTML=mode==='raw'?`שני הווקטורים יוצאים מאותה נקודה. תחילת ${V('v','c-vec2')} <b>אינה</b> על סוף ${V('u','c-vec')} — ולכן אי אפשר לחבר אותם לפי ההגדרה. מה עושים? לחצו על שלב 2.`
+      :mode==='tri1'?`מזיזים את ${V('v','c-vec2')} בהזזה מקבילה — זה עדיין אותו וקטור — עד שהתחלה שלו נמצאת על סוף ${V('u','c-vec')}. עכשיו אפשר לחבר לפי ההגדרה. לחצו על שלב 3.`
+      :mode==='sum'?`לפי ההגדרה: הסכום יוצא מתחילת ${V('u','c-vec')} ומגיע לסוף ${V('v','c-vec2')}. זה הווקטור <span class="m c-eq">${V('u')} + ${V('v')}</span>.`
+      :`שימו לב לצורה: <b>מקבילית</b>! הסכום <span class="m c-eq">${V('u')} + ${V('v')}</span> הוא האלכסון שלה, שיוצא מהנקודה המשותפת.`;
   }
+  function play(){cancelAnimationFrame(raf);const t0=performance.now();const step=now=>{anim=Math.min(1,(now-t0)/1400);anim=anim<.5?2*anim*anim:1-Math.pow(-2*anim+2,2)/2;draw();if(now-t0<1400)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)}
   function build(slot){
     const g=gridBox(slot);box=g.box;const svg=mkSvg(slot,g.H);B=new Board(svg,box);
     if(g.ph){O=[1,1];U=U&&U[0]<=9?U:[6,2];Vv=Vv&&Vv[0]<=9?Vv:[2,5]}else{O=[2,1];U=U||[8,2];Vv=Vv||[4,5]}
     const ok=(p,which)=>{const u=which==='U'?vdif(p,O):vdif(U,O),v=which==='V'?vdif(p,O):vdif(Vv,O);const S=vsum(vsum(O,u),v);return S[0]>=box.x0+.5&&S[0]<=box.x1-.5&&S[1]>=box.y0+.5&&S[1]<=box.y1-.5};
-    hs=[B.handle(()=>U,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok(p,'U')&&!same(p,O)){U=p;draw()}},{snap:true}),
-        B.handle(()=>Vv,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok(p,'V')&&!same(p,O)){Vv=p;draw()}},{snap:true})];
+    hs=[B.handle(()=>U,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok(p,'U')&&!same(p,O)){U=p;anim=1;draw()}},{snap:true}),
+        B.handle(()=>Vv,p=>{p=clampBox(p,box,.6).map(Math.round);if(ok(p,'V')&&!same(p,O)){Vv=p;anim=1;draw()}},{snap:true})];
     draw();
   }
-  w.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{mode=b.dataset.a;w.querySelectorAll('[data-a]').forEach(x=>x.classList.toggle('on',x===b));draw()});
+  w.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{mode=b.dataset.a;w.querySelectorAll('[data-a]').forEach(x=>x.classList.toggle('on',x===b));if(mode==='tri1'){anim=0;play()}else draw()});
   return {build};
 })();
 
@@ -782,25 +794,24 @@ const W3=(()=>{
   return {build};
 })();
 
-/* ---------- W3z: a closed path gives the zero vector ---------- */
+/* ---------- W3z: walk along a closed path → the zero vector ---------- */
 const W3z=(()=>{
-  const w=document.getElementById('w3z'),st=w.querySelector('.status');let B,n=0;
-  const A=[1,1],Bq=[8,2],C=[4,6],pts=[A,Bq,C,A],L=['A','B','C','A'],names=['AB','BC','CA'],cols=[COL.vec,COL.vec2,COL.dir];
+  const w=document.getElementById('w3z'),st=w.querySelector('.status');let B,t=0,raf=0;
+  const A=[1,1],Bq=[8,2],C=[4,6],pts=[A,Bq,C,A],names=['AB','BC','CA'],cols=[COL.vec,COL.vec2,COL.dir];
   function draw(){
     B.clear();const cen=[13/3,3];
-    el('polygon',{points:[A,Bq,C].map(p=>B.P(p).join(',')).join(' '),fill:'none',stroke:'#d9def0','stroke-width':2,'stroke-dasharray':'5 6'},B.dl);
-    for(let i=0;i<n;i++){B.arrow(pts[i],pts[i+1],cols[i],4.5);B.midLabel(pts[i],pts[i+1],names[i],{col:cols[i],size:18,vec:true},-18)}
-    if(n>=1&&n<3)B.arrow(A,pts[n],COL.eq,3,{dash:'8 6',op:.9});
-    if(n===3){const [x,y]=B.P(A);el('circle',{cx:x,cy:y,r:18,fill:'rgba(22,147,90,.12)',stroke:COL.eq,'stroke-width':3},B.dl)}
+    for(let i=0;i<3;i++){if(t<=i)break;const k=Math.min(1,t-i),end=lerp(pts[i],pts[i+1],k);
+      if(k>=1){B.arrow(pts[i],pts[i+1],cols[i],4.5);B.midLabel(pts[i],pts[i+1],names[i],{col:cols[i],size:18,vec:true},-18)}
+      else B.seg(pts[i],end,cols[i],4.5)}
+    if(t>=3){const [x,y]=B.P(A);el('circle',{cx:x,cy:y,r:18,fill:'rgba(22,147,90,.15)',stroke:COL.eq,'stroke-width':3},B.dl)}
     [['A',A],['B',Bq],['C',C]].forEach(([nm,p])=>{B.dot(p);lab(B,p,nm,cen,18,20)});
-    st.innerHTML=n===0?`מתחילים בנקודה <span class="m">A</span>. לחצו "+ הווקטור הבא".`
-      :n===1?`הסכום עד עכשיו (מקווקו ירוק): <span class="m">${V('AB')}</span>`
-      :n===2?`<span class="m">${V('AB')} + ${V('BC')} = ${V('AC','c-eq')}</span> — מתחילת השרשרת לסופה.`
-      :`<span class="m">${V('AB')} + ${V('BC')} + ${V('CA')} = ${V('AC')} + ${V('CA')} = ${V('AA','c-eq')}</span><br><b class="c-eq">חזרנו לנקודת ההתחלה!</b> לווקטור שתחילתו וסופו באותה נקודה קוראים <b>וקטור האפס</b>, ${V('0')}.`;
-    w.querySelector('[data-a=add]').disabled=n>=3;
+    if(t>0&&t<3){const i=Math.floor(t),pos=lerp(pts[i],pts[i+1],t-i);const [x,y]=B.P(pos);el('circle',{cx:x,cy:y,r:9,fill:'#FFB547',stroke:'#fff','stroke-width':3},B.dl)}
+    st.innerHTML=t===0?`מתחילים בנקודה <span class="m">A</span>. לחצו על "יוצאים לדרך".`
+      :t<3?`הולכים: מ־ <span class="m">A</span> אל <span class="m">B</span>, משם אל <span class="m">C</span>, ומשם אל <span class="m">A</span>…`
+      :`<b class="c-eq">חזרנו בדיוק לנקודת ההתחלה!</b> התזוזה הכוללת היא מ־ <span class="m">A</span> אל <span class="m">A</span> — כלומר אין תזוזה בכלל.<br><span class="m">${V('AB')} + ${V('BC')} + ${V('CA')} = ${V('AA')} = ${V('0')}</span>`;
   }
-  w.querySelector('[data-a=add]').onclick=()=>{if(n<3){n++;draw()}};
-  w.querySelector('[data-a=reset]').onclick=()=>{n=0;draw()};
+  w.querySelector('[data-a=go]').onclick=()=>{cancelAnimationFrame(raf);const t0=performance.now();const step=now=>{t=Math.min(3,(now-t0)/1100);draw();if(t<3)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)};
+  w.querySelector('[data-a=reset]').onclick=()=>{cancelAnimationFrame(raf);t=0;draw()};
   function build(slot){const W=slot.clientWidth;const svg=mkSvg(slot,Math.min(280,W*.62));B=new Board(svg,{x0:-.5,x1:9.5,y0:-.3,y1:7,grid:false});draw()}
   return {build};
 })();
@@ -871,19 +882,19 @@ const W8=(()=>{
     {n:'DM',path:[['D','C','a'],['C','M','-½b']],txt:`${M(`${V('DM','c-eq')} = ${V('DC')} + ${V('CM')}`)}<br>${M(`${V('DC')} = ${a}`)}, ${M(`${V('CM')} = −½${b}`)}<br>לכן ${M(`${V('DM','c-eq')} = ${a} − ½${b}`)}`},
   ];
   function renderT(){tb.innerHTML=T.map((t,i)=>`<button class="b ${i===ti?'on':''}" data-t="${i}">${V(t.n)}</button>`).join('')}
-  tb.addEventListener('click',e=>{const bt=e.target.closest('[data-t]');if(!bt)return;ti=+bt.dataset.t;renderT();draw()});
+  let ph=2,tm=[];tb.addEventListener('click',e=>{const bt=e.target.closest('[data-t]');if(!bt)return;ti=+bt.dataset.t;renderT();tm.forEach(clearTimeout);ph=0;draw();tm=[setTimeout(()=>{ph=1;draw()},900),setTimeout(()=>{ph=2;draw()},1800)]});
   function draw(){
     B.clear();const pts=['A','B','C','D'].map(n=>P[n]);
     el('polygon',{points:pts.map(p=>B.P(p).join(',')).join(' '),fill:'rgba(108,99,255,.05)',stroke:'#9aa7bd','stroke-width':2},B.dl);
     if(ti<0){B.arrow(P.A,P.B,COL.vec,4.5);B.midLabel(P.A,P.B,'a',{col:COL.vec,size:19,vec:true},18);
       B.arrow(P.A,P.D,COL.vec2,4.5);B.midLabel(P.A,P.D,'b',{col:COL.vec2,size:19,vec:true},-18)}
     else{const t=T[ti];
-      t.path.forEach(([p,q,lb])=>{const c=lb.includes('a')?COL.vec:COL.vec2;B.arrow(P[p],P[q],c,4,{dash:'9 6'});B.midLabel(P[p],P[q],lb.replace('-','−'),{col:c,size:17},lb.includes('a')?18:-18)});
+      t.path.forEach(([p,q,lb],k)=>{if(k>=ph)return;const c=lb.includes('a')?COL.vec:COL.vec2;B.arrow(P[p],P[q],c,4,{dash:'9 6'});B.midLabel(P[p],P[q],lb.replace('-','−'),{col:c,size:17},lb.includes('a')?18:-18)});
       B.arrow(P[t.n[0]],P[t.n[1]],COL.eq,5.5)}
     const cen=vmul(.25,vsum(vsum(P.A,P.B),vsum(P.C,P.D)));
     ['A','B','C','D'].forEach(n=>{B.dot(P[n]);lab(B,P[n],n,cen,18,20)});
     B.dot(P.M,COL.navy,5);lab(B,P.M,'M',cen,18,20);
-    st.innerHTML=ti<0?`בחרו וקטור למעלה. הוא יופיע בירוק, והדרך לאורך הצלעות — במקווקו.`:T[ti].txt;
+    st.innerHTML=ti<0?`בחרו וקטור. קודם הוא יופיע בירוק — ואחר כך, צלע אחר צלע, הדרך שבונה אותו.`:ph<2?`איך מגיעים מ־ <span class="m">${T[ti].n[0]}</span> אל <span class="m">${T[ti].n[1]}</span> לאורך הצלעות?`:T[ti].txt;
   }
   function build(slot){const W=slot.clientWidth;const svg=mkSvg(slot,Math.min(330,W*.7));B=new Board(svg,{x0:-1.2,x1:9.2,y0:-1.1,y1:5.6,grid:false});draw()}
   renderT();
@@ -901,6 +912,16 @@ const WIDGETS={w1:W1,w2:W2,w3:W3,w3z:W3z,w4:W4,w5:W5,w8:W8};
 B.text(B.X(4.6),B.Y(0)+16,'2u',{col:COL.vec,size:16});B.text(B.X(7.4),B.Y(1.6),'2v',{col:COL.vec2,size:16});
   B.text(B.X(3.6),B.Y(3.2),'2(u + v)',{col:COL.eq,size:16});f.appendChild(svg)})();
 
+// commutativity figure: u then v, or v then u — same corner
+(()=>{const f=document.getElementById('l2comm');if(!f)return;const svg=el('svg',{viewBox:'0 0 420 270',style:'max-width:440px;width:100%;display:block;margin:auto'});
+  const B=new Board(svg,{x0:-.8,x1:9.8,y0:-.8,y1:6,grid:false});const O=[0,0],U=[6,1],Vv=[2,3.6],S=vsum(U,vdif(Vv,O));
+  el('polygon',{points:[O,U,S,Vv].map(p=>B.P(p).join(',')).join(' '),fill:'rgba(108,99,255,.06)',stroke:'none'},B.dl);
+  B.arrow(O,U,COL.vec,4);B.arrow(U,S,COL.vec2,4);B.arrow(O,Vv,COL.vec2,4,{dash:'8 6'});B.arrow(Vv,S,COL.vec,4,{dash:'8 6'});
+  B.midLabel(O,U,'u',{col:COL.vec,size:18,vec:true},16);B.midLabel(U,S,'v',{col:COL.vec2,size:18,vec:true},-16);
+  B.midLabel(O,Vv,'v',{col:COL.vec2,size:18,vec:true},16);B.midLabel(Vv,S,'u',{col:COL.vec,size:18,vec:true},-16);
+  const [x,y]=B.P(S);el('circle',{cx:x,cy:y,r:12,fill:'rgba(22,147,90,.18)',stroke:COL.eq,'stroke-width':3},B.dl);
+  B.text(x+4,y-24,'אותה נקודה!',{col:COL.eq,size:15});B.dot(O);B.text(B.X(0)-10,B.Y(0)+16,'O',{size:16});f.appendChild(svg)})();
+
 // סדר התשובות מעורבב לכל תלמיד
 const shuffled=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 /* ================= screen checks ================= */
@@ -908,12 +929,13 @@ const S=(...p)=>M(p.join(' '));           // math sequence, e.g. S(V('a'),'+',V(
 const CHECKS={
   1:{q:`מה הסכום ${S(V('PQ'),'+',V('QR'))}?`,o:[V('PR'),V('RP'),V('QP'),V('PQR')],a:0,ok:`נכון! לפי כלל המשולש: מ־ ${M('P')} אל ${M('Q')}, ומשם אל ${M('R')} — בסך הכול מ־ ${M('P')} אל ${M('R')}.`},
   2:{q:`במקבילית ${M('ABCD')}, מה הסכום ${S(V('DA'),'+',V('DC'))}?`,o:[V('DB'),V('BD'),V('AC'),V('CA')],a:0,ok:`נכון! שני הווקטורים יוצאים מ־ ${M('D')}, ולכן הסכום הוא האלכסון שיוצא מ־ ${M('D')}: ${V('DB')}.`},
-  3:{q:`מה הסכום ${S(V('AB'),'+',V('BC'),'+',V('CD'),'+',V('DA'))}?`,o:[V('0'),V('AD'),V('DA'),V('AC')],a:0,ok:'נכון! המסלול חוזר לנקודת ההתחלה, ולכן הסכום הוא וקטור האפס.'},
-  4:{q:`מה ההפרש ${S(V('AB'),'−',V('AC'))}?`,o:[V('CB'),V('BC'),V('AC'),V('CA')],a:0,ok:`נכון! שני הווקטורים יוצאים מ־ ${M('A')}, וההפרש הולך מהראש של ${V('AC')} אל הראש של ${V('AB')}: מ־ ${M('C')} אל ${M('B')}.`},
+  3:{fig:()=>quadAB(),q:`מה הסכום ${S(V('AB'),'+',V('BC'),'+',V('CD'),'+',V('DA'))}?`,o:[V('0'),V('AD'),V('DA'),V('AC')],a:0,ok:'נכון! המסלול חוזר לנקודת ההתחלה, ולכן הסכום הוא וקטור האפס.'},
+  4:{fig:()=>figPoly([['O',[0,0]],['P',[6,1.5]],['Q',[1.5,4]]],{h:190,close:false,extra:[vecsOn([[[0,0],[6,1.5],'u',COL.vec,18],[[0,0],[1.5,4],'v',COL.vec2,-18]])]}),
+     q:`בשרטוט ${S(V('OP'),'=',V('u'))} ו־ ${S(V('OQ'),'=',V('v'))}. איזה וקטור שווה ל־ ${S(V('u'),'−',V('v'))}?`,o:[V('QP'),V('PQ'),V('OP'),V('PO')],a:0,ok:`נכון! מתחילים בסוף של ${V('v')} (בנקודה ${M('Q')}) והולכים אל הסוף של ${V('u')} (בנקודה ${M('P')}). בדיקה: הולכים לאורך ${V('v')} ואז ${V('QP')} — ומגיעים לסוף של ${V('u')}.`},
   5:{q:`נתון ${M('|'+V('u')+'| = 3')}. מה נכון לגבי הווקטור ${S('−2'+V('u'))}?`,o:['אורכו 6, וכיוונו מנוגד לכיוון של '+V('u'),'אורכו <span class="m">−6</span>, וכיוונו כמו של '+V('u'),'אורכו 1, וכיוונו מנוגד לכיוון של '+V('u'),'אורכו 6, וכיוונו כמו של '+V('u')],a:0,ok:`נכון! האורך הוא ${M('|−2| · 3 = 6')} (אורך אף פעם לא שלילי), והמינוס הופך את הכיוון.`},
   6:{q:`נתון ${S(V('AB'),'=','−2'+V('CD'))}. מה נכון?`,o:[`${M('AB ∥ CD')}, ${M('AB')} ארוך פי 2 מ־ ${M('CD')}, והכיוונים מנוגדים`,`${M('AB ∥ CD')}, ${M('AB')} ארוך פי 2 מ־ ${M('CD')}, ובאותו כיוון`,`${M('AB')} קצר פי 2 מ־ ${M('CD')}`,`${M('AB ⊥ CD')}`],a:0,ok:`נכון! המקדם ${M('−2')} אומר: מקבילים, פי 2 באורך, והמינוס הופך את הכיוון.`},
   7:{q:`פשטו: ${S('3('+V('a'),'−',V('b')+')','+','2'+V('b'))}`,o:[S('3'+V('a'),'−',V('b')),S('3'+V('a'),'−','5'+V('b')),S('3'+V('a'),'+',V('b')),S('3'+V('a'),'−','2'+V('b'))],a:0,ok:`נכון! ${S('3'+V('a'),'−','3'+V('b'),'+','2'+V('b'),'=','3'+V('a'),'−',V('b'))}`},
-  8:{q:`במקבילית ${M('ABCD')} עם ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AD'),'=',V('b'))}, מהו ${V('CA')}?`,o:[S('−'+V('a'),'−',V('b')),S(V('a'),'+',V('b')),S(V('a'),'−',V('b')),S(V('b'),'−',V('a'))],a:0,ok:`נכון! ${V('CA')} הוא הנגדי של ${S(V('AC'),'=',V('a'),'+',V('b'))}, ולכן ${S(V('CA'),'=','−'+V('a'),'−',V('b'))}.`},
+  8:{fig:()=>figPoly([['A',[0,0]],['B',[7,0]],['C',[9,4]],['D',[2,4]]],{h:190,extra:[vecsOn([[[0,0],[7,0],'a',COL.vec,18],[[0,0],[2,4],'b',COL.vec2,-18]])]}),q:`במקבילית ${M('ABCD')} עם ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AD'),'=',V('b'))}, מהו ${V('CA')}?`,o:[S('−'+V('a'),'−',V('b')),S(V('a'),'+',V('b')),S(V('a'),'−',V('b')),S(V('b'),'−',V('a'))],a:0,ok:`נכון! ${V('CA')} הוא הנגדי של ${S(V('AC'),'=',V('a'),'+',V('b'))}, ולכן ${S(V('CA'),'=','−'+V('a'),'−',V('b'))}.`},
 };
 
 /* ================= practice figures (lesson 2) ================= */
@@ -922,6 +944,9 @@ const GRID_AB=()=>figGrid([[[1,1],[4,2],'a'],[[1,4],[2,6],'b',COL.vec2],
   [[6,1],[10,4],'p',COL.eq],[[6,6],[8,5],'q',COL.dir],[[12,1],[10,2],'r',COL.len],[[11,4],[15,5],'s','#0b7285']],{x1:16,y1:7});
 const parFigAD=(extra=[])=>figPoly([['A',[0,0]],['B',[7,0]],['C',[9,4]],['D',[2,4]]],{h:200,extra});
 const triFig=(extra=[])=>figPoly([['A',[1,5]],['B',[0,0]],['C',[8,1]]],{h:220,extra});
+// coloured vectors with labels: [[p,q,label,colour,offset]]
+const vecsOn=list=>B=>list.forEach(([p,q,lb,c,off])=>{B.arrow(p,q,c,4.2);B.midLabel(p,q,lb,{col:c,size:18,vec:true},off||18)});
+const quadAB=()=>figPoly([['A',[0,0]],['B',[6,-.5]],['C',[7.5,3.5]],['D',[1.5,4]]],{h:200,close:false,extra:[vecsOn([[[0,0],[6,-.5],'AB',COL.vec,18],[[6,-.5],[7.5,3.5],'BC',COL.vec2,-18],[[7.5,3.5],[1.5,4],'CD',COL.dir,18],[[1.5,4],[0,0],'DA',COL.len,18]])]});
 const midDot=(p,n,off=[0,-18])=>B=>{B.dot(p);B.text(B.X(p[0])+off[0],B.Y(p[1])+off[1],n,{size:19})};
 
 const BASIC=[
@@ -929,8 +954,8 @@ const BASIC=[
     exp:`${V('a')} הולך 3 ימינה ו־ 1 למעלה, ו־ ${V('b')} הולך 1 ימינה ו־ 2 למעלה. בסך הכול: 4 ימינה ו־ 3 למעלה — בדיוק ${V('p')}.`},
   {t:'mc',fig:GRID_AB,ask:`באותו שרטוט. איזה וקטור שווה ל־ ${S(V('a'),'−',V('b'))}?`,opts:[V('p'),V('q'),V('r'),V('s')],a:1,
     exp:`${S(V('a'),'−',V('b'))}: ${M('3 − 1 = 2')} ימינה, ו־ ${M('1 − 2 = −1')} — כלומר 1 למטה. זה ${V('q')}.`},
-  {t:'mc',ask:`מה הסכום ${S(V('AB'),'+',V('BC'),'+',V('CD'))}?`,opts:[V('AD'),V('DA'),V('AC'),V('BD')],a:0,exp:'כלל המצולע: מתחילים ב־ A ומסיימים ב־ D.'},
-  {t:'mc',ask:`מה ההפרש ${S(V('PQ'),'−',V('PR'))}?`,opts:[V('RQ'),V('QR'),V('PR'),V('RP')],a:0,
+  {t:'mc',fig:()=>figPoly([['A',[0,0]],['B',[3,3]],['C',[7,3.5]],['D',[9,0.5]]],{h:180,close:false,extra:[vecsOn([[[0,0],[3,3],'AB',COL.vec,18],[[3,3],[7,3.5],'BC',COL.vec2,-18],[[7,3.5],[9,.5],'CD',COL.dir,-18]])]}),ask:`מה הסכום ${S(V('AB'),'+',V('BC'),'+',V('CD'))}?`,opts:[V('AD'),V('DA'),V('AC'),V('BD')],a:0,exp:'כלל המצולע: מתחילים ב־ A ומסיימים ב־ D.'},
+  {t:'mc',fig:()=>figPoly([['P',[0,0]],['Q',[7,1]],['R',[2,4]]],{h:180,close:false,extra:[vecsOn([[[0,0],[7,1],'PQ',COL.vec,18],[[0,0],[2,4],'PR',COL.vec2,-18]])]}),ask:`מה ההפרש ${S(V('PQ'),'−',V('PR'))}?`,opts:[V('RQ'),V('QR'),V('PR'),V('RP')],a:0,
     exp:`שני הווקטורים יוצאים מ־ ${M('P')}. ההפרש הולך מהראש של המחוסר (${M('R')}) אל הראש של הראשון (${M('Q')}). בדיקה: ${S(V('PR'),'+',V('RQ'),'=',V('PQ'))}.`},
   {t:'mc',fig:()=>parFigAD(),given:`נתונה מקבילית ${M('ABCD')}.`,ask:`מה הסכום ${S(V('BA'),'+',V('BC'))}?`,opts:[V('BD'),V('DB'),V('AC'),V('CA')],a:0,
     exp:`שני הווקטורים יוצאים מ־ ${M('B')}, ולכן לפי כלל המקבילית הסכום הוא האלכסון שיוצא מ־ ${M('B')}: ${V('BD')}.`},
@@ -944,11 +969,11 @@ const BASIC=[
 ];
 
 const ADV=[
-  {t:'mc',fig:()=>parFigAD([midDot([5.5,4],'M',[0,-18])]),given:`במקבילית ${M('ABCD')} מסמנים ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AD'),'=',V('b'))}. הנקודה ${M('M')} היא אמצע הצלע ${M('DC')}.`,
+  {t:'mc',fig:()=>parFigAD([vecsOn([[[0,0],[7,0],'a',COL.vec,18],[[0,0],[2,4],'b',COL.vec2,-18]]),midDot([5.5,4],'M',[0,-18])]),given:`במקבילית ${M('ABCD')} מסמנים ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AD'),'=',V('b'))}. הנקודה ${M('M')} היא אמצע הצלע ${M('DC')}.`,
     ask:`איזה ביטוי שווה ל־ ${V('AM')}?`,opts:[S(V('b'),'+','½'+V('a')),S(V('a'),'+','½'+V('b')),S('½'+V('a'),'−',V('b')),S(V('b'),'−','½'+V('a'))],a:0,
     hint:`לכו מ־ ${M('A')} אל ${M('D')}, ומשם לאורך חצי מהצלע ${M('DC')}.`,
     sol:[S(V('AM'),'=',V('AD'),'+',V('DM')),S(V('DM'),'=','½'+V('DC'),'=','½'+V('a')),`(כי ${S(V('DC'),'=',V('AB'),'=',V('a'))})`,S(V('AM'),'=',V('b'),'+','½'+V('a'))]},
-  {t:'mc',fig:()=>triFig([midDot([4,.5],'M',[0,20])]),given:`במשולש ${M('ABC')} מסמנים ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AC'),'=',V('b'))}. הנקודה ${M('M')} היא אמצע הצלע ${M('BC')}.`,
+  {t:'mc',fig:()=>triFig([vecsOn([[[1,5],[0,0],'a',COL.vec,18],[[1,5],[8,1],'b',COL.vec2,-18]]),B=>B.seg([1,5],[4,.5],COL.eq,3,'7 5'),midDot([4,.5],'M',[0,20])]),key:`חשוב לזכור: <b>התיכון</b> במשולש הוא סכום החצאים של שני הווקטורים שיוצאים מאותו קודקוד: ${S(V('AM'),'=','½'+V('AB'),'+','½'+V('AC'))}. משתמשים בזה הרבה!`,given:`במשולש ${M('ABC')} מסמנים ${S(V('AB'),'=',V('a'))} ו־ ${S(V('AC'),'=',V('b'))}. הנקודה ${M('M')} היא אמצע הצלע ${M('BC')}.`,
     ask:`איזה ביטוי שווה ל־ ${V('AM')}?`,opts:[S('½'+V('a'),'+','½'+V('b')),S(V('a'),'+','½'+V('b')),S('½'+V('b'),'−','½'+V('a')),S(V('a'),'+',V('b'))],a:0,
     hint:`${S(V('AM'),'=',V('AB'),'+',V('BM'))}. איך מביעים את ${V('BC')} בעזרת ${V('a')} ו־ ${V('b')}?`,
     sol:[S(V('BC'),'=',V('AC'),'−',V('AB'),'=',V('b'),'−',V('a')),S(V('BM'),'=','½'+V('BC'),'=','½'+V('b'),'−','½'+V('a')),S(V('AM'),'=',V('AB'),'+',V('BM')),S(V('AM'),'=',V('a'),'+','½'+V('b'),'−','½'+V('a')),S(V('AM'),'=','½'+V('a'),'+','½'+V('b'))]},
@@ -956,17 +981,17 @@ const ADV=[
     ask:`מה הסכום ${S(V('AB'),'+',V('AF'))}?`,opts:[V('AO'),V('AD'),V('OA'),S('2'+V('AO'))],a:0,
     hint:`המרובע ${M('ABOF')} הוא מעוין (כל צלעותיו שוות לצלע המשושה). השתמשו בכלל המקבילית.`,
     exp:`${V('AB')} ו־ ${V('AF')} יוצאים מ־ ${M('A')}, והם צלעות של המעוין ${M('ABOF')}. לפי כלל המקבילית הסכום הוא האלכסון ${V('AO')}.`},
-  {t:'num',given:`הנקודה ${M('M')} היא אמצע הקטע ${M('AB')}, והנקודה ${M('N')} היא אמצע הקטע ${M('AM')}.`,
+  {t:'num',fig:()=>figPoly([['A',[0,0]],['N',[2,0]],['M',[4,0]],['B',[8,0]]],{h:90,close:false,pad:1.2,extra:[B=>B.seg([0,0],[8,0],'#172230',2)]}),given:`הנקודה ${M('M')} היא אמצע הקטע ${M('AB')}, והנקודה ${M('N')} היא אמצע הקטע ${M('AM')}.`,
     ask:`מצאו את המספר ${M('k')} שעבורו ${S(V('NB'),'=','k'+V('AB'))}. (אפשר לכתוב שבר, למשל 2/3, או מספר עשרוני.)`,a:.75,
     hint:'סמנו את אורך הקטע AB כ־ 4 יחידות. כמה יחידות יש מ־ N עד B?',
     sol:[S(V('NB'),'=',V('NM'),'+',V('MB')),S(V('NM'),'=','¼'+V('AB')),S(V('MB'),'=','½'+V('AB')),S(V('NB'),'=','¾'+V('AB')),'לכן k = 3/4.']},
-  {t:'proof',given:`נתון מרובע ${M('ABCD')}.`,ask:`הוכיחו: ${S(V('AB'),'+',V('CD'),'=',V('AD'),'+',V('CB'))}`,
+  {t:'proof',fig:()=>figPoly([['A',[0,0]],['B',[7,.5]],['C',[6,4]],['D',[1,3.5]]],{h:200,extra:[vecsOn([[[0,0],[7,.5],'AB',COL.vec,18],[[6,4],[1,3.5],'CD',COL.vec2,-18]])]}),given:`נתון מרובע ${M('ABCD')}.`,ask:`הוכיחו: ${S(V('AB'),'+',V('CD'),'=',V('AD'),'+',V('CB'))}`,
     hint:`נסו להביע את ${V('AB')} כסכום של שני וקטורים שעוברים דרך ${M('D')}.`,
     sol:['מתחילים מהאגף השמאלי:',S(V('AB'),'=',V('AD'),'+',V('DB')),S(V('AB'),'+',V('CD'),'=',V('AD'),'+',V('DB'),'+',V('CD')),`לפי חוק החילוף: ${S(V('DB'),'+',V('CD'),'=',V('CD'),'+',V('DB'),'=',V('CB'))}`,S(V('AB'),'+',V('CD'),'=',V('AD'),'+',V('CB')),'וזה מה שרצינו להוכיח.']},
   {t:'tf',ask:`אם ${M(V('a')+' ∥ '+V('b'))} וגם ${M('|'+V('a')+'| = 2|'+V('b')+'|')}, אז בהכרח ${S(V('a'),'=','2'+V('b'))}.`,a:false,
     hint:'האם שני וקטורים מקבילים חייבים להצביע לאותו צד?',
     exp:`ייתכן ש־ ${V('a')} ו־ ${V('b')} בכיוונים מנוגדים, ואז ${S(V('a'),'=','−2'+V('b'))}. לכן ${S(V('a'),'=','2'+V('b'))} או ${S(V('a'),'=','−2'+V('b'))}.`},
-  {t:'mc',fig:()=>boxFig(),given:`בתיבה ${M("ABCDA'B'C'D'")} מסמנים ${S(V('AB'),'=',V('a'))}, ${S(V('AD'),'=',V('b'))} ו־ ${S(V("AA'"),'=',V('c'))}.`,
+  {t:'mc',fig:()=>boxFig({vecs:true}),given:`בתיבה ${M("ABCDA'B'C'D'")} מסמנים ${S(V('AB'),'=',V('a'))}, ${S(V('AD'),'=',V('b'))} ו־ ${S(V("AA'"),'=',V('c'))}.`,
     ask:`איזה ביטוי שווה ל־ ${V("DB'")}?`,opts:[S(V('a'),'−',V('b'),'+',V('c')),S(V('a'),'+',V('b'),'+',V('c')),S(V('b'),'−',V('a'),'+',V('c')),S(V('a'),'−',V('b'),'−',V('c'))],a:0,
     hint:`לכו מ־ ${M('D')} אל ${M('A')}, משם אל ${M('B')}, ומשם למעלה אל ${M("B'")}.`,
     sol:[S(V("DB'"),'=',V('DA'),'+',V('AB'),'+',V("BB'")),S(V('DA'),'=','−'+V('b')),S(V("BB'"),'=',V("AA'"),'=',V('c')),S(V("DB'"),'=','−'+V('b'),'+',V('a'),'+',V('c')),S(V("DB'"),'=',V('a'),'−',V('b'),'+',V('c'))]},
@@ -993,6 +1018,7 @@ screens.forEach((sc,i)=>{
   const box=document.createElement('div');box.className='check';
   if(c){
     box.innerHTML=`<div class="h">בדיקת הבנה</div><div class="cq">${c.q}</div><div class="opts">${shuffled(c.o.map((t,j)=>`<button data-j="${j}">${t}</button>`)).join('')}</div><div class="fb"></div>`;
+    if(c.fig){const f=document.createElement('figure');f.style.margin='6px 0';f.appendChild(c.fig());box.querySelector('.cq').after(f)}
     const fb=box.querySelector('.fb');
     let att=0;const solve=()=>{box.classList.add('done');box.querySelectorAll('.opts button').forEach(b=>{b.disabled=true;if(+b.dataset.j===c.a)b.classList.add('ok')});fb.className='fb ok';fb.innerHTML='✔ '+c.ok};
     SOLVERS[i]=solve;if(passed.has(i))solve();
@@ -1075,6 +1101,11 @@ function boxFig(opt={}){
   const ln=(p,q,dash)=>el('line',{x1:P[p][0],y1:P[p][1],x2:P[q][0],y2:P[q][1],stroke:dash?'#9aa7bd':'#172230','stroke-width':dash?1.5:2,'stroke-dasharray':dash?'6 5':''},svg);
   [['A','B'],['B','C'],["A'","B'"],["B'","C'"],["C'","D'"],["D'","A'"],['A',"A'"],['B',"B'"],['C',"C'"]].forEach(e=>ln(...e));
   [['C','D'],['D','A'],['D',"D'"]].forEach(e=>ln(...e,true));
+  if(opt.vecs){const ar=(p,q,col,lb,lo)=>{const [x1,y1]=P[p],[x2,y2]=P[q];const L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L;
+      el('line',{x1,y1,x2:x2-ux*11,y2:y2-uy*11,stroke:col,'stroke-width':4.5,'stroke-linecap':'round'},svg);
+      el('polygon',{points:`${x2},${y2} ${x2-ux*15-uy*7},${y2-uy*15+ux*7} ${x2-ux*15+uy*7},${y2-uy*15-ux*7}`,fill:col},svg);
+      const t=el('text',{x:(x1+x2)/2+lo[0],y:(y1+y2)/2+lo[1],'font-size':19,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',fill:col,stroke:'#fff','stroke-width':4,'paint-order':'stroke'},svg);t.textContent=lb+'\u20D7'};
+    ar('A','B',COL.vec,'a',[0,16]);ar('A','D',COL.vec2,'b',[-14,6]);ar('A',"A'",COL.dir,'c',[-14,0])}
   const off={A:[-14,12],B:[10,15],C:[17,6],D:[-17,-4],"A'":[-17,-6],"B'":[6,-14],"C'":[17,-8],"D'":[-6,-15]};
   if(opt.mid){P.M=pr(a/2,0,0);P.N=pr(a/2,b,h);off.M=[0,17];off.N=[0,-15]}
   for(const n in P){if(n==='M'||n==='N')el('circle',{cx:P[n][0],cy:P[n][1],r:4.5,fill:'#172230'},svg);
@@ -1097,9 +1128,10 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
     d.innerHTML=`<div class="qh"><span class="qn">${i+1}.</span><span class="tag">${tag}</span></div>`+
       (q.given?`<div class="given">${q.given}</div>`:'')+`<div class="figslot"></div><div class="ask">${q.t==='tf'?'האם הטענה נכונה? ':''}${q.ask}</div>`;
     if(q.fig){const f=document.createElement('figure');f.appendChild(q.fig());d.querySelector('.figslot').appendChild(f)}
-    let tries=0,solved=false;
+    let tries=0,solved=false,kb=null;
     const fb=document.createElement('div');fb.className='fb';
-    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd()}tries++;
+    const showKey=()=>{if(q.key&&!kb){kb=document.createElement('div');kb.className='keynote';kb.innerHTML='⭐ '+q.key;fb.after(kb)}};
+    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd();showKey()}tries++;
       CourseAPI.log({ev:'q',sec,q:i+1,ok,attempt:tries,score:fmt(score,1),done,tot});if(ok&&done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
     if(q.t==='mc'||q.t==='tf'){
       const opts=q.t==='tf'?['נכון','לא נכון']:q.opts;const ans=q.t==='tf'?(q.a?0:1):q.a;
@@ -1123,7 +1155,17 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
       d.appendChild(tl);
       const hn=document.createElement('div');hn.className='hint';hn.innerHTML=q.hint||'';d.appendChild(hn);
       const sn=document.createElement('div');sn.className='sol';sn.innerHTML=(q.sol||[]).map(l=>`<span class="ln">${l}</span>`).join('');d.appendChild(sn);
-      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
+      // הצגת פתרון לפני שענו = ויתור: השאלה נסגרת ונרשמת כלא נענתה
+      const giveUp=()=>{solved=true;done++;upd();d.classList.add('gaveup');
+        d.querySelectorAll('.opts button,.row button,.row input').forEach(x=>x.disabled=true);
+        fb.className='fb no';fb.innerHTML='השאלה נסגרה, כי הוצג הפתרון. עברו עליו בעיון — ובשאלה הבאה נסו קודם לבד.';showKey();
+        CourseAPI.log({ev:'q',sec,q:i+1,ok:false,gaveUp:true,attempt:tries+1,score:fmt(score,1),done,tot});
+        if(done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
+      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+        if(b.dataset.x==='sol'&&!solved){
+          if(!b.dataset.warn){b.dataset.warn=1;b.classList.add('warn');b.innerHTML='בטוחים? אם תציגו את הפתרון, לא תוכלו לענות על השאלה — לחצו שוב';return}
+          giveUp();b.classList.remove('warn');b.textContent='הצגת פתרון'}
+        const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
     }
     root.appendChild(d);
   });

@@ -177,6 +177,8 @@ footer a.home{color:var(--vio)}
 @media (max-width:600px){.screen{border-radius:20px;padding:16px 14px}.topbar{border-radius:0 0 18px 18px}.topbar .row1{flex-wrap:wrap;row-gap:0}.topbar .ttl{flex:1 1 100%}.topbar .cnt{font-size:12.5px}}
 ul.sumcards{list-style:none;padding:0;margin:12px 0;display:flex;flex-direction:column;gap:12px}
 ul.sumcards li{background:#fff;border-radius:18px;padding:12px 16px;box-shadow:0 2px 10px rgba(40,60,90,.08),inset 4px 0 0 0 #6C63FF;line-height:1.9}
+.keynote{margin-top:10px;background:#FFF6E2;border-radius:14px;padding:10px 14px;box-shadow:inset 4px 0 0 0 #FFB547;font-weight:500}
+.tools button.warn{background:#FFF0F0;border-color:#FF6B6B;color:#c92a2a}
 </style>
 </head>
 <body>
@@ -825,9 +827,10 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
     d.innerHTML=`<div class="qh"><span class="qn">${i+1}.</span><span class="tag">${tag}</span></div>`+
       (q.given?`<div class="given">${q.given}</div>`:'')+`<div class="figslot"></div><div class="ask">${q.t==='tf'?'האם הטענה נכונה? ':''}${q.ask}</div>`;
     if(q.fig){const f=document.createElement('figure');f.appendChild(q.fig());d.querySelector('.figslot').appendChild(f)}
-    let tries=0,solved=false;
+    let tries=0,solved=false,kb=null;
     const fb=document.createElement('div');fb.className='fb';
-    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd()}tries++;
+    const showKey=()=>{if(q.key&&!kb){kb=document.createElement('div');kb.className='keynote';kb.innerHTML='⭐ '+q.key;fb.after(kb)}};
+    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd();showKey()}tries++;
       CourseAPI.log({ev:'q',sec,q:i+1,ok,attempt:tries,score:fmt(score,1),done,tot});if(ok&&done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
     if(q.t==='mc'||q.t==='tf'){
       const opts=q.t==='tf'?['נכון','לא נכון']:q.opts;const ans=q.t==='tf'?(q.a?0:1):q.a;
@@ -851,7 +854,17 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
       d.appendChild(tl);
       const hn=document.createElement('div');hn.className='hint';hn.innerHTML=q.hint||'';d.appendChild(hn);
       const sn=document.createElement('div');sn.className='sol';sn.innerHTML=(q.sol||[]).map(l=>`<span class="ln">${l}</span>`).join('');d.appendChild(sn);
-      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
+      // הצגת פתרון לפני שענו = ויתור: השאלה נסגרת ונרשמת כלא נענתה
+      const giveUp=()=>{solved=true;done++;upd();d.classList.add('gaveup');
+        d.querySelectorAll('.opts button,.row button,.row input').forEach(x=>x.disabled=true);
+        fb.className='fb no';fb.innerHTML='השאלה נסגרה, כי הוצג הפתרון. עברו עליו בעיון — ובשאלה הבאה נסו קודם לבד.';showKey();
+        CourseAPI.log({ev:'q',sec,q:i+1,ok:false,gaveUp:true,attempt:tries+1,score:fmt(score,1),done,tot});
+        if(done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
+      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+        if(b.dataset.x==='sol'&&!solved){
+          if(!b.dataset.warn){b.dataset.warn=1;b.classList.add('warn');b.innerHTML='בטוחים? אם תציגו את הפתרון, לא תוכלו לענות על השאלה — לחצו שוב';return}
+          giveUp();b.classList.remove('warn');b.textContent='הצגת פתרון'}
+        const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
     }
     root.appendChild(d);
   });

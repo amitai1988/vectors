@@ -203,6 +203,9 @@ footer a.home{color:var(--vio)}
 .big1{font-family:'Varela Round',Rubik,sans-serif;font-size:21px;line-height:1.5;margin:6px 0;color:#26324A}
 .keypt{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:16px;padding:10px 14px;margin:8px 0;box-shadow:0 2px 10px rgba(40,60,90,.07)}
 .keypt>b{flex:none;width:28px;height:28px;border-radius:50%;background:#6C63FF;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:500}
+.keynote{margin-top:10px;background:#FFF6E2;border-radius:14px;padding:10px 14px;box-shadow:inset 4px 0 0 0 #FFB547;font-weight:500}
+.q.gaveup{opacity:.92}
+.tools button.warn{background:#FFF0F0;border-color:#FF6B6B;color:#c92a2a}
 
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.82em;margin:0 .12em}
 .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .18em}
@@ -726,7 +729,7 @@ const ADV=[
   {t:'mc',given:`${a_}, ${b_}, ${c_} בלתי תלויים לינארית (במרחב).`,ask:'איזו שלישייה <b>תלויה</b> לינארית?',
     opts:[S(a_,'+',b_+';',b_,'+',c_+';',a_,'−',c_),S(a_,'+',b_+';',b_,'+',c_+';',a_,'+',c_),S(a_+';',a_,'+',b_+';',a_,'+',b_,'+',c_),S(a_+';',b_+';',c_)],a:0,
     hint:'נסו להביע את הווקטור השלישי בעזרת השניים הראשונים.',exp:S('('+a_,'+',b_+')','−','('+b_,'+',c_+')','=',a_,'−',c_)},
-  {t:'num',fig:()=>boxFig(),given:`בתיבה ${M("ABCDA'B'C'D'")}: ${S(V('AB'),'=',a_)}, ${S(V('AD'),'=',b_)}, ${S(V("AA'"),'=',c_)}. הנקודה ${M('P')} מקיימת ${S(V('AP'),'=',a_,'+',b_,'+','t'+c_)}.`,
+  {t:'num',fig:()=>boxFig({vecs:true}),given:`בתיבה ${M("ABCDA'B'C'D'")}: ${S(V('AB'),'=',a_)}, ${S(V('AD'),'=',b_)}, ${S(V("AA'"),'=',c_)}. הנקודה ${M('P')} מקיימת ${S(V('AP'),'=',a_,'+',b_,'+','t'+c_)}.`,
     ask:`עבור איזה ${M('t')} הנקודה ${M('P')} נמצאת במישור ${M("AB'D'")}?`,a:2,
     hint:`${M('P')} במישור ⇔ ${S(V('AP'),'=','x'+V("AB'"),'+','y'+V("AD'"))}. הביעו את ${V("AB'")} ואת ${V("AD'")}.`,
     sol:[S(V("AB'"),'=',a_,'+',c_),S(V("AD'"),'=',b_,'+',c_),S(a_,'+',b_,'+','t'+c_,'=','x('+a_,'+',c_+')','+','y('+b_,'+',c_+')'),'המקדמים של a: '+M('x = 1'),'המקדמים של b: '+M('y = 1'),'המקדמים של c: '+M('t = x + y = 2')]},
@@ -752,6 +755,7 @@ screens.forEach((sc,i)=>{
   const box=document.createElement('div');box.className='check';
   if(c){
     box.innerHTML=`<div class="h">בדיקת הבנה</div><div class="cq">${c.q}</div><div class="opts">${shuffled(c.o.map((t,j)=>`<button data-j="${j}">${t}</button>`)).join('')}</div><div class="fb"></div>`;
+    if(c.fig){const f=document.createElement('figure');f.style.margin='6px 0';f.appendChild(c.fig());box.querySelector('.cq').after(f)}
     const fb=box.querySelector('.fb');
     let att=0;const solve=()=>{box.classList.add('done');box.querySelectorAll('.opts button').forEach(b=>{b.disabled=true;if(+b.dataset.j===c.a)b.classList.add('ok')});fb.className='fb ok';fb.innerHTML='✔ '+c.ok};
     SOLVERS[i]=solve;if(passed.has(i))solve();
@@ -834,6 +838,11 @@ function boxFig(opt={}){
   const ln=(p,q,dash)=>el('line',{x1:P[p][0],y1:P[p][1],x2:P[q][0],y2:P[q][1],stroke:dash?'#9aa7bd':'#172230','stroke-width':dash?1.5:2,'stroke-dasharray':dash?'6 5':''},svg);
   [['A','B'],['B','C'],["A'","B'"],["B'","C'"],["C'","D'"],["D'","A'"],['A',"A'"],['B',"B'"],['C',"C'"]].forEach(e=>ln(...e));
   [['C','D'],['D','A'],['D',"D'"]].forEach(e=>ln(...e,true));
+  if(opt.vecs){const ar=(p,q,col,lb,lo)=>{const [x1,y1]=P[p],[x2,y2]=P[q];const L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L;
+      el('line',{x1,y1,x2:x2-ux*11,y2:y2-uy*11,stroke:col,'stroke-width':4.5,'stroke-linecap':'round'},svg);
+      el('polygon',{points:`${x2},${y2} ${x2-ux*15-uy*7},${y2-uy*15+ux*7} ${x2-ux*15+uy*7},${y2-uy*15-ux*7}`,fill:col},svg);
+      const t=el('text',{x:(x1+x2)/2+lo[0],y:(y1+y2)/2+lo[1],'font-size':19,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',fill:col,stroke:'#fff','stroke-width':4,'paint-order':'stroke'},svg);t.textContent=lb+'\u20D7'};
+    ar('A','B',COL.vec,'a',[0,16]);ar('A','D',COL.vec2,'b',[-14,6]);ar('A',"A'",COL.dir,'c',[-14,0])}
   const off={A:[-14,12],B:[10,15],C:[17,6],D:[-17,-4],"A'":[-17,-6],"B'":[6,-14],"C'":[17,-8],"D'":[-6,-15]};
   if(opt.mid){P.M=pr(a/2,0,0);P.N=pr(a/2,b,h);off.M=[0,17];off.N=[0,-15]}
   for(const n in P){if(n==='M'||n==='N')el('circle',{cx:P[n][0],cy:P[n][1],r:4.5,fill:'#172230'},svg);
@@ -856,9 +865,10 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
     d.innerHTML=`<div class="qh"><span class="qn">${i+1}.</span><span class="tag">${tag}</span></div>`+
       (q.given?`<div class="given">${q.given}</div>`:'')+`<div class="figslot"></div><div class="ask">${q.t==='tf'?'האם הטענה נכונה? ':''}${q.ask}</div>`;
     if(q.fig){const f=document.createElement('figure');f.appendChild(q.fig());d.querySelector('.figslot').appendChild(f)}
-    let tries=0,solved=false;
+    let tries=0,solved=false,kb=null;
     const fb=document.createElement('div');fb.className='fb';
-    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd()}tries++;
+    const showKey=()=>{if(q.key&&!kb){kb=document.createElement('div');kb.className='keynote';kb.innerHTML='⭐ '+q.key;fb.after(kb)}};
+    const finish=(ok)=>{if(solved)return;if(ok){solved=true;score+=tries===0?1:.5;done++;upd();showKey()}tries++;
       CourseAPI.log({ev:'q',sec,q:i+1,ok,attempt:tries,score:fmt(score,1),done,tot});if(ok&&done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
     if(q.t==='mc'||q.t==='tf'){
       const opts=q.t==='tf'?['נכון','לא נכון']:q.opts;const ans=q.t==='tf'?(q.a?0:1):q.a;
@@ -882,7 +892,17 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
       d.appendChild(tl);
       const hn=document.createElement('div');hn.className='hint';hn.innerHTML=q.hint||'';d.appendChild(hn);
       const sn=document.createElement('div');sn.className='sol';sn.innerHTML=(q.sol||[]).map(l=>`<span class="ln">${l}</span>`).join('');d.appendChild(sn);
-      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
+      // הצגת פתרון לפני שענו = ויתור: השאלה נסגרת ונרשמת כלא נענתה
+      const giveUp=()=>{solved=true;done++;upd();d.classList.add('gaveup');
+        d.querySelectorAll('.opts button,.row button,.row input').forEach(x=>x.disabled=true);
+        fb.className='fb no';fb.innerHTML='השאלה נסגרה, כי הוצג הפתרון. עברו עליו בעיון — ובשאלה הבאה נסו קודם לבד.';showKey();
+        CourseAPI.log({ev:'q',sec,q:i+1,ok:false,gaveUp:true,attempt:tries+1,score:fmt(score,1),done,tot});
+        if(done===tot&&sec==='adv'){CourseAPI.log({ev:'done'});doneL=true;save()}};
+      tl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+        if(b.dataset.x==='sol'&&!solved){
+          if(!b.dataset.warn){b.dataset.warn=1;b.classList.add('warn');b.innerHTML='בטוחים? אם תציגו את הפתרון, לא תוכלו לענות על השאלה — לחצו שוב';return}
+          giveUp();b.classList.remove('warn');b.textContent='הצגת פתרון'}
+        const n=b.dataset.x==='hint'?hn:sn;n.style.display=n.style.display==='block'?'none':'block'});
     }
     root.appendChild(d);
   });
