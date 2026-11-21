@@ -383,9 +383,11 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
       <div><i>🔢</i><b>במספרים</b><span class="m" style="font-size:17px">5 + (−5) = 0</span><span>הנגדי מחזיר לאפס</span></div>
       <div><i>❓</i><b>בווקטורים</b><span class="m" style="font-size:17px"><span class="v">u</span> + ? = <span class="v">0</span></span><span>מה צריך להוסיף?</span></div>
     </div>
+    <figure id="l2neg" style="margin:8px 0"></figure>
+    <p class="small" style="text-align:center">הולכים מ־ <span class="m">A</span> אל <span class="m">B</span>, וחוזרים מ־ <span class="m">B</span> אל <span class="m">A</span>. איפה אנחנו בסוף?</p>
   </div>
   <div class="step">
-    <div class="say"><div class="bub">אם <span class="m"><span class="v">u</span> = <span class="v">AB</span></span>, איך חוזרים ל־ <span class="m">A</span>? הולכים <span class="v">BA</span>!</div></div>
+    <div class="say"><div class="bub">חזרנו להתחלה! אם <span class="m"><span class="v">u</span> = <span class="v">AB</span></span>, הווקטור שמחזיר אותנו הוא <span class="v">BA</span>: <span class="m"><span class="v">AB</span> + <span class="v">BA</span> = <span class="v">0</span></span>.</div></div>
     <div class="def"><span class="t">וקטור נגדי</span>
       <span class="m">−<span class="v">u</span></span> הוא הווקטור שמקיים <span class="m"><span class="v">u</span> + (−<span class="v">u</span>) = <span class="v">0</span></span>.
       <div class="ex">בשרטוט: <b class="c-len">אותו אורך</b>, <b class="c-dir">כיוון הפוך</b>. למשל <span class="m">−<span class="v">AB</span> = <span class="v">BA</span></span>.</div></div>
@@ -921,6 +923,15 @@ B.text(B.X(4.6),B.Y(0)+16,'2u',{col:COL.vec,size:16});B.text(B.X(7.4),B.Y(1.6),'
   B.midLabel(O,Vv,'v',{col:COL.vec2,size:18,vec:true},16);B.midLabel(Vv,S,'u',{col:COL.vec,size:18,vec:true},-16);
   const [x,y]=B.P(S);el('circle',{cx:x,cy:y,r:12,fill:'rgba(22,147,90,.18)',stroke:COL.eq,'stroke-width':3},B.dl);
   B.text(x+4,y-24,'אותה נקודה!',{col:COL.eq,size:15});B.dot(O);B.text(B.X(0)-10,B.Y(0)+16,'O',{size:16});f.appendChild(svg)})();
+
+// opposite vector figure: AB there, BA back
+(()=>{const f=document.getElementById('l2neg');if(!f)return;const svg=el('svg',{viewBox:'0 0 420 180',style:'max-width:440px;width:100%;display:block;margin:auto'});
+  const B=new Board(svg,{x0:-1,x1:10,y0:-1.6,y1:3.2,grid:false});const A=[0,1],Bq=[8,2],A2=[0,0],B2=[8,1];
+  B.arrow(A,Bq,COL.vec,4.5);B.midLabel(A,Bq,'u = AB',{col:COL.vec,size:17},-18);
+  B.arrow(B2,A2,COL.len,4.5);B.midLabel(B2,A2,'−u = BA',{col:COL.len,size:17},-20);
+  [[A,'A',[-16,-4]],[Bq,'B',[16,-4]]].forEach(([p,n,o])=>{B.dot(p);B.text(B.X(p[0])+o[0],B.Y(p[1])+o[1],n,{size:19})});
+  [[A2,'A',[-16,4]],[B2,'B',[16,4]]].forEach(([p,n,o])=>{B.dot(p,'#9aa7bd');B.text(B.X(p[0])+o[0],B.Y(p[1])+o[1],n,{size:17,col:'#7D8BA6'})});
+  f.appendChild(svg)})();
 
 // סדר התשובות מעורבב לכל תלמיד
 const shuffled=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
