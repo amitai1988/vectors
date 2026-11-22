@@ -214,7 +214,9 @@ function merge(all){
 }
 const isDone=i=>!!(byL[i+1]&&byL[i+1].done);
 const doneArr=()=>LESSONS.map((l,i)=>isDone(i));
-const openArr=()=>LESSONS.map(l=>!!l.href);
+let LOCKS={lessons:{},stops:{}};
+const isLocked=l=>!!(LOCKS.lessons&&LOCKS.lessons[l.n]);
+const openArr=()=>LESSONS.map(l=>!!l.href&&!isLocked(l));
 function curStation(){const i=LESSONS.findIndex((l,i)=>!isDone(i));return i<0?N:i}
 const pct=l=>{const r=byL[l.n];return r&&l.screens?Math.min(100,Math.round((r.max||0)/l.screens*100)):0};
 
@@ -227,7 +229,7 @@ function cardHTML(i,isCur){
   const s=!l.href?'השיעור הזה ייפתח בקרוב. בינתיים אפשר לחזור לתחנות הקודמות ולתרגל.':
     done?(r&&r.basic!==''&&r.basic!=null?`תרגול בסיסי: ${r.basic} מתוך ${l.basic}`+(r.adv!==''&&r.adv!=null?` · מתקדם: ${r.adv} מתוך ${l.adv}`:''):'השיעור הושלם'):
     started?`הגעת למסך ${r.max} מתוך ${l.screens}`:esc(l.d);
-  const btn=!l.href?`<span class="go off" style="flex:1">ייפתח בקרוב</span>`:
+  const btn=!l.href?`<span class="go off" style="flex:1">ייפתח בקרוב</span>`:isLocked(l)?`<span class="go off" style="flex:1">🔒 נעול — המורה יפתח בקרוב</span>`:
     `<a class="go" href="${l.href}">${done?'חזרה לשיעור':isCur?'ממשיכים לטפס':'לשיעור'}</a>`;
   return `<div class="k">${k}</div><div class="t">שיעור ${l.n} · ${esc(l.t)}</div>
     ${l.href&&!done?`<div class="pb"><i style="width:${Math.max(pct(l),3)}%"></i></div>`:''}<div class="s">${s}</div>
@@ -255,6 +257,7 @@ function renderSheet(){
     if(!l.href)return `<div class="ls lock"><div class="num">${l.n}</div><div><div class="tt">${esc(l.t)}</div><div class="dd">${esc(l.d)}</div></div><span class="tag soon">בקרוב</span></div>`;
     const r=byL[l.n];const done=isDone(i),st=r&&r.max>0;
     const sc=r&&(r.basic!==''&&r.basic!=null)?`תרגול בסיסי: ${r.basic} מתוך ${l.basic}`+(r.adv!==''&&r.adv!=null?` · מתקדם: ${r.adv} מתוך ${l.adv}`:''):esc(l.d);
+    if(isLocked(l))return `<div class="ls lock"><div class="num">${l.n}</div><div><div class="tt">${esc(l.t)}</div><div class="dd">המורה יפתח את השיעור בקרוב</div></div><span class="tag soon">🔒 נעול</span></div>`;
     return `<a class="ls ${done?'done':''} ${i===cur?'cur':''}" href="${l.href}"><div class="num">${done?'✓':l.n}</div><div><div class="tt">${esc(l.t)}</div><div class="dd">${sc}</div>${st&&!done?`<div class="mini"><i style="width:${pct(l)}%"></i></div>`:''}</div>
       <span class="tag ${done?'ok':st?'go':'new'}">${done?'נכבשה':st?'בדרך':'חדש'}</span></a>`}).join('');
 }
@@ -305,6 +308,7 @@ function startJourney(){
   $('#bAv').onclick=()=>J.openCreator();
 }
 // עדכון אחרי שהגיעו נתונים מהשרת
+if(CourseAPI.watchLocks)CourseAPI.watchLocks(l=>{const before=JSON.stringify(LOCKS.lessons||{});LOCKS=l;if(JSON.stringify(l.lessons||{})!==before&&ST)refresh()},20000);
 function refresh(){
   if(!J){if($('#flat').style.display==='block')renderFlat();return}
   J.setOpen(openArr());

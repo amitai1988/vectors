@@ -85,10 +85,28 @@ function progRow_(sh, code, lesson) {
   return null;
 }
 
+// ---- נעילת שיעורים ועצירות בתוך שיעור (נשמר ב"מאפייני הסקריפט") ----
+// lessons: {"3": true} = שיעור 3 נעול · stops: {"2": 5} = בשיעור 2 עוצרים לפני מסך מספר 5 (ספירה מ־0)
+function locks_() {
+  try { const o = JSON.parse(PropertiesService.getScriptProperties().getProperty('LOCKS') || '{}'); o.lessons = o.lessons || {}; o.stops = o.stops || {}; return o; }
+  catch (err) { return { lessons: {}, stops: {} }; }
+}
+function setLock_(p) {
+  if (String(p.key || '') !== TEACHER_KEY) return out_({ ok: false, error: 'סיסמה שגויה' });
+  const o = locks_(), L = String(p.lesson || '');
+  if (!L) return out_({ ok: false, error: 'no lesson' });
+  if (p.type === 'lesson') { if (p.value === '1') o.lessons[L] = true; else delete o.lessons[L]; }
+  if (p.type === 'stop') { if (p.value === '' || p.value === undefined) delete o.stops[L]; else o.stops[L] = Number(p.value); }
+  PropertiesService.getScriptProperties().setProperty('LOCKS', JSON.stringify(o));
+  return out_({ ok: true, locks: o });
+}
+
 function doGet(e) {
   setup();
   const p = e.parameter || {};
   if (p.action === 'teacher') return teacher_(p);
+  if (p.action === 'locks') return out_({ ok: true, v: 3, locks: locks_() });
+  if (p.action === 'setlock') return setLock_(p);
   const st = findStudent_(p.code);
   if (p.action === 'login') {
     if (!st) return out_({ ok: false });
@@ -103,7 +121,7 @@ function doGet(e) {
       .map(r => ({ lesson: Number(r[2]), max: Number(r[4]) || 0, passed: String(r[5] || '').split(',').filter(String).length,
         basic: r[6], basicDone: r[7], adv: r[8], advDone: r[9], done: r[10] === 'כן',
         last: r[11] instanceof Date ? r[11].toISOString() : r[11] }));
-    return out_({ ok: true, v: 2, name: st.name, code: st.code, prog: prog, all: all, avatar: st.avatar });
+    return out_({ ok: true, v: 3, name: st.name, code: st.code, prog: prog, all: all, avatar: st.avatar, locks: locks_() });
   }
   return out_({ ok: false, error: 'unknown action' });
 }
@@ -168,5 +186,5 @@ function teacher_(p) {
   const conv = r => r.map(x => x instanceof Date ? x.toISOString() : x);
   const rows = name => { const sh = ss.getSheetByName(name); return sh ? sh.getDataRange().getValues().slice(1).map(conv) : []; };
   const students = rows(SH_STUDENTS).filter(r => r[1] && r[2]).map(r => ({ cls: String(r[0]), name: String(r[1]), code: String(r[2]).trim().toUpperCase(), avatar: String(r[3] || '') }));
-  return out_({ ok: true, students: students, prog: rows(SH_PROG), log: rows(SH_LOG), now: new Date().toISOString() });
+  return out_({ ok: true, v: 3, students: students, prog: rows(SH_PROG), log: rows(SH_LOG), locks: locks_(), now: new Date().toISOString() });
 }

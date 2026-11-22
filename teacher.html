@@ -62,6 +62,11 @@ section{border:0;border-radius:24px;box-shadow:0 8px 26px rgba(40,60,90,.08)}
 .pill{border-radius:999px;font-weight:500}
 .hard .it{border-radius:16px}
 .av{width:30px;height:30px;vertical-align:middle;margin-left:6px;border-radius:50%;background:#E6F4FF}
+.lk{display:grid;gap:8px}
+.lk .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;border:1px solid #e6eaf1;border-radius:16px;padding:8px 12px}
+.lk .row.on{background:#FFF4F4;border-color:#FFC9C9}.lk .row.st{background:#FFF9E8;border-color:#FFE08A}
+.lk .nm{font-weight:600;min-width:210px}.lk .state{font-size:13.5px;color:#4a5566;margin-inline-start:auto}
+.lk button{padding:3px 12px;font-size:14px}
 </style>
 </head>
 <body>
@@ -82,9 +87,11 @@ section{border:0;border-radius:24px;box-shadow:0 8px 26px rgba(40,60,90,.08)}
 <script src="course-api.js"></script>
 <script>
 const LESSONS={1:{title:'מהו וקטור?',screens:11,checks:7,basic:10,adv:7},2:{title:'חיבור, חיסור וכפל בסקלר',screens:12,checks:8,basic:10,adv:7},3:{title:'צירוף לינארי',screens:11,checks:7,basic:10,adv:7},4:{title:'תלות לינארית',screens:11,checks:7,basic:10,adv:7},5:{title:'יחסי קטעים והוכחות',screens:11,checks:7,basic:10,adv:7}};
+// שמות המסכים בכל שיעור (לבחירת נקודת עצירה)
+const SCR={"1": ["פתיחה", "איפה המטיילת?", "סקלרי או וקטורי", "מיון", "קטע מכוון", "שוויון וקטורים", "וקטורים במקבילית", "וקטורים במרחב", "סיכום", "תרגול בסיסי", "תרגול מתקדם"], "2": ["פתיחה", "חיבור כמסע", "כלל המקבילית", "שרשרת ווקטור האפס", "וקטור נגדי וחיסור", "כפל בסקלר", "וקטורים מקבילים", "חוקי הפעולות", "וקטורים בתוך צורות", "סיכום", "תרגול בסיסי", "תרגול מתקדם"], "3": ["פתיחה", "מהו צירוף לינארי", "רשת של שני וקטורים", "השוואת מקדמים", "נקודה על צלע", "בתוך מקבילית", "צירוף במרחב", "נוסחת האמצע", "סיכום", "תרגול בסיסי", "תרגול מתקדם"], "4": ["פתיחה", "שני וקטורים", "ההגדרה הכללית", "שלושה וקטורים", "נקודות על ישר אחד", "מציאת מקדמים", "נקודה על ישר", "ארבע נקודות במישור", "סיכום", "תרגול בסיסי", "תרגול מתקדם"], "5": ["פתיחה", "חלוקת קטע ביחס", "שיטת שתי הדרכים", "חיתוך התיכונים", "המתכון", "אלכסוני מקבילית", "קטע אמצעים", "אלכסוני טרפז", "סיכום", "תרגול בסיסי", "תרגול מתקדם"]};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let DATA=null;
+let DATA=null,LOCKS={lessons:{},stops:{}},LKMSG='';
 // סמל קטן של הדמות שהתלמיד עיצב (ראש, שיער/כובע וחולצה)
 const AVC={skin:['#FFE0C4','#F2C39B','#D9A077','#A8714A','#6E4A2E'],hairColor:['#2B2B2B','#6B4226','#C98B3F','#E8C46A','#B5452E','#7B61FF','#FF8CC6'],
   hatColor:['#FF6B6B','#3D8BFD','#4CB782','#FFB547','#26324A','#F5F5F5'],shirt:['#6C63FF','#FF6B6B','#3D8BFD','#4CB782','#FFB547','#FF8CC6','#26324A','#F5F5F5']};
@@ -113,7 +120,7 @@ async function load(){
   try{const r=await fetch(`${CourseAPI.url}?action=teacher&key=${encodeURIComponent(key)}`);const j=await r.json();
     if(!j.ok){$('#err').textContent=j.error||'שגיאה';$('#upd').textContent='';return}
     try{localStorage.setItem('vec-tkey',key)}catch(e){}
-    DATA=j;render();$('#refresh').hidden=false;
+    DATA=j;LOCKS=j.locks||{lessons:{},stops:{}};LKMSG=(j.v>=3&&j.locks)?'':'old';render();$('#refresh').hidden=false;
   }catch(e){$('#err').textContent='אין חיבור לשרת';$('#upd').textContent=''}
 }
 $('#load').onclick=load;$('#refresh').onclick=load;$('#lesson').onchange=()=>DATA&&render();
@@ -159,8 +166,43 @@ function render(){
       <div><div class="bar2"><i style="width:${pct}%;background:${col}"></i></div><div class="muted">${pct}% (${it.ok} מתוך ${it.n})</div></div></div>`});
   h+='</div></section>';
   $('#pv').innerHTML=Object.entries(LESSONS).map(([k,v])=>`<a href="lesson-${k}.html?preview=1" target="_blank" title="כל המסכים פתוחים ושום דבר לא נשמר" style="text-decoration:none"><button class="g">👁 תצוגה מקדימה: שיעור ${k}</button></a>`).join(' ');
+  h=lockHTML()+h;
   $('#main').innerHTML=h;
+  bindLocks();
   document.querySelectorAll('tr.click').forEach(tr=>tr.onclick=()=>detail(tr.dataset.c,log));
+}
+
+// ===== עצירות ונעילות =====
+function lockHTML(){
+  let h=`<section><h2>🔒 עצירות ונעילות</h2><div class="muted">נעילת שיעור — התלמידים לא יכולים להיכנס אליו. עצירה — התלמידים מתקדמים עד המסך שבחרתם ומחכים שם עד שתשחררו. השינוי מגיע לתלמידים תוך כ-15 שניות, בלי לרענן.</div>`;
+  if(LKMSG==='old')h+=`<div class="err" style="margin:8px 0">השרת עוד לא עודכן לגרסה עם נעילות — צריך להדביק את Code.gs החדש ולעשות Deploy ← New version.</div>`;
+  h+='<div class="lk" style="margin-top:10px">';
+  Object.entries(LESSONS).forEach(([k,v])=>{
+    const on=!!LOCKS.lessons[k],st=LOCKS.stops[k];const has=st!=null&&st!=='';
+    let opts='<option value="">— בלי עצירה —</option>';
+    for(let n=2;n<=v.screens;n++)opts+=`<option value="${n-1}"${has&&+st===n-1?' selected':''}>עצירה לפני מסך ${n}${SCR[k]&&SCR[k][n-1]?' · '+esc(SCR[k][n-1]):''}</option>`;
+    h+=`<div class="row${on?' on':has?' st':''}"><span class="nm">שיעור ${k} · ${esc(v.title)}</span>
+      <button class="${on?'':'g'}" data-lk="${k}">${on?'🔓 פתיחת השיעור':'🔒 נעילת השיעור'}</button>
+      <select data-st="${k}"${on?' disabled':''}>${opts}</select>
+      ${has?`<button class="g" data-rel="${k}">▶ שחרור העצירה</button>`:''}
+      <span class="state">${on?'🔒 נעול':has?`⏸ התלמידים עוצרים לפני מסך ${+st+1}${SCR[k]&&SCR[k][+st]?' · '+esc(SCR[k][+st]):''}`:'פתוח'}</span></div>`});
+  return h+'</div></section>';
+}
+async function setLock(lesson,type,value){
+  if(!CourseAPI.live){ // תצוגה מקדימה
+    if(type==='lesson'){if(value)LOCKS.lessons[lesson]=true;else delete LOCKS.lessons[lesson]}
+    else{if(value===''||value==null)delete LOCKS.stops[lesson];else LOCKS.stops[lesson]=+value}
+    render();return}
+  const key=$('#key').value.trim();$('#err').textContent='';
+  try{const r=await fetch(`${CourseAPI.url}?action=setlock&key=${encodeURIComponent(key)}&lesson=${lesson}&type=${type}&value=${encodeURIComponent(value)}`);const j=await r.json();
+    if(!j.ok){$('#err').textContent=/unknown|לא מוכרת/i.test(j.error||'')?'השרת עוד לא עודכן לגרסה עם נעילות (צריך Deploy ← New version)':(j.error||'שגיאה');return}
+    LOCKS=j.locks;LKMSG='';render();
+  }catch(e){$('#err').textContent='אין חיבור לשרת'}
+}
+function bindLocks(){
+  document.querySelectorAll('[data-lk]').forEach(b=>b.onclick=()=>setLock(b.dataset.lk,'lesson',LOCKS.lessons[b.dataset.lk]?'':'1'));
+  document.querySelectorAll('[data-st]').forEach(sl=>sl.onchange=()=>setLock(sl.dataset.st,'stop',sl.value));
+  document.querySelectorAll('[data-rel]').forEach(b=>b.onclick=()=>setLock(b.dataset.rel,'stop',''));
 }
 function detail(code,log){
   const rows=log.filter(r=>String(r[1]).toUpperCase()===code);const s=DATA.students.find(x=>x.code===code);

@@ -206,6 +206,9 @@ footer a.home{color:var(--vio)}
 .keynote{margin-top:10px;background:#FFF6E2;border-radius:14px;padding:10px 14px;box-shadow:inset 4px 0 0 0 #FFB547;font-weight:500}
 .q.gaveup{opacity:.92}
 .tools button.warn{background:#FFF0F0;border-color:#FF6B6B;color:#c92a2a}
+#lockov{position:fixed;inset:0;z-index:90;background:rgba(238,246,255,.96);display:flex;align-items:center;justify-content:center;padding:20px}
+#lockov .lockbox{background:#fff;border-radius:26px;padding:26px 22px;max-width:380px;text-align:center;box-shadow:0 12px 34px rgba(40,60,90,.14)}
+#lockov h2{margin:6px 0;font-family:'Varela Round',Rubik,sans-serif;font-weight:400}
 
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-size:.82em;margin:0 .12em}
 .fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .18em}
@@ -1009,6 +1012,7 @@ const ADV=[
 ];
 
 
+const LESSON_NO=2;
 /* ================= screen engine ================= */
 const screens=[...document.querySelectorAll('.screen')],N=screens.length;
 // ההתקדמות נשמרת בנפרד לכל תלמיד (חשוב במכשיר משותף)
@@ -1042,10 +1046,10 @@ screens.forEach((sc,i)=>{
 });
 const nav=document.getElementById('nav');
 function updNav(){
-  const g=gated(cur)&&!passed.has(cur);
+  const g=gated(cur)&&!passed.has(cur),stp=stopAt(cur+1);
   document.getElementById('prev').disabled=cur===0;
-  const nx=document.getElementById('next');nx.style.visibility=cur===N-1?'hidden':'visible';nx.disabled=g;
-  document.getElementById('gate').textContent=g?(screens[cur].dataset.gate==='sort'?'מיינו את כל הכרטיסים נכון כדי להמשיך':'ענו נכון על שאלת הבדיקה כדי להמשיך'):'';
+  const nx=document.getElementById('next');nx.style.visibility=cur===N-1?'hidden':'visible';nx.disabled=g||stp;
+  document.getElementById('gate').textContent=g?(screens[cur].dataset.gate==='sort'?'מיינו את כל הכרטיסים נכון כדי להמשיך':'ענו נכון על שאלת הבדיקה כדי להמשיך'):stp?'⏸ המורה עצר כאן — מחכים לכל הכיתה':'';
   document.getElementById('cnt').textContent=`מסך ${cur+1} מתוך ${N} · ${screens[cur].dataset.t}`;
   const dots=document.getElementById('dots');
   dots.innerHTML=screens.map((s,i)=>`<button title="${s.dataset.t}" class="${i===cur?'cur':(i<=maxSeen?'done':'')}" ${i>maxSeen?'disabled':''} data-i="${i}"></button>`).join('');
@@ -1074,7 +1078,9 @@ function sayAvatars(){let a=null;try{a=CourseAPI.getAvatar&&CourseAPI.getAvatar(
     (top?`<path d="M7.6 12.5a7.4 7.4 0 0 1 14.8 0z" fill="${top}"/>`:'')+`<circle cx="12.4" cy="14" r=".9" fill="#26324A"/><circle cx="17.6" cy="14" r=".9" fill="#26324A"/><path d="M12.6 16.6q2.4 1.8 4.8 0" stroke="#26324A" stroke-width=".8" fill="none" stroke-linecap="round"/></svg>`;
   document.querySelectorAll('.say').forEach(el=>{if(el.querySelector('.who'))return;const w=document.createElement('div');w.className='who';w.innerHTML=svg;el.prepend(w)})}
 sayAvatars();
-function show(i){
+let STOP=null,LOCKED=false;
+const stopAt=i=>STOP!=null&&i>=STOP&&i>maxSeen;
+function show(i){if(stopAt(i))return;
   screens[cur].classList.remove('on');cur=i;screens[cur].classList.add('on');
   screens[cur].appendChild(nav);setupSteps(screens[cur],cur);
   if(cur>maxSeen)maxSeen=cur;save();updNav();buildWidget(cur);
@@ -1082,7 +1088,15 @@ function show(i){
   window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});
 }
 document.getElementById('prev').onclick=()=>{if(cur>0)show(cur-1)};
-document.getElementById('next').onclick=()=>{if(cur<N-1&&!(gated(cur)&&!passed.has(cur)))show(cur+1)};
+document.getElementById('next').onclick=()=>{if(cur<N-1&&!(gated(cur)&&!passed.has(cur))&&!stopAt(cur+1))show(cur+1)};
+// ---- עצירה ונעילה שהמורה קבע (מתעדכן מהשרת כל כמה שניות) ----
+function applyLocks(l){STOP=(l.stops&&l.stops[LESSON_NO]!=null)?Number(l.stops[LESSON_NO]):null;LOCKED=!!(l.lessons&&l.lessons[LESSON_NO]);
+  let ov=document.getElementById('lockov');
+  if(LOCKED&&!ov){ov=document.createElement('div');ov.id='lockov';ov.innerHTML='<div class="lockbox"><div style="font-size:44px">🔒</div><h2>השיעור עוד נעול</h2><p>המורה יפתח אותו בקרוב. הדף ייפתח מעצמו כשזה יקרה.</p><a class="b pri" href="index.html" style="text-decoration:none;display:inline-block;margin-top:8px">חזרה לשביל</a></div>';document.body.appendChild(ov)}
+  if(!LOCKED&&ov)ov.remove();
+  updNav()}
+if(CourseAPI.watchLocks)CourseAPI.watchLocks(applyLocks);
+
 let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>buildWidget(cur),200)});
 
 /* ================= practice figures ================= */

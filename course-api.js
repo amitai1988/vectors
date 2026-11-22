@@ -131,6 +131,17 @@
     try { localStorage.setItem(avKey(), JSON.stringify(av)); localStorage.setItem(avKey() + '-pending', '1'); } catch (e) {}
     return pushAvatar();
   }
+  // ---- נעילות ועצירות שהמורה קבע (רק בגרסה של הכיתה) ----
+  async function getLocks() {
+    if (!LIVE) return null;
+    try { const r = await fetch(`${API_URL}?action=locks`); const j = await r.json(); return j && j.ok && j.locks ? j.locks : null; } catch (e) { return null; }
+  }
+  // קורא ל־cb עם הנעילות עכשיו, ושוב כל כמה שניות (כדי ששחרור יגיע בלי לרענן)
+  function watchLocks(cb, ms) {
+    if (!LIVE) return;
+    const tick = async () => { const l = await getLocks(); if (l) cb(l); };
+    tick(); setInterval(() => { if (!document.hidden) tick(); }, ms || 12000);
+  }
   async function loginFull(code) {
     const r = await fetch(`${API_URL}?action=login&code=${encodeURIComponent(code)}`); const j = await r.json();
     if (j && j.ok) {
@@ -144,5 +155,5 @@
   }
   function setStudent(s) { student = s; try { localStorage.setItem(SKEY, JSON.stringify(s)); } catch (e) {} }
   function logout() { if (queue.length) send(); student = null; try { localStorage.removeItem(SKEY); } catch (e) {} }
-  window.CourseAPI = { start, log, url: API_URL, preview: PREVIEW, guest: GUEST, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send, getAvatar, saveAvatar, get serverVersion() { return serverV; } };
+  window.CourseAPI = { start, log, url: API_URL, preview: PREVIEW, guest: GUEST, get live() { return LIVE; }, get student() { return student; }, loginFull, setStudent, logout, flush: send, getAvatar, saveAvatar, getLocks, watchLocks, get serverVersion() { return serverV; } };
 })();
