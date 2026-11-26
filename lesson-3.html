@@ -225,6 +225,11 @@ details.enrich{margin:12px 0;background:#FFF9EC;border-radius:18px;padding:4px 1
 details.enrich>summary{cursor:pointer;padding:8px 0;font-weight:500;color:#8A5A00;list-style:none}
 details.enrich>summary::before{content:"✦ "}
 details.enrich[open]>summary{border-bottom:1px dashed #F2D9A8;margin-bottom:6px}
+/* numbered equations, one per line, no Hebrew in between */
+.eqs{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;direction:ltr;unicode-bidi:isolate;font-family:Rubik,Arial,sans-serif;text-align:left}
+.eqs>span{white-space:nowrap}
+.w1q{margin:8px 14px 12px;padding:10px 12px;background:#FFF9EC;border-radius:14px;box-shadow:inset 4px 0 0 0 #FFB547;line-height:1.8}
+.w1q .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:500}
 </style>
 </head>
@@ -308,7 +313,7 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
   <div class="step">
     <div class="def"><span class="t">משפט — יחידות ההצגה</span>
       אם <span class="v c-vec">a</span> ו־ <span class="v c-vec2">b</span> <b>לא באותו כיוון</b>, אז כל וקטור במישור הוא צירוף לינארי שלהם —
-      <div class="ex"><b>ובדרך אחת בלבד.</b> (יש רק זוג מקדמים <span class="m">k</span>, <span class="m">t</span> אחד שמתאים.)</div></div>
+      <div class="ex"><b>ובדרך אחת בלבד.</b> (יש רק זוג מקדמים <span class="m">k</span>, <span class="m">t</span> אחד שמתאים — כמו שראיתם במשחק המטרה.)</div></div>
   </div>
   <div class="step">
     <div class="note"><b>ואם הם באותו כיוון?</b> (או בכיוונים הפוכים — על אותו ישר) כל הצירופים נשארים על ישר אחד. לווקטור בכיוון אחר — אי אפשר להגיע. נסו בכפתור "באותו כיוון" למעלה.</div>
@@ -325,7 +330,8 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
     <h3>רגע — זה מוכר לנו ממשוואת הישר</h3>
     <figure id="l3line" style="margin:6px 0"></figure>
     <p>אם נתון שהישרים <span class="m">y = m₁x + b₁</span> ו־ <span class="m">y = m₂x + b₂</span> הם <b>אותו ישר</b>, אז בהכרח:</p>
-    <div class="keypt"><b>=</b><div><span class="m">m₁ = m₂</span> (אותו שיפוע) וגם <span class="m">b₁ = b₂</span> (אותה נקודת חיתוך עם ציר <span class="m">y</span>)</div></div>
+    <div class="keypt"><b>=</b><div><span class="eqs"><span>1) <span class="m">m₁ = m₂</span></span><span>2) <span class="m">b₁ = b₂</span></span></span></div></div>
+    <p class="small">משוואה 1: אותו שיפוע. משוואה 2: אותה נקודת חיתוך עם ציר <span class="m">y</span>.</p>
     <p class="small">לישר יש רק שיפוע אחד ורק נקודת חיתוך אחת עם ציר <span class="m">y</span> — לכן מותר להשוות. בדיוק כך עם וקטורים.</p>
   </div>
   <div class="step">
@@ -336,8 +342,10 @@ details.enrich h4{margin:10px 0 4px;font-size:15.5px;color:#5149D6;font-weight:5
   <div class="step">
     <h3>דוגמה</h3>
     <div class="steps"><span class="m">(x + 1)<span class="v c-vec">a</span> + 3<span class="v c-vec2">b</span> = 4<span class="v c-vec">a</span> + (y − 2)<span class="v c-vec2">b</span></span></div>
-    <div class="keypt"><b><span class="v" style="color:#fff">a</span></b><div>משווים את המקדמים של <span class="v c-vec">a</span>: <span class="m">x + 1 = 4</span> ← <span class="m">x = 3</span></div></div>
-    <div class="keypt"><b><span class="v" style="color:#fff">b</span></b><div>משווים את המקדמים של <span class="v c-vec2">b</span>: <span class="m">3 = y − 2</span> ← <span class="m">y = 5</span></div></div>
+    <p>משווים את המקדמים של <span class="v c-vec">a</span>, ואחר כך את המקדמים של <span class="v c-vec2">b</span>:</p>
+    <div class="steps"><span class="eqs"><span>1) <span class="m">x + 1 = 4</span></span><span>2) <span class="m">3 = y − 2</span></span></span></div>
+    <p>פותרים:</p>
+    <div class="steps"><span class="eqs"><span>1) <span class="m">x = 3</span></span><span>2) <span class="m">y = 5</span></span></span></div>
   </div>
   <div class="step">
     <div class="note"><b>זהירות:</b> משווים מקדמים <b>רק</b> כש־ <span class="v c-vec">a</span>, <span class="v c-vec2">b</span> לא באותו כיוון.</div>
@@ -564,37 +572,67 @@ function Stepper(id,{box,steps,draw,h=320}){
   return {build};
 }
 
+/* confetti burst from an element (success feedback) */
+function confetti(fromEl,n=70){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const r=fromEl.getBoundingClientRect(),x0=r.left+r.width/2,y0=r.top+r.height*.4;
+  const cols=['#6C63FF','#FF6B6B','#FFB547','#16935a','#2f5bea','#d6336c','#FFD43B'];
+  for(let i=0;i<n;i++){const p=document.createElement('span');const s=6+Math.random()*6;
+    p.style.cssText=`position:fixed;left:${x0}px;top:${y0}px;width:${s}px;height:${s*.6}px;background:${cols[i%cols.length]};border-radius:2px;pointer-events:none;z-index:9999`;
+    document.body.appendChild(p);const a=Math.random()*Math.PI*2,v=120+Math.random()*220,dx=Math.cos(a)*v,dy=Math.sin(a)*v-160;
+    p.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${dx}px,${dy+260}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:1100+Math.random()*600,easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish=()=>p.remove()}
+}
+// numbered equations, each on its own line: EQS('x + 1 = 3','y − 3 = 7')
+const EQS=(...l)=>'<span class="eqs">'+l.map((x,i)=>`<span>${i+1}) <span class="m">${x}</span></span>`).join('')+'</span>';
+
 /* ================= lesson 3 widgets ================= */
 const A3=[2,1],B3=[-1,2];                      // the two base vectors in w1/w2
 const kTxt=k=>k===.5?'½':k===-.5?'−½':k===1.5?'1½':k===-1.5?'−1½':String(k).replace('-','−');
 const cTxt=(k,first)=>k===0?'':(k<0?(first?'−':'− '):(first?'':'+ '))+(Math.abs(k)===1?'':kTxt(Math.abs(k)));
 
-/* ---------- W1: build a linear combination ---------- */
+/* ---------- W1: build a linear combination, hit the target ---------- */
 const W1=(()=>{
   const w=document.getElementById('w1'),st=w.querySelector('.status');
-  const kr=document.getElementById('w1k'),tr=document.getElementById('w1t');let B,k=0,t=0,target=null;
+  const kr=document.getElementById('w1k'),tr=document.getElementById('w1t');let B,k=0,t=0,target=null,tk=0,tt=0,hits=0,asked=0,wasHit=false,timer=null;
+  const qb=document.createElement('div');qb.className='w1q';qb.hidden=true;st.after(qb);
   function draw(){
     B.clear();const O=[0,0],ka=vmul(k,A3),P=vsum(ka,vmul(t,B3));
     B.arrow(O,A3,COL.vec,2.5,{op:.35});B.arrow(O,B3,COL.vec2,2.5,{op:.35});
     B.midLabel(O,A3,'a',{col:COL.vec,size:16,vec:true},14);B.midLabel(O,B3,'b',{col:COL.vec2,size:16,vec:true},-14);
-    if(target){const [x,y]=B.P(target);el('circle',{cx:x,cy:y,r:13,fill:'none',stroke:'#FF6B6B','stroke-width':3},B.dl);el('circle',{cx:x,cy:y,r:4,fill:'#FF6B6B'},B.dl)}
+    const hit=target&&same(P,target);
+    if(target){const [x,y]=B.P(target);el('circle',{cx:x,cy:y,r:hit?17:13,fill:hit?'rgba(22,147,90,.15)':'none',stroke:hit?COL.eq:'#FF6B6B','stroke-width':3},B.dl);el('circle',{cx:x,cy:y,r:4,fill:hit?COL.eq:'#FF6B6B'},B.dl)}
     if(k)B.arrow(O,ka,COL.vec,4.5);
     if(t)B.arrow(ka,P,COL.vec2,4.5);
     if(!same(P,O))B.arrow(O,P,COL.eq,5);
     B.dot(O);B.text(B.X(0)-12,B.Y(0)+14,'O',{size:17});
     const expr=(cTxt(k,true)+(k?'<span class="v c-vec">a</span>':'')+' '+(t?cTxt(t,!k)+'<span class="v c-vec2">b</span>':'')).trim()||'<span class="v">0</span>';
     let m=`<span class="m"><span class="v c-eq">w</span> = ${expr}</span>`;
-    if(target){const hit=same(P,target);m+=hit?`<br><b class="c-eq">🎯 פגיעה!</b> מצאתם את המקדמים. נסו מטרה חדשה.`:`<br>הזיזו את <span class="m">t</span> ואת <span class="m">k</span> עד שהווקטור הירוק (וקטור החיבור) יגיע בדיוק לעיגול האדום.`}
+    if(hit)m+=`<br><b class="c-eq">🎯 פגיעה! כל הכבוד!</b> המקדמים: <span class="m">k = ${kTxt(k)}</span>, <span class="m">t = ${kTxt(t)}</span>.`;
+    else m+=`<br>הזיזו את <span class="m">t</span> ואת <span class="m">k</span> עד שהווקטור הירוק (וקטור החיבור) יגיע בדיוק לעיגול האדום.`;
     st.innerHTML=m;
+    if(hit&&!wasHit)onHit();
+    wasHit=hit;
   }
+  function onHit(){hits++;confetti(w.querySelector('.slot'));
+    if(asked===0){asked=1;   // first hit: is there another way?
+      qb.hidden=false;qb.innerHTML=`<b>שאלה:</b> האם יש צירוף <b>אחר</b> — עם <span class="m">k</span> ו־ <span class="m">t</span> אחרים — שגם פוגע בדיוק במטרה הזאת? נסו להזיז את המקדמים ולחפש!
+        <div class="row"><button class="b" data-ans="more">יש עוד צירוף</button><button class="b" data-ans="one">זה הצירוף היחיד</button></div><div class="fbq"></div>`;
+      return}
+    if(asked===2){clearTimeout(timer);timer=setTimeout(()=>{newTarget();draw()},1600)}
+  }
+  qb.addEventListener('click',e=>{const b=e.target.closest('[data-ans]');if(!b)return;const fb=qb.querySelector('.fbq');
+    if(b.dataset.ans==='one'){asked=2;qb.querySelectorAll('[data-ans]').forEach(x=>x.disabled=true);b.classList.add('on');
+      fb.innerHTML=`<b class="c-eq">✔ נכון!</b> אם משנים את <span class="m">k</span>, הקצה זז בכיוון של <span class="v c-vec">a</span> — ואת זה <span class="m">t</span> לא יכול לתקן, כי <span class="v c-vec2">b</span> בכיוון אחר. לכן לכל מטרה יש <b>זוג מקדמים אחד בלבד</b>. זה נקרא <b>יחידות ההצגה</b> — נחזור לזה בהמשך.<div class="row"><button class="b pri" data-a2="next">🎯 למטרה הבאה</button></div>`}
+    else{fb.innerHTML=`נסו למצוא אותו: הזיזו את <span class="m">k</span> — ואז נסו לחזור למטרה רק בעזרת <span class="m">t</span>. מצליחים?`}});
+  qb.addEventListener('click',e=>{if(e.target.closest('[data-a2=next]')){qb.hidden=true;newTarget();draw()}});
   function build(slot){const W=slot.clientWidth;const svg=mkSvg(slot,Math.min(W,420));B=new Board(svg,{x0:-6.5,x1:6.5,y0:-6.5,y1:6.5});draw()}
   const sync=()=>{k=+kr.value;t=+tr.value;document.getElementById('w1kv').textContent=kTxt(k);document.getElementById('w1tv').textContent=kTxt(t);draw()};
   kr.addEventListener('input',sync);tr.addEventListener('input',sync);
-  const newTarget=()=>{const h=[-2,-1.5,-1,-.5,.5,1,1.5,2];let kk,tt;
-    do{kk=h[Math.floor(Math.random()*8)];tt=h[Math.floor(Math.random()*8)]}while(kk===k&&tt===t);
-    target=vsum(vmul(kk,A3),vmul(tt,B3))};
+  function newTarget(){const h=[-2,-1.5,-1,-.5,.5,1,1.5,2];let kk,t2;
+    do{kk=h[Math.floor(Math.random()*8)];t2=h[Math.floor(Math.random()*8)]}while((kk===k&&t2===t)||(kk===tk&&t2===tt));
+    tk=kk;tt=t2;target=vsum(vmul(kk,A3),vmul(t2,B3));wasHit=false}
   newTarget();   // יש מטרה כבר מההתחלה
-  w.querySelector('[data-a=target]').onclick=()=>{newTarget();draw()};
+  w.querySelector('[data-a=target]').onclick=()=>{clearTimeout(timer);newTarget();draw()};
   return {build};
 })();
 
@@ -706,8 +744,8 @@ const CHECKS={
   1:{q:`הווקטור ${S(a_,'+',a_,'+',b_,'−',b_,'−',b_)} שווה לצירוף:`,o:[S('2'+a_,'−',b_),S('2'+a_,'+',b_),S(a_,'−','2'+b_),S('2'+a_,'−','3'+b_)],a:0,ok:`נכון! שתי פעמים ${a_}, פעם אחת ${b_} ופעמיים מינוס ${b_}: בסך הכול ${S('2'+a_,'−',b_)}.`},
   2:{q:`${a_} ו־ ${b_} לא באותו כיוון. מה נכון?`,o:[`כל וקטור במישור הוא צירוף של ${a_} ו־ ${b_}, בדרך אחת בלבד`,`כל וקטור במישור הוא צירוף של ${a_} ו־ ${b_}, ויש לכך כמה דרכים`,`רק וקטורים שבכיוון של ${a_} או של ${b_} הם צירוף שלהם`],a:0,ok:'נכון! זה המשפט על יחידות ההצגה: אפשר להגיע לכל מקום — ובדרך אחת בלבד.'},
   3:{q:`${a_} ו־ ${b_} לא באותו כיוון, ו־ ${S('(x − 1)'+a_,'+','4'+b_,'=','3'+a_,'+','(y + 1)'+b_)}.<br>אילו משוואות מקבלים מהשוואת המקדמים?`,
-    o:[`${M('x − 1 = 3')} &nbsp;וגם&nbsp; ${M('4 = y + 1')}`,`${M('x − 1 = 4')} &nbsp;וגם&nbsp; ${M('3 = y + 1')}`,`${M('x − 1 = y + 1')} &nbsp;וגם&nbsp; ${M('4 = 3')}`,`${M('x − 1 + 4 = 3 + y + 1')} בלבד`],a:0,
-    ok:`נכון! משווים מקדם של ${a_} למקדם של ${a_}: ${M('x − 1 = 3')}. ומקדם של ${b_} למקדם של ${b_}: ${M('4 = y + 1')}.`},
+    o:[EQS('x − 1 = 3','4 = y + 1'),EQS('x − 1 = 4','3 = y + 1'),EQS('x − 1 = y + 1','4 = 3'),EQS('x − 1 + 4 = 0','3 + y + 1 = 0')],a:0,
+    ok:`נכון! משווים את המקדמים של ${a_} זה לזה, ואת המקדמים של ${b_} זה לזה:<br>${EQS('x − 1 = 3','4 = y + 1')}`},
   4:{fig:()=>boxFig({vecs:true,hl:['C',"A'",'?',[18,-6]]}),q:`בתיבה: ${S(V('AB'),'=',a_)}, ${S(V('AD'),'=',b_)}, ${S(V("AA'"),'=',c_)}. מהו ${V("CA'",'c-eq')} (המקווקו הירוק)?`,o:[S('−'+a_,'−',b_,'+',c_),S(a_,'+',b_,'+',c_),S(a_,'+',b_,'−',c_),S('−'+a_,'+',b_,'+',c_)],a:0,ok:`נכון! ${S(V("CA'"),'=',V('CB'),'+',V('BA'),'+',V("AA'"),'=','−'+b_,'−',a_,'+',c_)}`},
   5:{fig:()=>figPoly([['O',[0,0]],['A',[4.5,4]],['B',[8.5,-.5]],['M',[6.5,1.75]]],{h:190,close:false,extra:[B=>B.seg([4.5,4],[8.5,-.5],'#9aa7bd',2),vecsOn([[[0,0],[4.5,4],'u',COL.vec,-18],[[0,0],[8.5,-.5],'v',COL.vec2,18]]),askV([0,0],[6.5,1.75],-16)]}),
     q:`הנקודה ${M('M')} היא אמצע ${M('AB')}. נתון ${S(V('OA'),'=',u_)} ו־ ${S(V('OB'),'=',v_)}. מהו ${V('OM','c-eq')}?`,o:[S('½'+u_,'+','½'+v_),S('½'+v_,'−','½'+u_),S(u_,'+','½'+v_),S(u_,'+',v_)],a:0,ok:'נכון! זו נוסחת האמצע.'},
@@ -721,8 +759,6 @@ const par3=(extra=[])=>figPoly([['A',[0,0]],['B',[7,0]],['C',[9,4]],['D',[2,4]]]
 const dotAt=(p,n,off)=>B=>{B.dot(p);B.text(B.X(p[0])+off[0],B.Y(p[1])+off[1],n,{size:19})};
 
 const BASIC=[
-  {t:'mc',fig:GRID3,ask:`בשרטוט כל משבצת היא יחידה אחת. איזה וקטור שווה ל־ ${S('2'+a_,'−',b_)}?`,opts:[V('p'),V('q'),V('r'),V('s')],a:0,
-    exp:`${S('2'+a_)}: 4 ימינה ו־ 2 למעלה. ${S('−'+b_)}: 1 למטה. בסך הכול 4 ימינה ו־ 1 למעלה — זה ${V('p')}.`},
   {t:'mc',ask:`פשטו: ${S('2('+a_,'−',b_+')','+','3('+b_,'+',a_+')')}`,opts:[S('5'+a_,'+',b_),S('5'+a_,'+','5'+b_),S(a_,'+','5'+b_),S('5'+a_,'−',b_)],a:0,
     exp:S('2'+a_,'−','2'+b_,'+','3'+b_,'+','3'+a_,'=','5'+a_,'+',b_)},
   {t:'num',ask:`${a_} ו־ ${b_} לא באותו כיוון, ו־ ${S('3'+a_,'+','2x'+b_,'=','y'+a_,'+','8'+b_)}. מהו ${M('x')}?`,a:4,exp:`משווים את המקדמים של ${b_}: ${M('2x = 8')}, ולכן ${M('x = 4')}.`},
