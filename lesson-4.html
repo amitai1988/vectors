@@ -849,17 +849,23 @@ function boxFig(opt={}){
   const pr=(x,y,z)=>[48+x*46+y*24,240-z*44-y*15];
   const a=6.2,b=3,h=3.6;
   const P={A:pr(0,0,0),B:pr(a,0,0),C:pr(a,b,0),D:pr(0,b,0),"A'":pr(0,0,h),"B'":pr(a,0,h),"C'":pr(a,b,h),"D'":pr(0,b,h)};
+  const XP=opt.pts||{};for(const n in XP){const [x,y,z]=XP[n][0];P[n]=pr(x*a,y*b,z*h)}
   const ln=(p,q,dash)=>el('line',{x1:P[p][0],y1:P[p][1],x2:P[q][0],y2:P[q][1],stroke:dash?'#9aa7bd':'#172230','stroke-width':dash?1.5:2,'stroke-dasharray':dash?'6 5':''},svg);
   [['A','B'],['B','C'],["A'","B'"],["B'","C'"],["C'","D'"],["D'","A'"],['A',"A'"],['B',"B'"],['C',"C'"]].forEach(e=>ln(...e));
   [['C','D'],['D','A'],['D',"D'"]].forEach(e=>ln(...e,true));
-  if(opt.vecs){const ar=(p,q,col,lb,lo)=>{const [x1,y1]=P[p],[x2,y2]=P[q];const L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L;
-      el('line',{x1,y1,x2:x2-ux*11,y2:y2-uy*11,stroke:col,'stroke-width':4.5,'stroke-linecap':'round'},svg);
+  const ar=(p,q,col,lb,lo,dash)=>{const [x1,y1]=P[p],[x2,y2]=P[q];const L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L;
+      el('line',{x1,y1,x2:x2-ux*11,y2:y2-uy*11,stroke:col,'stroke-width':4.5,'stroke-linecap':'round','stroke-dasharray':dash||''},svg);
       el('polygon',{points:`${x2},${y2} ${x2-ux*15-uy*7},${y2-uy*15+ux*7} ${x2-ux*15+uy*7},${y2-uy*15-ux*7}`,fill:col},svg);
-      const t=el('text',{x:(x1+x2)/2+lo[0],y:(y1+y2)/2+lo[1],'font-size':19,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',fill:col,stroke:'#fff','stroke-width':4,'paint-order':'stroke'},svg);t.textContent=lb+'\u20D7'};
-    ar('A','B',COL.vec,'a',[0,16]);ar('A','D',COL.vec2,'b',[-14,6]);ar('A',"A'",COL.dir,'c',[-14,0])}
+      if(!lb)return;
+      if(!lo){const cx=(x1+x2)/2,cy=(y1+y2)/2;let nx=-uy,ny=ux;const bc=[250,160];if((cx-bc[0])*nx+(cy-bc[1])*ny<0){nx=-nx;ny=-ny}lo=[nx*17,ny*17]}
+      const t=el('text',{x:(x1+x2)/2+lo[0],y:(y1+y2)/2+lo[1],'font-size':19,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',fill:col,direction:'ltr',stroke:'#fff','stroke-width':4,'paint-order':'stroke'},svg);t.textContent=lb.length===1?lb+'\u20D7':lb};
+  if(opt.vecs){ar('A','B',COL.vec,'a',[0,16]);ar('A','D',COL.vec2,'b',[-14,6]);ar('A',"A'",COL.dir,'c',[-14,0])}
+  (opt.path||[]).forEach(([p,q,col,lb,lo])=>ar(p,q,col,lb,lo));
+  if(opt.hl){const [p,q,lb,lo]=opt.hl;ar(p,q,COL.eq,lb===undefined?'?':lb,lo,'9 6')}
   const off={A:[-14,12],B:[10,15],C:[17,6],D:[-17,-4],"A'":[-17,-6],"B'":[6,-14],"C'":[17,-8],"D'":[-6,-15]};
   if(opt.mid){P.M=pr(a/2,0,0);P.N=pr(a/2,b,h);off.M=[0,17];off.N=[0,-15]}
-  for(const n in P){if(n==='M'||n==='N')el('circle',{cx:P[n][0],cy:P[n][1],r:4.5,fill:'#172230'},svg);
+  for(const n in XP)off[n]=XP[n][1];
+  for(const n in P){if(n==='M'||n==='N'||XP[n])el('circle',{cx:P[n][0],cy:P[n][1],r:4.5,fill:'#172230'},svg);
     const t=el('text',{x:P[n][0]+off[n][0],y:P[n][1]+off[n][1],'font-size':19,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Rubik, Arial, sans-serif',fill:'#172230',direction:'ltr',stroke:'#fff','stroke-width':4,'paint-order':'stroke'},svg);t.textContent=n}
   return svg;
 }
