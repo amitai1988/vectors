@@ -1204,6 +1204,7 @@ function mountPractice(list,root,scId,totId,doneId,endHTML,sec){
       d.appendChild(tl);
       const hn=document.createElement('div');hn.className='hint';hn.innerHTML=q.hint||'';d.appendChild(hn);
       const sn=document.createElement('div');sn.className='sol';sn.innerHTML=(q.sol||[]).map(l=>`<span class="ln">${l}</span>`).join('');d.appendChild(sn);
+      if(q.solFig){const f=document.createElement('figure');f.appendChild(q.solFig());sn.prepend(f)}
       // הצגת פתרון לפני שענו = ויתור: השאלה נסגרת ונרשמת כלא נענתה
       const giveUp=()=>{solved=true;done++;upd();d.classList.add('gaveup');
         d.querySelectorAll('.opts button,.row button,.row input').forEach(x=>x.disabled=true);
